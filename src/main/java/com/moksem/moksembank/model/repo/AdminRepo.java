@@ -1,7 +1,7 @@
 package com.moksem.moksembank.model.repo;
 
-import com.moksem.moksembank.model.entityBuilder.AdminQueryBuilder;
-import com.moksem.moksembank.model.entityBuilder.QueryBuilder;
+import com.moksem.moksembank.model.entitybuilder.AdminQueryBuilder;
+import com.moksem.moksembank.model.entitybuilder.QueryBuilder;
 import com.moksem.moksembank.model.entity.Admin;
 
 public class AdminRepo {

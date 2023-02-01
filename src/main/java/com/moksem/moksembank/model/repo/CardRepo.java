@@ -1,8 +1,8 @@
 package com.moksem.moksembank.model.repo;
 
 import com.moksem.moksembank.model.entity.Card;
-import com.moksem.moksembank.model.entityBuilder.CardQueryBuilder;
-import com.moksem.moksembank.model.entityBuilder.QueryBuilder;
+import com.moksem.moksembank.model.entitybuilder.CardQueryBuilder;
+import com.moksem.moksembank.model.entitybuilder.QueryBuilder;
 import com.moksem.moksembank.util.exceptions.TransactionException;
 
 import java.util.List;

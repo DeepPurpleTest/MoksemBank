@@ -1,4 +1,4 @@
-package com.moksem.moksembank.model.entityBuilder;
+package com.moksem.moksembank.model.entitybuilder;
 
 import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.Payment;
@@ -7,7 +7,6 @@ import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class PaymentQueryBuilder extends QueryBuilder<Payment> {
     public List<Payment> getListOfResult(ResultSet rs) throws SQLException {

@@ -3,8 +3,8 @@ package com.moksem.moksembank.model.repo;
 import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.Payment;
 import com.moksem.moksembank.model.entity.User;
-import com.moksem.moksembank.model.entityBuilder.PaymentQueryBuilder;
-import com.moksem.moksembank.model.entityBuilder.QueryBuilder;
+import com.moksem.moksembank.model.entitybuilder.PaymentQueryBuilder;
+import com.moksem.moksembank.model.entitybuilder.QueryBuilder;
 
 import java.util.List;
 

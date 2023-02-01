@@ -1,7 +1,7 @@
 package com.moksem.moksembank.model.repo;
 
-import com.moksem.moksembank.model.entityBuilder.QueryBuilder;
-import com.moksem.moksembank.model.entityBuilder.UserQueryBuilder;
+import com.moksem.moksembank.model.entitybuilder.QueryBuilder;
+import com.moksem.moksembank.model.entitybuilder.UserQueryBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.util.PaginationUtil;
 

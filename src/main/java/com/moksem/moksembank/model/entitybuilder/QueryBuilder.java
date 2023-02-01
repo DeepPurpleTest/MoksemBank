@@ -1,4 +1,4 @@
-package com.moksem.moksembank.model.entityBuilder;
+package com.moksem.moksembank.model.entitybuilder;
 
 import com.moksem.moksembank.model.connection.DataSource;
 import com.moksem.moksembank.util.exceptions.TransactionException;
