@@ -1,9 +1,8 @@
 package com.moksem.moksembank.model.repo;
 
-import com.moksem.moksembank.model.entityBuilder.QueryBuilder;
 import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entityBuilder.CardQueryBuilder;
-import com.moksem.moksembank.util.PaginationUtil;
+import com.moksem.moksembank.model.entityBuilder.QueryBuilder;
 import com.moksem.moksembank.util.exceptions.TransactionException;
 
 import java.util.List;
@@ -91,13 +90,7 @@ public class CardRepo {
     public void updateCards(Card firstCard, Card secondCard) throws TransactionException {
         Object[] first = {firstCard.isStatus(), firstCard.getWallet(), firstCard.getNumber()};
         Object[] second = {secondCard.isStatus(), secondCard.getWallet(), secondCard.getNumber()};
-        try {
-            queryBuilder.executeDoubleTransaction(UPDATE, UPDATE, first, second);
-        } catch (RuntimeException e){
-            e.printStackTrace();
-            throw new TransactionException();
-        }
-
+        queryBuilder.executeDoubleTransaction(UPDATE, UPDATE, first, second);
     }
 
     public void updateCard(Card card){

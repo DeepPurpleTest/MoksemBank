@@ -1,17 +1,22 @@
 package com.moksem.moksembank.util.validators;
 
 import com.moksem.moksembank.appcontext.AppContext;
+import com.moksem.moksembank.model.dto.CardDto;
+import com.moksem.moksembank.model.dto.TransferDto;
 import com.moksem.moksembank.model.entity.Admin;
-import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.AdminService;
 import com.moksem.moksembank.model.service.UserService;
-import com.moksem.moksembank.util.exceptions.*;
+import com.moksem.moksembank.util.exceptions.InvalidAmountException;
+import com.moksem.moksembank.util.exceptions.InvalidCardException;
+import com.moksem.moksembank.util.exceptions.InvalidIdException;
+import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidatorsUtil {
@@ -102,27 +107,29 @@ public class ValidatorsUtil {
         return set;
     }
 
-    public static Map<String, String> validateTransaction(Card sender, Card receiver, String amount) {
-        Map<String, String> map = new HashMap<>();
-        if (sender.equals(receiver))
-            map.put("sender", "Cards in transaction is identical");
+    public static void validateTransaction(TransferDto transferDto) {
+        CardDto sender = transferDto.getSender();
+        CardDto receiver = transferDto.getReceiver();
+        Set<TransferDto.Param> errors = transferDto.getErrors();
+        String amount = transferDto.getAmount();
         if (!sender.isStatus())
-            map.put("sender", "Sender card is blocked");
+            errors.add(new TransferDto.Param("sender", "Sender card is blocked"));
         if (!receiver.isStatus())
-            map.put("receiver", "Receiver card is blocked");
+            errors.add(new TransferDto.Param("receiver", "Receiver card is blocked"));
         if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$"))
-            map.put("amount", "Invalid amount format");
+            errors.add(new TransferDto.Param("amount", "Invalid amount format"));
         else {
-            BigDecimal bd = new BigDecimal(amount);
-            if (sender.getWallet().compareTo(bd) <= 0)
-                map.put("amount", "Not enough money for transaction");
+            if(sender.getWallet() != null) {
+                BigDecimal senderWallet = new BigDecimal(sender.getWallet());
+                BigDecimal amountValue = new BigDecimal(amount);
+                if (senderWallet.compareTo(amountValue) < 0)
+                    errors.add(new TransferDto.Param("amount", "Not enough money"));
+            }
         }
-
-        return map;
     }
 
     public static void validateAmount(String amount) throws InvalidAmountException {
         if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$"))
-            throw new InvalidAmountException();
+            throw new InvalidAmountException("Invalid amount format");
     }
 }

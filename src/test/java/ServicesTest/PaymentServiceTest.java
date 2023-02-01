@@ -6,7 +6,6 @@ import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.repo.PaymentRepo;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.PaymentService;
-import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -30,8 +30,6 @@ class PaymentServiceTest {
     PaymentRepo paymentRepo;
     @Mock
     CardService cardService;
-    @Mock
-    UserService userService;
 
     @BeforeEach
     public void setUp(){
@@ -75,7 +73,7 @@ class PaymentServiceTest {
     }
 
     @Test
-    void findCountByCardShouldReturnPositiveCount() throws InvalidCardException, InvalidIdException {
+    void findCountByCardShouldReturnPositiveCount() throws InvalidCardException, InvalidIdException, UserNotFoundException {
         String cardId = "1";
         Card card = Card.builder().build();
         when(cardService.findById(cardId)).thenReturn(card);

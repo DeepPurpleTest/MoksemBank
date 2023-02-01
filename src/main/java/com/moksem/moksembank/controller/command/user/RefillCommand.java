@@ -7,7 +7,7 @@ import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.util.exceptions.InvalidAmountException;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.InvalidIdException;
+import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import com.moksem.moksembank.util.validators.ValidatorsUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +36,7 @@ public class RefillCommand implements MyCommand {
 
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
-        } catch (InvalidCardException | InvalidIdException e) {
+        } catch (InvalidCardException | UserNotFoundException e) {
             req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
         } catch (InvalidAmountException e) {

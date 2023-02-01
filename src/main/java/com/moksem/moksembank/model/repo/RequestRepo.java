@@ -44,13 +44,7 @@ public class RequestRepo {
     public void updateDoubleTransaction(Request request, Card card) throws TransactionException {
         Object[] first = {request.isStatus(), request.getAdminId(), request.getId()};
         Object[] second = {card.isStatus(), card.getWallet(), card.getNumber()};
-        try {
-            queryBuilder.executeDoubleTransaction(UPDATE, UPDATE_CARD, first, second);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            throw new TransactionException();
-        }
-
+        queryBuilder.executeDoubleTransaction(UPDATE, UPDATE_CARD, first, second);
     }
 
     public void updateRequest(Request request){

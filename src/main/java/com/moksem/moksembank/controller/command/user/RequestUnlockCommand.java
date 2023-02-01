@@ -7,7 +7,8 @@ import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.RequestService;
-import com.moksem.moksembank.util.exceptions.InvalidCardException;
+import com.moksem.moksembank.util.exceptions.UserCardNotFoundException;
+import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +31,8 @@ public class RequestUnlockCommand implements MyCommand {
                 requestService.create(card);
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
-        } catch (InvalidCardException | IOException e) {
+        } catch (IOException | UserNotFoundException | UserCardNotFoundException e) {
+            req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
         }
 

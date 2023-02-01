@@ -48,7 +48,7 @@ public class PaymentService {
         return paymentRepo.getCountByUser(user);
     }
 
-    public int findCountByCard(String cardId) throws InvalidCardException, InvalidIdException {
+    public int findCountByCard(String cardId) throws InvalidCardException, UserNotFoundException {
         Card card = cardService.findById(cardId);
         return paymentRepo.getCountByCard(card.getNumber());
     }
@@ -63,7 +63,7 @@ public class PaymentService {
 
     public long create(Payment payment) throws PaymentCreateException {
         if (payment.getCardSender().equals(payment.getCardReceiver()))
-            throw new PaymentCreateException();
+            throw new PaymentCreateException("Cards is equals");
         return paymentRepo.createPayment(payment);
     }
 

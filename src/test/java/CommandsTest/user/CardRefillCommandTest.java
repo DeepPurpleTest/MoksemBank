@@ -9,6 +9,7 @@ import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.InvalidIdException;
+import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CardRefillCommandTest {
+class CardRefillCommandTest {
     @InjectMocks
     CardRefillCommand cardRefillCommand;
     @Mock
@@ -46,7 +47,7 @@ public class CardRefillCommandTest {
     }
 
     @Test
-    void CardRefillShouldReturnRefillPage() throws InvalidCardException, InvalidIdException {
+    void CardRefillShouldReturnRefillPage() throws InvalidCardException, UserNotFoundException {
         String cardId = "1";
 
         when(req.getParameter("card")).thenReturn(cardId);
@@ -57,7 +58,7 @@ public class CardRefillCommandTest {
     }
 
     @Test
-    void CardRefillShouldReturnErrorPageCausedByInvalidCardIdException() throws InvalidCardException, InvalidIdException {
+    void CardRefillShouldReturnErrorPageCausedByInvalidCardIdException() throws InvalidCardException, UserNotFoundException {
         String cardId = "1";
 
         when(req.getParameter("card")).thenReturn(cardId);

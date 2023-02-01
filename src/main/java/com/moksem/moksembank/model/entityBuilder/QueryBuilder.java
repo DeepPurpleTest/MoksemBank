@@ -1,6 +1,7 @@
 package com.moksem.moksembank.model.entityBuilder;
 
 import com.moksem.moksembank.model.connection.DataSource;
+import com.moksem.moksembank.util.exceptions.TransactionException;
 
 import java.sql.*;
 import java.util.List;
@@ -45,7 +46,7 @@ public abstract class QueryBuilder<T> {
         return id;
     }
 
-    public void executeDoubleTransaction(String query1, String query2, Object[] args1, Object[] args2) throws RuntimeException{
+    public void executeDoubleTransaction(String query1, String query2, Object[] args1, Object[] args2) throws TransactionException {
         Connection connection = DataSource.getConnection();
         try {
             connection.setAutoCommit(false);
@@ -59,7 +60,7 @@ public abstract class QueryBuilder<T> {
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new TransactionException("Transaction is failed");
         } finally {
             DataSource.closeConnection(connection);
         }

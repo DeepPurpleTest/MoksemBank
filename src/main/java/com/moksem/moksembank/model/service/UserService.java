@@ -20,13 +20,13 @@ public class UserService {
         this.userRepo = userRepo;
     }
 
-    public List<User> findAll(String page){
+    public List<User> findAll(String page) {
         int pageValue = getPage(page);
         //todo сделать вытягивание по юзеру и сортировку привязать
         return userRepo.getClients(pageValue);
     }
 
-    public List<User> findByRequest(String page){
+    public List<User> findByRequest(String page) {
         int pageValue = getPage(page);
         return userRepo.getClientsByRequest(pageValue);
     }
@@ -41,15 +41,14 @@ public class UserService {
     }
 
     public void update(User user) {
-        if(user.getPassword().length() != 32)
+        if (user.getPassword().length() != 32)
             user.setPassword(encode(user.getPassword()));
         userRepo.updateUser(user);
     }
 
-    public User findById(String id) throws UserNotFoundException, InvalidIdException {
-        ValidatorsUtil.validateId(id);
+    public User findById(String id) throws UserNotFoundException {
         User user = userRepo.getUser(Integer.parseInt(id));
-        if(user == null)
+        if (user == null)
             throw new UserNotFoundException();
         return user;
     }
@@ -57,7 +56,7 @@ public class UserService {
     public User findByNumber(String number) throws InvalidPhoneNumberException, UserNotFoundException {
         validatePhoneNumber(number);
         User user = userRepo.getUser(number);
-        if(user == null)
+        if (user == null)
             throw new UserNotFoundException();
 
         return user;
@@ -71,11 +70,11 @@ public class UserService {
     public User findByNumberAndPassword(String number, String pass) throws InvalidLoginOrPasswordException, InvalidPhoneNumberException, BlockedUserException {
         validatePhoneNumber(number);
         User user = userRepo.getUser(number);
-        if(user == null)
+        if (user == null)
             throw new InvalidLoginOrPasswordException();
         verify(pass, user.getPassword());
 
-        if(!user.isStatus())
+        if (!user.isStatus())
             throw new BlockedUserException();
 
         return user;
@@ -86,11 +85,11 @@ public class UserService {
         return userRepo.getUserByCard(cardNumber);
     }
 
-    public int findUsersCount(){
+    public int findUsersCount() {
         return userRepo.getUsersCount();
     }
 
-    public int findUsersWithRequestCount(){
+    public int findUsersWithRequestCount() {
         return userRepo.getUsersRequestCount();
     }
 

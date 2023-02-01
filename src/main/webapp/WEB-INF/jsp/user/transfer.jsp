@@ -10,6 +10,8 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 
+<%--<jsp:useBean id="TransferDto.Param"/>--%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,42 +77,55 @@
     <div class="m-3">
         <label for="cards"><fmt:message key="client.transfer.label.select"/>:</label>
         <select class="form-select" aria-label="Default select example" id="cards" name="card_sender">
-            <c:forEach var="card" items="${cards}">
+            <c:forEach var="card" items="${transferDto.getCards()}">
                 <option value="${card.getNumber()}">
                         ${card.number}</option>
             </c:forEach>
         </select>
 
-        <c:if test="${exceptions.containsKey('card')}">
-            <p class="text-danger">${exceptions.get('card')}</p>
-        </c:if>
-        <c:if test="${exceptions.containsKey('payment')}">
-            <p class="text-danger">${exceptions.get('payment')}</p>
-        </c:if>
-        <c:if test="${exceptions.containsKey('transaction')}">
-            <p class="text-danger">${exceptions.get('transaction')}</p>
-        </c:if>
-        <c:if test="${exceptions.containsKey('sender')}">
-            <p class="text-danger">${exceptions.get('sender')}</p>
-        </c:if>
+        <c:forEach var="error" items="${transferDto.getErrors()}">
+            <div>
+                <c:if test="${error.errorName().equals('sender')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </div>
+        </c:forEach>
     </div>
 
     <div class="m-3">
         <label class="form-label text-start" for="receiver"><fmt:message
                 key="client.transfer.label.recipient"/>:</label>
-        <input class="form-control" id="receiver" name="card_receiver" type="text">
-        <c:if test="${exceptions.containsKey('receiver')}">
-            <p class="text-danger">${exceptions.get('receiver')}</p>
-        </c:if>
+        <input class="form-control" id="receiver" name="card_receiver" type="text"
+               value="${transferDto.getReceiver().getNumber()}">
+        <c:forEach var="error" items="${transferDto.getErrors()}">
+            <div>
+                <c:if test="${error.errorName().equals('receiver')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </div>
+        </c:forEach>
     </div>
 
     <div class="m-3">
         <label class="form-label text-start" for="amount"><fmt:message key="client.transfer.amount"/>:</label>
-        <input class="form-control" id="amount" name="amount" type="text">
-        <c:if test="${exceptions.containsKey('amount')}">
-            <p class="text-danger">${exceptions.get('amount')}</p>
-        </c:if>
+        <input class="form-control" id="amount" name="amount" type="text" value="${transferDto.getAmount()}">
+        <c:forEach var="error" items="${transferDto.getErrors()}">
+            <div>
+                <c:if test="${error.errorName().equals('amount')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </div>
+        </c:forEach>
     </div>
+
+    <c:forEach var="error" items="${transferDto.getErrors()}">
+        <div class="m-3">
+            <c:if test="${error.errorName().equals('payment') || error.errorName().equals('transaction')}">
+                <p class="text-danger">${error.message()}</p>
+            </c:if>
+        </div>
+    </c:forEach>
+
 
     <div class="text-center">
         <input class="btn btn-outline-danger" type="submit" value="<fmt:message key="client.transfer.button.submit"/>">

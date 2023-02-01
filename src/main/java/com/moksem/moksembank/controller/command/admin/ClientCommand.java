@@ -11,7 +11,6 @@ import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.PaginationUtil;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.InvalidIdException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +65,7 @@ public class ClientCommand implements MyCommand {
                 PaginationUtil.paginate(req, pages);
 
                 response = Path.PAGE_CLIENT;
-            } catch (UserNotFoundException | InvalidIdException e) {
+            } catch (UserNotFoundException e) {
                 req.setAttribute("errorMessage", e.getMessage());
                 response = Path.PAGE_ERROR;
             } catch (InvalidCardException e) {

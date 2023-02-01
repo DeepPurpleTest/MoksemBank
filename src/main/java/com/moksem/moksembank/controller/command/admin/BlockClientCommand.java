@@ -5,7 +5,6 @@ import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.MyCommand;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
-import com.moksem.moksembank.util.exceptions.InvalidIdException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +14,7 @@ import java.io.IOException;
 
 public class BlockClientCommand implements MyCommand {
     UserService userService = AppContext.getInstance().getUserService();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
@@ -28,10 +28,10 @@ public class BlockClientCommand implements MyCommand {
 
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
-        } catch (UserNotFoundException | InvalidIdException e) {
+        } catch (UserNotFoundException e) {
             req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             response = Path.PAGE_ERROR;
         }
