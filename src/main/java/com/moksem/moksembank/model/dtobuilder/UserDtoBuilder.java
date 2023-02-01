@@ -1,7 +1,7 @@
 package com.moksem.moksembank.model.dtobuilder;
 
 import com.moksem.moksembank.appcontext.AppContext;
-import com.moksem.moksembank.model.dto.UserDto;
+import com.moksem.moksembank.model.dto.entitydto.UserDto;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.RequestService;
 import lombok.AccessLevel;
@@ -17,6 +17,8 @@ public class UserDtoBuilder {
                 .id(String.valueOf(user.getId()))
                 .name(user.getName())
                 .surname(user.getSurname())
+                .middleName(user.getMiddleName())
+                .phoneNumber(user.getPhoneNumber())
                 .status(user.isStatus())
                 .build();
         if (!requestService.findAllByUser(user).isEmpty())

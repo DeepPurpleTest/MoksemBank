@@ -1,4 +1,4 @@
-package com.moksem.moksembank.model.dto;
+package com.moksem.moksembank.model.dto.entitydto;
 
 import lombok.Builder;
 import lombok.Data;

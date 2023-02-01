@@ -1,7 +1,7 @@
 package com.moksem.moksembank.util.validators;
 
 import com.moksem.moksembank.appcontext.AppContext;
-import com.moksem.moksembank.model.dto.CardDto;
+import com.moksem.moksembank.model.dto.entitydto.CardDto;
 import com.moksem.moksembank.model.dto.TransferDto;
 import com.moksem.moksembank.model.entity.Admin;
 import com.moksem.moksembank.model.entity.User;

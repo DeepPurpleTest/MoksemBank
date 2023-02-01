@@ -2,12 +2,10 @@ package CommandsTest.admin;
 
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.admin.ClientCommand;
-import com.moksem.moksembank.model.dto.UserDto;
+import com.moksem.moksembank.model.dto.entitydto.UserDto;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
-import com.moksem.moksembank.model.entity.Request;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
-import com.moksem.moksembank.model.service.RequestService;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.SessionAttributesUtil;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
@@ -28,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -83,7 +80,7 @@ class ClientCommandTest {
     }
 
     @Test
-    void executeShouldReturnClientPage() throws UserNotFoundException, InvalidIdException, InvalidCardException {
+    void executeShouldReturnClientPage() throws UserNotFoundException, InvalidCardException {
         String id = "1";
         User user = User.builder()
                 .build();
@@ -103,7 +100,7 @@ class ClientCommandTest {
     }
 
     @Test
-    void executeShouldReturnErrorPageCausedByUserNotFoundException() throws UserNotFoundException, InvalidIdException {
+    void executeShouldReturnErrorPageCausedByUserNotFoundException() throws UserNotFoundException {
         String id = "1";
 
         when(req.getSession()).thenReturn(session);
@@ -115,7 +112,7 @@ class ClientCommandTest {
     }
 
     @Test
-    void executeShouldReturnClientPageCausedByInvalidCardException() throws UserNotFoundException, InvalidIdException, InvalidCardException, IOException {
+    void executeShouldReturnClientPageCausedByInvalidCardException() throws UserNotFoundException, InvalidCardException {
         String id = "1";
         User user = User.builder()
                 .build();

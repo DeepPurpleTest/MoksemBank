@@ -38,9 +38,9 @@
       action="${pageContext.request.contextPath}/controller?action=login">
     <h1 class="h3 mb-5 font-weight-normal text-center">Authorization</h1>
     <div class="mb-3">
-        <label class="form-label text-start" for="login"><fmt:message
+        <label class="form-label text-start" for="phone_number"><fmt:message
                 key="login.client.placeholder.phone_number"/></label>
-        <input class="form-control" type="text" name="login" id="login">
+        <input class="form-control" type="text" name="phone_number" id="phone_number" value="${userDto.getPhoneNumber()}">
     </div>
     <div class="mb-3">
         <label class="form-label text-start" for="password"><fmt:message key="login.placeholder.password"/></label>

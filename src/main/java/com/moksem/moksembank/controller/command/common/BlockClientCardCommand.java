@@ -7,7 +7,6 @@ import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.Role;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.InvalidIdException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ public class BlockClientCardCommand implements MyCommand {
 
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
-        } catch (InvalidCardException | UserNotFoundException | InvalidIdException | IOException e) {
+        } catch (InvalidCardException | UserNotFoundException | IOException e) {
             e.printStackTrace();
             response = Path.PAGE_ERROR;
         }

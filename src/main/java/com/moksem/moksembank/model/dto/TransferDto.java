@@ -1,5 +1,6 @@
 package com.moksem.moksembank.model.dto;
 
+import com.moksem.moksembank.model.dto.entitydto.CardDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;

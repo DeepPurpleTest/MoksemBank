@@ -9,7 +9,6 @@ import com.moksem.moksembank.model.entity.Request;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.RequestService;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.InvalidIdException;
 import com.moksem.moksembank.util.exceptions.TransactionException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
@@ -46,7 +45,7 @@ public class UnlockClientCardCommand implements MyCommand {
             e.printStackTrace();
             req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
-        } catch (IOException | UserNotFoundException | InvalidIdException e) {
+        } catch (IOException | UserNotFoundException e) {
             e.printStackTrace();
             response = Path.PAGE_ERROR;
         }

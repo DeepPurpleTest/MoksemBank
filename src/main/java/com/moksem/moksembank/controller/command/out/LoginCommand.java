@@ -3,13 +3,13 @@ package com.moksem.moksembank.controller.command.out;
 import com.moksem.moksembank.appcontext.AppContext;
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.MyCommand;
+import com.moksem.moksembank.model.dto.entitydto.UserDto;
 import com.moksem.moksembank.model.entity.Entity;
 import com.moksem.moksembank.model.entity.Role;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.BlockedUserException;
 import com.moksem.moksembank.util.exceptions.InvalidLoginOrPasswordException;
-import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,26 +22,32 @@ public class LoginCommand implements MyCommand {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        String login = req.getParameter("login");
+        String phoneNumber = req.getParameter("phone_number");
         String pass = req.getParameter("password");
 
         String response = Path.PAGE_LOGIN;
 
         try {
-            User user = userService.findByNumberAndPassword(login, pass);
+            User user = userService.findByNumberAndPassword(phoneNumber, pass);
             Role role = Role.USER;
             toSession(user, role, session);
             response = Path.COMMAND_ACCOUNT;
 
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
-        } catch (InvalidLoginOrPasswordException | InvalidPhoneNumberException e) {
+        } catch (InvalidLoginOrPasswordException e) {
+            UserDto userDto = UserDto.builder()
+                    .phoneNumber(phoneNumber)
+                    .build();
+
+            req.setAttribute("userDto", userDto);
             req.setAttribute("errorMessage", e.getMessage());
         } catch (BlockedUserException e) {
-            response = Path.PAGE_ERROR;
             req.setAttribute("errorMessage", e.getMessage());
+            response = Path.PAGE_ERROR;
         } catch (IOException e) {
             e.printStackTrace();
+            response = Path.PAGE_ERROR;
         }
         return response;
     }

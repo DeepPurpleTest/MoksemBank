@@ -67,8 +67,7 @@ public class UserService {
         return userRepo.getUserByPhoneAndId(user);
     }
 
-    public User findByNumberAndPassword(String number, String pass) throws InvalidLoginOrPasswordException, InvalidPhoneNumberException, BlockedUserException {
-        validatePhoneNumber(number);
+    public User findByNumberAndPassword(String number, String pass) throws InvalidLoginOrPasswordException, BlockedUserException {
         User user = userRepo.getUser(number);
         if (user == null)
             throw new InvalidLoginOrPasswordException();

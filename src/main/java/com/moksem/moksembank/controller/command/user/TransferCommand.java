@@ -3,7 +3,7 @@ package com.moksem.moksembank.controller.command.user;
 import com.moksem.moksembank.appcontext.AppContext;
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.MyCommand;
-import com.moksem.moksembank.model.dto.CardDto;
+import com.moksem.moksembank.model.dto.entitydto.CardDto;
 import com.moksem.moksembank.model.dto.TransferDto;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
