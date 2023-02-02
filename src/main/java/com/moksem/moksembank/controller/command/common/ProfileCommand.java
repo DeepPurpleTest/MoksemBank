@@ -2,8 +2,8 @@ package com.moksem.moksembank.controller.command.common;
 
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.MyCommand;
-import com.moksem.moksembank.model.dto.entitydto.AdminDto;
-import com.moksem.moksembank.model.dto.entitydto.UserDto;
+import com.moksem.moksembank.model.dto.AdminDto;
+import com.moksem.moksembank.model.dto.UserDto;
 import com.moksem.moksembank.model.dtobuilder.AdminDtoBuilder;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
 import com.moksem.moksembank.model.entity.Admin;

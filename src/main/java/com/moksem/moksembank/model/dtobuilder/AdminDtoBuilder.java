@@ -1,6 +1,6 @@
 package com.moksem.moksembank.model.dtobuilder;
 
-import com.moksem.moksembank.model.dto.entitydto.AdminDto;
+import com.moksem.moksembank.model.dto.AdminDto;
 import com.moksem.moksembank.model.entity.Admin;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

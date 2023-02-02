@@ -24,43 +24,57 @@
     <h1 class="h3 mb-5 font-weight-normal text-center">Registration</h1>
 
     <div class="mb-3">
-    <label for="name"><fmt:message key="client.registration.label.name"/>:</label>
-    <input class="form-control" type="text" name="name" id="name">
-    <c:if test="${exceptions.containsKey('name')}">
-        <p class="text-danger"><fmt:message key="client.error.name"/></p>
-    </c:if>
+        <label for="name"><fmt:message key="client.registration.label.name"/>:</label>
+        <input class="form-control" type="text" name="name" id="name" value="${dto.getName()}">
+
+        <c:forEach var="error" items="${dto.getErrors()}">
+            <c:if test="${error.errorName().equals('name')}">
+                <p class="text-danger">${error.message()}</p>
+            </c:if>
+        </c:forEach>
+    </div>
+
+
+    <div class="mb-3">
+        <label for="surname"><fmt:message key="client.registration.label.surname"/>:</label>
+        <input class="form-control" type="text" name="surname" id="surname" value="${dto.getSurname()}">
+        <c:forEach var="error" items="${dto.getErrors()}">
+            <c:if test="${error.errorName().equals('surname')}">
+                <p class="text-danger">${error.message()}</p>
+            </c:if>
+        </c:forEach>
     </div>
 
     <div class="mb-3">
-    <label for="surname"><fmt:message key="client.registration.label.surname"/>:</label>
-    <input class="form-control" type="text" name="surname" id="surname">
-    <c:if test="${exceptions.containsKey('surname')}">
-        <p class="text-danger"><fmt:message key="client.error.surname"/></p>
-    </c:if>
+        <label for="middle"><fmt:message key="client.registration.label.middle"/>:</label>
+        <input class="form-control" type="text" name="middle-name" id="middle"
+               value="${dto.getMiddleName()}">
+        <c:forEach var="error" items="${dto.getErrors()}">
+            <c:if test="${error.errorName().equals('middleName')}">
+                <p class="text-danger">${error.message()}</p>
+            </c:if>
+        </c:forEach>
     </div>
 
     <div class="mb-3">
-    <label for="middle"><fmt:message key="client.registration.label.middle"/>:</label>
-    <input class="form-control" type="text" name="middle-name" id="middle">
-    <c:if test="${exceptions.containsKey('middle')}">
-        <p class="text-danger"><fmt:message key="client.error.middle"/></p>
-    </c:if>
+        <label for="password"><fmt:message key="client.registration.label.password"/>:</label>
+        <input class="form-control" type="password" name="password" id="password">
+        <c:forEach var="error" items="${dto.getErrors()}">
+            <c:if test="${error.errorName().equals('pass')}">
+                <p class="text-danger">${error.message()}</p>
+            </c:if>
+        </c:forEach>
     </div>
 
     <div class="mb-3">
-    <label for="password"><fmt:message key="client.registration.label.password"/>:</label>
-    <input class="form-control" type="password" name="password" id="password">
-    <c:if test="${exceptions.containsKey('password')}">
-        <p class="text-danger"><fmt:message key="error.password"/></p>
-    </c:if>
-    </div>
-
-    <div class="mb-3">
-    <label for="phone"><fmt:message key="client.registration.label.phone"/>:</label>
-    <input class="form-control" type="text" name="phone-number" id="phone">
-    <c:if test="${exceptions.containsKey('phone')}">
-        <p class="text-danger"><fmt:message key="client.error.phone"/></p>
-    </c:if>
+        <label for="phone"><fmt:message key="client.registration.label.phone"/>:</label>
+        <input class="form-control" type="text" name="phone-number" id="phone"
+               value="${dto.getPhoneNumber()}">
+        <c:forEach var="error" items="${dto.getErrors()}">
+            <c:if test="${error.errorName().equals('phone')}">
+                <p class="text-danger">${error.message()}</p>
+            </c:if>
+        </c:forEach>
     </div>
 
 

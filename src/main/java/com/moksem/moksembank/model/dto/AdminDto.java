@@ -4,15 +4,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)
-public class TransferDto extends Dto{
-    private CardDto sender;
-    private CardDto receiver;
-    private String amount;
-    private List<CardDto> cards;
+public class AdminDto extends Dto{
+    private String login;
+    private String password;
 }
-

@@ -84,11 +84,11 @@
         </select>
 
         <c:forEach var="error" items="${transferDto.getErrors()}">
-            <div>
-                <c:if test="${error.errorName().equals('sender')}">
+            <c:if test="${error.errorName().equals('sender')}">
+                <div>
                     <p class="text-danger">${error.message()}</p>
-                </c:if>
-            </div>
+                </div>
+            </c:if>
         </c:forEach>
     </div>
 
@@ -98,11 +98,11 @@
         <input class="form-control" id="receiver" name="card_receiver" type="text"
                value="${transferDto.getReceiver().getNumber()}">
         <c:forEach var="error" items="${transferDto.getErrors()}">
-            <div>
-                <c:if test="${error.errorName().equals('receiver')}">
+            <c:if test="${error.errorName().equals('receiver')}">
+                <div>
                     <p class="text-danger">${error.message()}</p>
-                </c:if>
-            </div>
+                </div>
+            </c:if>
         </c:forEach>
     </div>
 
@@ -110,20 +110,22 @@
         <label class="form-label text-start" for="amount"><fmt:message key="client.transfer.amount"/>:</label>
         <input class="form-control" id="amount" name="amount" type="text" value="${transferDto.getAmount()}">
         <c:forEach var="error" items="${transferDto.getErrors()}">
-            <div>
-                <c:if test="${error.errorName().equals('amount')}">
+
+            <c:if test="${error.errorName().equals('amount')}">
+                <div>
                     <p class="text-danger">${error.message()}</p>
-                </c:if>
-            </div>
+                </div>
+            </c:if>
+
         </c:forEach>
     </div>
 
     <c:forEach var="error" items="${transferDto.getErrors()}">
-        <div class="m-3">
-            <c:if test="${error.errorName().equals('payment') || error.errorName().equals('transaction')}">
+        <c:if test="${error.errorName().equals('payment') || error.errorName().equals('transaction')}">
+            <div class="m-3">
                 <p class="text-danger">${error.message()}</p>
-            </c:if>
-        </div>
+            </div>
+        </c:if>
     </c:forEach>
 
 

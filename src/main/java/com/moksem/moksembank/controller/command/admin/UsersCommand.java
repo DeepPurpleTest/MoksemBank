@@ -9,7 +9,6 @@ import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.PaginationUtil;
 import com.moksem.moksembank.util.SessionAttributesUtil;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +60,7 @@ public class UsersCommand implements MyCommand {
                         maxPages = userService.findUsersCount();
                     }
                 }
-            }   catch (InvalidPhoneNumberException | InvalidCardException | UserNotFoundException e) {
+            }   catch (InvalidCardException | UserNotFoundException e) {
                 req.setAttribute("exception", e.getMessage());
             }
             req.setAttribute("sort", sort);

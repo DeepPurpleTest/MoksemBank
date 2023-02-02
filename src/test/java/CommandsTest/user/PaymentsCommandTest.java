@@ -2,7 +2,7 @@ package CommandsTest.user;
 
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.user.PaymentsCommand;
-import com.moksem.moksembank.model.dto.entitydto.UserDto;
+import com.moksem.moksembank.model.dto.UserDto;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
 import com.moksem.moksembank.model.entity.User;

@@ -8,6 +8,8 @@ import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.RequestService;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.InvalidIdException;
+import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
+import com.moksem.moksembank.util.exceptions.PhoneNumberAlreadyTakenException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +49,7 @@ class UnlockClientCommandTest {
     }
 
     @Test
-    void unlockClientCommandShouldReturnRedirect() throws UserNotFoundException, InvalidIdException {
+    void unlockClientCommandShouldReturnRedirect() throws UserNotFoundException, PhoneNumberAlreadyTakenException, InvalidPhoneNumberException {
         String id = "1";
         User user = User.builder().build();
 
@@ -60,7 +62,7 @@ class UnlockClientCommandTest {
     }
 
     @Test
-    void unlockClientCommandShouldReturnErrorPageCausedByUserNotFoundException() throws UserNotFoundException, InvalidIdException {
+    void unlockClientCommandShouldReturnErrorPageCausedByUserNotFoundException() throws UserNotFoundException {
         String id = "1";
 
         when(req.getSession()).thenReturn(session);
@@ -72,7 +74,7 @@ class UnlockClientCommandTest {
     }
 
     @Test
-    void unlockClientCommandShouldReturnErrorPageCausedByIOException() throws UserNotFoundException, InvalidIdException, IOException {
+    void unlockClientCommandShouldReturnErrorPageCausedByIOException() throws UserNotFoundException, IOException, PhoneNumberAlreadyTakenException, InvalidPhoneNumberException {
         String id = "1";
         User user = User.builder().build();
 

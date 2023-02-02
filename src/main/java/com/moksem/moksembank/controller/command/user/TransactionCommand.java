@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashSet;
 
 public class TransactionCommand implements MyCommand {
     CardService cardService = AppContext.getInstance().getCardService();
@@ -47,7 +46,6 @@ public class TransactionCommand implements MyCommand {
                 .sender(CardDtoBuilder.getCardDto(cardSender))
                 .receiver(CardDtoBuilder.getCardDto(cardReceiver))
                 .amount(amount)
-                .errors(new HashSet<>())
                 .build();
 
         try {

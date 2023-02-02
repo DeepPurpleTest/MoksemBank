@@ -5,6 +5,7 @@ import com.moksem.moksembank.model.repo.AdminRepo;
 import com.moksem.moksembank.model.service.AdminService;
 import com.moksem.moksembank.util.PasswordHashUtil;
 import com.moksem.moksembank.util.exceptions.InvalidLoginOrPasswordException;
+import com.moksem.moksembank.util.exceptions.LoginAlreadyTakenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,10 +49,10 @@ class AdminServiceTest {
     }
 
     @Test
-    void findSameLoginShouldReturnNull(){
+    void findSameLoginShouldThrowLoginAlreadyTakenException(){
         Admin admin = Admin.builder().build();
-        when(adminRepo.getSameAdmin(admin)).thenReturn(null);
-        assertNull(adminService.findSameLogin(admin));
+        when(adminRepo.getSameAdmin(admin)).thenReturn(admin);
+        assertThrows(LoginAlreadyTakenException.class, ()->adminService.findSameLogin(admin));
     }
 
     @Test

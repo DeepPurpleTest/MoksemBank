@@ -5,6 +5,8 @@ import com.moksem.moksembank.controller.command.admin.BlockClientCommand;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.InvalidIdException;
+import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
+import com.moksem.moksembank.util.exceptions.PhoneNumberAlreadyTakenException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,12 +42,12 @@ class BlockClientCommandTest {
     UserService userService;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void executeShouldReturnRedirect() throws UserNotFoundException, InvalidIdException {
+    void executeShouldReturnRedirect() throws UserNotFoundException, PhoneNumberAlreadyTakenException, InvalidPhoneNumberException {
         String id = "1";
         User user = User.builder().build();
 
@@ -58,7 +60,7 @@ class BlockClientCommandTest {
     }
 
     @Test
-    void executeShouldReturnErrorPageCausedByUserNotFoundException() throws UserNotFoundException, InvalidIdException {
+    void executeShouldReturnErrorPageCausedByUserNotFoundException() throws UserNotFoundException {
         String id = "1";
 
         when(req.getSession()).thenReturn(session);
@@ -71,7 +73,7 @@ class BlockClientCommandTest {
     }
 
     @Test
-    void executeShouldReturnErrorPageCausedByIOException() throws UserNotFoundException, InvalidIdException, IOException {
+    void executeShouldReturnErrorPageCausedByIOException() throws UserNotFoundException, IOException, PhoneNumberAlreadyTakenException, InvalidPhoneNumberException {
         String id = "1";
         User user = User.builder().build();
 

@@ -1,7 +1,7 @@
 package com.moksem.moksembank.model.dtobuilder;
 
 import com.moksem.moksembank.appcontext.AppContext;
-import com.moksem.moksembank.model.dto.entitydto.CardDto;
+import com.moksem.moksembank.model.dto.CardDto;
 import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.service.RequestService;
 import lombok.AccessLevel;

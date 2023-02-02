@@ -10,7 +10,6 @@ import java.util.List;
 import static com.moksem.moksembank.util.PaginationUtil.getPage;
 import static com.moksem.moksembank.util.PasswordHashUtil.encode;
 import static com.moksem.moksembank.util.PasswordHashUtil.verify;
-import static com.moksem.moksembank.util.validators.ValidatorsUtil.validatePhoneNumber;
 
 public class UserService {
 
@@ -31,7 +30,8 @@ public class UserService {
         return userRepo.getClientsByRequest(pageValue);
     }
 
-    public long create(User user) throws UserCreateException {
+    public long create(User user) throws UserCreateException, InvalidStringFormat, InvalidPasswordException {
+        ValidatorsUtil.validateNewUser(user);
         String pass = user.getPassword();
         user.setPassword(encode(pass));
         long id = userRepo.newUser(user);
@@ -40,7 +40,8 @@ public class UserService {
         return id;
     }
 
-    public void update(User user) {
+    public void update(User user) throws PhoneNumberAlreadyTakenException, InvalidPhoneNumberException {
+        findSameNumber(user);
         if (user.getPassword().length() != 32)
             user.setPassword(encode(user.getPassword()));
         userRepo.updateUser(user);
@@ -53,8 +54,7 @@ public class UserService {
         return user;
     }
 
-    public User findByNumber(String number) throws InvalidPhoneNumberException, UserNotFoundException {
-        validatePhoneNumber(number);
+    public User findByNumber(String number) throws UserNotFoundException {
         User user = userRepo.getUser(number);
         if (user == null)
             throw new UserNotFoundException();
@@ -62,9 +62,16 @@ public class UserService {
         return user;
     }
 
-    public User findSameNumber(User user) throws InvalidPhoneNumberException {
-        validatePhoneNumber(user.getPhoneNumber());
-        return userRepo.getUserByPhoneAndId(user);
+    public void findSameNumber(User userToFind) throws InvalidPhoneNumberException, PhoneNumberAlreadyTakenException {
+        ValidatorsUtil.validatePhoneNumber(userToFind.getPhoneNumber());
+        User user;
+        if (userToFind.getId() != 0)
+            user = userRepo.getUserByPhoneAndId(userToFind);
+        else
+            user = userRepo.getUser(userToFind.getPhoneNumber());
+
+        if (user != null)
+            throw new PhoneNumberAlreadyTakenException("Phone number is already taken");
     }
 
     public User findByNumberAndPassword(String number, String pass) throws InvalidLoginOrPasswordException, BlockedUserException {

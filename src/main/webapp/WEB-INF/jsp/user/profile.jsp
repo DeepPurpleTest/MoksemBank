@@ -28,7 +28,7 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNav1">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page"
@@ -80,10 +80,12 @@
 
         <div class="mb-3">
             <label class="form-label text-start" for="name"><fmt:message key="client.profile.label.name"/></label>
-            <input class="form-control" type="text" name="name" id="name">
-            <c:if test="${errorMessages.contains('name')}">
-                <p class="text-danger"><fmt:message key="client.error.name"/></p>
-            </c:if>
+            <input class="form-control" type="text" name="name" id="name" value="${dto.getName()}">
+            <c:forEach var="error" items="${dto.getErrors()}">
+                <c:if test="${error.errorName().equals('name')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </c:forEach>
         </div>
 
         <div>
@@ -92,10 +94,12 @@
 
         <div class="mb-3">
             <label class="form-label text-start" for="surname"><fmt:message key="client.profile.label.surname"/></label>
-            <input class="form-control" type="text" name="surname" id="surname">
-            <c:if test="${errorMessages.contains('surname')}">
-                <p class="text-danger"><fmt:message key="client.error.surname"/></p>
-            </c:if>
+            <input class="form-control" type="text" name="surname" id="surname" value="${dto.getSurname()}">
+            <c:forEach var="error" items="${dto.getErrors()}">
+                <c:if test="${error.errorName().equals('surname')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </c:forEach>
         </div>
 
         <div>
@@ -105,10 +109,12 @@
         <div class="mb-3">
             <label class="form-label text-start" for="middle_name"><fmt:message
                     key="client.profile.label.middle"/></label>
-            <input class="form-control" type="text" name="middle_name" id="middle_name">
-            <c:if test="${errorMessages.contains('middle_name')}">
-                <p class="text-danger"><fmt:message key="client.error.middle"/></p>
-            </c:if>
+            <input class="form-control" type="text" name="middle_name" id="middle_name" value="${dto.getMiddleName()}">
+            <c:forEach var="error" items="${dto.getErrors()}">
+                <c:if test="${error.errorName().equals('middleName')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </c:forEach>
         </div>
 
         <div>
@@ -118,18 +124,23 @@
         <div class="mb-3">
             <label class="form-label text-start" for="phone_number"><fmt:message
                     key="client.profile.label.phone"/></label>
-            <input class="form-control" type="text" name="phone_number" id="phone_number">
-            <c:if test="${errorMessages.contains('phone_number')}">
-                <p class="text-danger"><fmt:message key="client.error.phone"/></p>
-            </c:if>
+            <input class="form-control" type="text" name="phone_number" id="phone_number"
+                   value="${dto.getPhoneNumber()}">
+            <c:forEach var="error" items="${dto.getErrors()}">
+                <c:if test="${error.errorName().equals('phone')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </c:forEach>
         </div>
 
         <div class="mb-3">
             <label class="form-label text-start" for="password"><fmt:message key="label.password"/></label>
             <input class="form-control" type="password" name="password" id="password">
-            <c:if test="${errorMessages.contains('password')}">
-                <p class="text-danger"><fmt:message key="error.password"/></p>
-            </c:if>
+            <c:forEach var="error" items="${dto.getErrors()}">
+                <c:if test="${error.errorName().equals('pass')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </c:forEach>
         </div>
 
         <div class="text-center">
@@ -147,7 +158,7 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNav2">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page"
@@ -189,18 +200,22 @@
 
         <div class="mb-3">
             <label class="form-label text-start" for="login"><fmt:message key="admin.profile.label.login"/></label>
-            <input class="form-control" type="text" name="login" id="login">
-            <c:if test="${errorMessages.contains('login')}">
-                <p class="text-danger"><fmt:message key="admin.profile.error.login"/></p>
-            </c:if>
+            <input class="form-control" type="text" name="login" id="login" value="${dto.getLogin()}">
+            <c:forEach var="error" items="${dto.getErrors()}">
+                <c:if test="${error.errorName().equals('login')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </c:forEach>
         </div>
 
         <div class="mb-3">
             <label class="form-label text-start" for="password"><fmt:message key="label.password"/></label>
             <input class="form-control" type="password" name="password" id="password">
-            <c:if test="${errorMessages.contains('password')}">
-                <p class="text-danger"><fmt:message key="error.password"/></p>
-            </c:if>
+            <c:forEach var="error" items="${dto.getErrors()}">
+                <c:if test="${error.errorName().equals('pass')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </c:forEach>
         </div>
         <div class="text-center">
             <input class="btn btn-outline-danger" type="submit" value="<fmt:message key="button.submit"/>">

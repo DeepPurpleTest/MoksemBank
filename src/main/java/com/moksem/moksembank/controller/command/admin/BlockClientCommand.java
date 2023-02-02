@@ -5,6 +5,8 @@ import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.MyCommand;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
+import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
+import com.moksem.moksembank.util.exceptions.PhoneNumberAlreadyTakenException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ public class BlockClientCommand implements MyCommand {
 
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
-        } catch (UserNotFoundException e) {
+        } catch (UserNotFoundException | PhoneNumberAlreadyTakenException | InvalidPhoneNumberException e) {
             req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
         } catch (IOException e) {

@@ -1,11 +1,13 @@
-package com.moksem.moksembank.model.dto.entitydto;
+package com.moksem.moksembank.model.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)
-public class PaymentDto {
+public class PaymentDto extends Dto{
     private String id;
     private String senderId;
     private String receiverId;

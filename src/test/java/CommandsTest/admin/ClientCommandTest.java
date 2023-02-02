@@ -2,14 +2,13 @@ package CommandsTest.admin;
 
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.admin.ClientCommand;
-import com.moksem.moksembank.model.dto.entitydto.UserDto;
+import com.moksem.moksembank.model.dto.UserDto;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.SessionAttributesUtil;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.InvalidIdException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
