@@ -30,8 +30,8 @@ public class UserService {
         return userRepo.getClientsByRequest(pageValue);
     }
 
-    public long create(User user) throws UserCreateException, InvalidStringFormat, InvalidPasswordException {
-        ValidatorsUtil.validateNewUser(user);
+    public long create(User user) throws UserCreateException {
+//        ValidatorsUtil.validateNewUser(user);
         String pass = user.getPassword();
         user.setPassword(encode(pass));
         long id = userRepo.newUser(user);

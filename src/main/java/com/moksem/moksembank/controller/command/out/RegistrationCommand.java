@@ -35,8 +35,9 @@ public class RegistrationCommand implements MyCommand {
 
         ClientDto clientDto = ClientDtoBuilder.getClientDto(user);
         ValidatorsUtil.validateNewUser(clientDto);
-        if(clientDto.getErrors().isEmpty()) {
-            try {
+
+        try {
+            if (clientDto.getErrors().isEmpty()) {
                 service.findSameNumber(user);
                 long id = service.create(user);
                 user.setId(id);
@@ -47,24 +48,18 @@ public class RegistrationCommand implements MyCommand {
                 response = Path.COMMAND_ACCOUNT;
                 resp.sendRedirect(response);
                 response = Path.COMMAND_REDIRECT;
-            } catch (UserCreateException | IOException e) {
-                e.printStackTrace();
-                response = Path.PAGE_ERROR;
-            } catch (InvalidPhoneNumberException | PhoneNumberAlreadyTakenException e) {
-                e.printStackTrace();
-                clientDto.getErrors()
-                        .add(new Dto.Param("phone", e.getMessage()));
-            } catch (InvalidPasswordException e) {
-                e.printStackTrace();
-                clientDto.getErrors()
-                        .add(new Dto.Param("pass", e.getMessage()));
-            } catch (InvalidStringFormat e) {
-                e.printStackTrace();
             }
+        } catch (UserCreateException | IOException e) {
+            e.printStackTrace();
+            response = Path.PAGE_ERROR;
+        } catch (InvalidPhoneNumberException | PhoneNumberAlreadyTakenException e) {
+            e.printStackTrace();
+            clientDto.getErrors()
+                    .add(new Dto.Param("phone", e.getMessage()));
         }
-        req.setAttribute("dto", clientDto);
+        req.setAttribute("dto",clientDto);
 
         return response;
-    }
+}
 
 }
