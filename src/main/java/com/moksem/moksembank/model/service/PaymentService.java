@@ -20,7 +20,7 @@ public class PaymentService {
         this.cardService = cardService;
     }
 
-    public List<Payment> findByUserIdAndCardId(long userId, String cardId, String page, String sort) throws InvalidCardException, InvalidIdException, UserNotFoundException {
+    public List<Payment> findByUserIdAndCardId(long userId, String cardId, String page, String sort) throws InvalidCardException, UserNotFoundException {
         int pageValue = getPage(page);
 
         Card card = cardService.findById(cardId);
@@ -34,7 +34,7 @@ public class PaymentService {
         return payments;
     }
 
-    public List<Payment> findByUser(User user, String page, String sort) throws InvalidCardException, UserNotFoundException, InvalidIdException {
+    public List<Payment> findByUser(User user, String page, String sort) throws InvalidCardException, UserNotFoundException {
         int pageValue = getPage(page);
 
         List<Payment> payments = sort.equals("asc") ? paymentRepo.getPaymentsByUserASC(user, pageValue) :
@@ -64,7 +64,10 @@ public class PaymentService {
     public long create(Payment payment) throws PaymentCreateException {
         if (payment.getCardSender().equals(payment.getCardReceiver()))
             throw new PaymentCreateException("Cards is equals");
-        return paymentRepo.createPayment(payment);
+        long id = paymentRepo.createPayment(payment);
+        if (id < 0)
+            throw new PaymentCreateException("Payment create is failed");
+        return id;
     }
 
     public void update(Payment payment) {
@@ -75,7 +78,7 @@ public class PaymentService {
         paymentRepo.delete(payment);
     }
 
-    public void toFullCards(List<Payment> payments) throws InvalidCardException, UserNotFoundException, InvalidIdException {
+    public void toFullCards(List<Payment> payments) throws InvalidCardException, UserNotFoundException {
         for (Payment payment : payments) {
             Card cardSender = payment.getCardSender();
             Card cardReceiver = payment.getCardReceiver();

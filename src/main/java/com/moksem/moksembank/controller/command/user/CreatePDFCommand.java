@@ -1,10 +1,12 @@
 package com.moksem.moksembank.controller.command.user;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.moksem.moksembank.appcontext.AppContext;
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.MyCommand;
+import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.Payment;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
@@ -33,35 +35,60 @@ public class CreatePDFCommand implements MyCommand {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         String id = req.getParameter("id");
-        String response = Path.COMMAND_PAYMENTS;
+        String response = Path.COMMAND_REDIRECT;
         try {
             Payment payment = paymentService.find(user.getId(), id);
             payment = toFullPayment(payment);
             Document document = new Document();
+//            boolean check = document.;
+//            System.out.println("CHECK " + check);
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PdfWriter.getInstance(document, baos);
 
             document.open();
-            Font font = FontFactory.getFont(FontFactory.TIMES, 16, BaseColor.BLACK);
-            Paragraph title = new Paragraph("Receipt number " + payment.getId(), font);
+            BaseFont arial = BaseFont.createFont("C:\\Users\\maksv\\Desktop\\Fonts\\arial.ttf", "cp1251",
+                    BaseFont.EMBEDDED);
+
+//            Font font = FontFactory.getFont(FontFactory.TIMES, 16, BaseColor.BLACK);
+            Paragraph title = new Paragraph("Receipt", new Font(arial, 16));
+            Paragraph number = new Paragraph("Number " + payment.getId(), new Font(arial, 16));
 
             Chapter chapter = new Chapter(title, 1);
             chapter.setNumberDepth(0);
 
-            Section section = chapter.addSection("Information about payment:");
+            Section section = chapter.addSection(number);
             section.setNumberDepth(0);
-            String cardSenderNumber = payment.getCardSender().getNumber();
-            String cardReceiverNumber = payment.getCardReceiver().getNumber();
-            String cardSenderUser = payment.getCardSender().getUser().getName() + " "
-                    + payment.getCardSender().getUser().getSurname();
-            String cardReceiverUser = payment.getCardReceiver().getUser().getName() + " "
-                    + payment.getCardReceiver().getUser().getSurname();
-            Paragraph mainInfo = new Paragraph("Payment date: " + payment.getDate().getTime() +
-                    "\nCard sender: *" + cardSenderNumber.substring(cardSenderNumber.length() - 4) + " " +
+
+            Card cardSender = payment.getCardSender();
+            Card cardReceiver = payment.getCardReceiver();
+            StringBuilder cardSenderUser = new StringBuilder();
+            StringBuilder cardReceiverUser = new StringBuilder();
+
+            if (!cardSender.getUser().getName().equals("IBoX"))
+                cardSenderUser
+                        .append("\nCard sender: *")
+                        .append(getSubString(cardSender))
+                        .append(" ")
+                        .append(cardSender.getUser().getName()).append(" ")
+                        .append(cardSender.getUser().getSurname());
+            else
+                cardSenderUser
+                        .append("\nRefilling from IBoX ")
+                        .append(cardSender.getUser().getSurname());
+
+            cardReceiverUser.append("\nCard receiver: *")
+                    .append(getSubString(cardReceiver))
+                    .append(" ")
+                    .append(cardReceiver.getUser().getName()).append(" ")
+                    .append(cardReceiver.getUser().getSurname());
+
+            System.out.println(cardSenderUser);
+            System.out.println(cardReceiverUser);
+            Paragraph mainInfo = new Paragraph("Information about payment: " + "\nPayment date: " + payment.getDate().getTime() +
                     cardSenderUser +
-                    "\nCard receiver: *" + cardReceiverNumber.substring(cardReceiverNumber.length() - 4) + " " +
                     cardReceiverUser +
-                    "\nAmount: " + payment.getAmount() + " UAH");
+                    "\nAmount: " + payment.getAmount() + " UAH", new Font(arial, 16));
             section.add(mainInfo);
 
             document.add(chapter);
@@ -73,9 +100,15 @@ public class CreatePDFCommand implements MyCommand {
         } catch (PaymentNotFoundException | InvalidIdException | UserNotFoundException | InvalidCardException e) {
             response = Path.PAGE_ERROR;
             req.setAttribute("errorMessage", e.getMessage());
+        } catch (IOException e) {
+            response = Path.PAGE_ERROR;
         }
 
         return response;
+    }
+
+    public String getSubString(Card card) {
+        return card.getNumber().substring(card.getNumber().length() - 4);
     }
 
     private static void openInBrowser(HttpServletResponse response, ByteArrayOutputStream baos) {
@@ -96,7 +129,7 @@ public class CreatePDFCommand implements MyCommand {
     }
 
     //todo Перенести в сервис
-    public Payment toFullPayment(Payment payment) throws InvalidCardException, UserNotFoundException, InvalidIdException {
+    public Payment toFullPayment(Payment payment) throws InvalidCardException, UserNotFoundException {
         String cardSender = payment.getCardSender().getNumber();
         String cardReceiver = payment.getCardReceiver().getNumber();
         payment.setCardSender(cardService.findByNumber(cardSender));

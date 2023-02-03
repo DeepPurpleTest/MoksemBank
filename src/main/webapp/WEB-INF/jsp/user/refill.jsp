@@ -76,16 +76,20 @@
 </c:if>
 
 
-<c:if test="${card.isStatus() == true}">
+<c:if test="${dto.isStatus() == true}">
     <form class="rounded-3 p-3 border border-danger w-25 mx-auto my-5" method="post"
-          action="${pageContext.request.contextPath}/controller?action=refill&card=${card.getId()}">
+          action="${pageContext.request.contextPath}/controller?action=refill&card=${dto.getId()}">
 
         <div class="m-3">
+            <p>Card: ${dto.getNumber()}</p>
+            <p>Balance: ${dto.getWallet()}</p>
             <label class="form-label text-start" for="refill"><fmt:message key="client.refill.label"/>:</label>
-            <input class="form-control" type="text" name="amount" id="refill"/>
-            <c:if test="${!errorMessage.isEmpty()}">
-                <div class="text-danger">${errorMessage}</div>
-            </c:if>
+            <input class="form-control" type="text" name="amount" id="refill" value="${dto.getAmount()}"/>
+            <c:forEach var="error" items="${dto.getErrors()}">
+                <c:if test="${error.errorName().equals('amount')}">
+                    <p class="text-danger">${error.message()}</p>
+                </c:if>
+            </c:forEach>
         </div>
         <div class="text-center">
             <input class="btn btn-outline-danger" type="submit"
