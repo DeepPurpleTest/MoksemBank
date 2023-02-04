@@ -22,13 +22,13 @@ public class TransferCommand implements MyCommand {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         List<CardDto> cards = CardDtoBuilder.getCardsDto(cardService.findAllByUserId(user.getId()));
-        TransferDto transferDto = (TransferDto) req.getAttribute("transferDto");
+        TransferDto dto = (TransferDto) req.getAttribute("dto");
 
-        if (transferDto == null)
-            transferDto = TransferDto.builder().build();
+        if (dto == null)
+            dto = TransferDto.builder().build();
 
-        transferDto.setCards(cards);
-        req.setAttribute("transferDto", transferDto);
+        dto.setCards(cards);
+        req.setAttribute("dto", dto);
         return Path.PAGE_TRANSFER;
     }
 }

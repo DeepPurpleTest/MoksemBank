@@ -3,6 +3,7 @@ package com.moksem.moksembank.controller.command.user;
 import com.moksem.moksembank.appcontext.AppContext;
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.MyCommand;
+import com.moksem.moksembank.model.dto.Dto;
 import com.moksem.moksembank.model.dto.TransferDto;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.entity.Card;
@@ -42,7 +43,7 @@ public class TransactionCommand implements MyCommand {
         Card cardSender = getCard(senderNumber);
         Card cardReceiver = getCard(receiverNumber);
 
-        TransferDto transferDto = TransferDto.builder()
+        TransferDto dto = TransferDto.builder()
                 .sender(CardDtoBuilder.getCardDto(cardSender))
                 .receiver(CardDtoBuilder.getCardDto(cardReceiver))
                 .amount(amount)
@@ -77,30 +78,31 @@ public class TransactionCommand implements MyCommand {
             }
 //                System.out.println("DO TRANSACTION " + value);
         } catch (UserCardNotFoundException e) {
-            transferDto.getErrors().add(new TransferDto.Param("sender", e.getMessage()));
+            dto.getErrors().add(new Dto.Param("sender", e.getMessage()));
         } catch (InvalidCardException e) {
-            transferDto.getErrors().add(new TransferDto.Param("receiver", e.getMessage()));
+            dto.getErrors().add(new Dto.Param("receiver", e.getMessage()));
         } catch (PaymentCreateException e) {
-            transferDto.getErrors().add(new TransferDto.Param("payment", e.getMessage()));
+            dto.getErrors().add(new Dto.Param("payment", e.getMessage()));
         } catch (InvalidAmountException e) {
-            transferDto.getErrors().add(new TransferDto.Param("amount", e.getMessage()));
+            dto.getErrors().add(new Dto.Param("amount", e.getMessage()));
         } catch (TransactionException e) {
             paymentService.delete(payment);
-            transferDto.getErrors().add(new TransferDto.Param("transaction", e.getMessage()));
+            dto.getErrors().add(new Dto.Param("transaction", e.getMessage()));
         } catch (IOException | UserNotFoundException e) {
             e.printStackTrace();
             req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
         }
 
-        transferDto = transferDto.toBuilder()
+        dto = dto.toBuilder()
                 .sender(CardDtoBuilder.getCardDto(cardSender))
                 .receiver(CardDtoBuilder.getCardDto(cardReceiver))
                 .amount(amount)
                 .build();
-        ValidatorsUtil.validateTransaction(transferDto);
+        ValidatorsUtil.validateTransaction(dto);
 
-        req.setAttribute("transferDto", transferDto);
+
+        req.setAttribute("dto", dto);
 //        System.out.println("END TRANSACTION " + value);
 //        System.out.println("---------------------------------------");
         return response;

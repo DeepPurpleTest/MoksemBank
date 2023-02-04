@@ -82,8 +82,8 @@
           action="${pageContext.request.contextPath}/controller?action=refill&card=${dto.getId()}">
 
         <div class="m-3">
-            <p>Card: ${dto.getNumber()}</p>
-            <p>Balance: ${dto.getWallet()}</p>
+            <p><fmt:message key="client.transfer.label.card"/>: ${dto.getNumber()}</p>
+            <p><fmt:message key="client.main.balance"/>: ${dto.getWallet()}</p>
             <label class="form-label text-start" for="refill"><fmt:message key="client.refill.label"/>:</label>
             <input class="form-control" type="text" name="amount" id="refill" value="${dto.getAmount()}"/>
             <c:forEach var="error" items="${dto.getErrors()}">

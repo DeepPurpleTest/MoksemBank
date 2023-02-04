@@ -78,13 +78,15 @@
     <div class="m-3">
         <label for="cards"><fmt:message key="client.transfer.label.select"/>:</label>
         <select class="form-select" aria-label="Default select example" id="cards" name="card_sender">
-            <c:forEach var="card" items="${transferDto.getCards()}">
+            <c:forEach var="card" items="${dto.getCards()}">
                 <option value="${card.getNumber()}">
                         ${card.number}</option>
             </c:forEach>
+<%--            <p><fmt:message key="client.transfer.label.card"/>: ${dto.getSender().getNumber()}</p>--%>
+<%--            <p><fmt:message key="client.main.balance"/>: ${dto.getSender().getWallet()}</p>--%>
         </select>
 
-        <c:forEach var="error" items="${transferDto.getErrors()}">
+        <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('sender')}">
                 <div>
                     <p class="text-danger">${error.message()}</p>
@@ -97,8 +99,8 @@
         <label class="form-label text-start" for="receiver"><fmt:message
                 key="client.transfer.label.recipient"/>:</label>
         <input class="form-control" id="receiver" name="card_receiver" type="text"
-               value="${transferDto.getReceiver().getNumber()}">
-        <c:forEach var="error" items="${transferDto.getErrors()}">
+               value="${dto.getReceiver().getNumber()}">
+        <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('receiver')}">
                 <div>
                     <p class="text-danger">${error.message()}</p>
@@ -109,8 +111,8 @@
 
     <div class="m-3">
         <label class="form-label text-start" for="amount"><fmt:message key="client.transfer.amount"/>:</label>
-        <input class="form-control" id="amount" name="amount" type="text" value="${transferDto.getAmount()}">
-        <c:forEach var="error" items="${transferDto.getErrors()}">
+        <input class="form-control" id="amount" name="amount" type="text" value="${dto.getAmount()}">
+        <c:forEach var="error" items="${dto.getErrors()}">
 
             <c:if test="${error.errorName().equals('amount')}">
                 <div>
@@ -121,7 +123,7 @@
         </c:forEach>
     </div>
 
-    <c:forEach var="error" items="${transferDto.getErrors()}">
+    <c:forEach var="error" items="${dto.getErrors()}">
         <c:if test="${error.errorName().equals('payment') || error.errorName().equals('transaction')}">
             <div class="m-3">
                 <p class="text-danger">${error.message()}</p>
