@@ -31,7 +31,8 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page"
-                       href="${pageContext.request.contextPath}/controller?action=users&sort=natural">Home</a>
+                       href="${pageContext.request.contextPath}/controller?action=users&sort=natural"><fmt:message
+                            key="client.main.home"/></a>
                 </li>
             </ul>
             <div class="d-inline-flex">
@@ -160,6 +161,7 @@
         </c:if>
     </c:if>
 </div>
+
 <%--<c:if test="${pages.size() > 1}">--%>
 <%--    <c:if test="${pages.size() > currentPages.size()}">--%>
 <%--        <a href="${pageContext.request.contextPath}/controller?action=users&page=${pages.get(0) - 1}&sort=${sort}">--%>

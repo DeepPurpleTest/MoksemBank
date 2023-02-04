@@ -36,11 +36,12 @@
 
 <form class="rounded-3 p-3 border border-danger w-25 mx-auto my-5" method="post"
       action="${pageContext.request.contextPath}/controller?action=login">
-    <h1 class="h3 mb-5 font-weight-normal text-center">Authorization</h1>
+    <h1 class="h3 mb-5 font-weight-normal text-center"><fmt:message key="login.label.authorization"/></h1>
     <div class="mb-3">
         <label class="form-label text-start" for="phone_number"><fmt:message
                 key="login.client.placeholder.phone_number"/></label>
-        <input class="form-control" type="text" name="phone_number" id="phone_number" value="${userDto.getPhoneNumber()}">
+        <input class="form-control" type="text" name="phone_number" id="phone_number"
+               value="${userDto.getPhoneNumber()}">
     </div>
     <div class="mb-3">
         <label class="form-label text-start" for="password"><fmt:message key="login.placeholder.password"/></label>
@@ -61,7 +62,7 @@
         <div class="text-center">
             <a href="${pageContext.request.contextPath}/controller?action=admin">
                 <input class="btn btn-outline-danger mt-3 text-center" type="button"
-                       value="Admin">
+                       value="<fmt:message key="login.button.admin"/>">
             </a>
         </div>
     </div>

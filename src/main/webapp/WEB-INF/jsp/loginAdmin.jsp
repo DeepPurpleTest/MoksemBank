@@ -33,7 +33,7 @@
 
 <form class="rounded-3 p-3 border border-danger w-25 mx-auto my-5" method="post"
       action="${pageContext.request.contextPath}/controller?action=login_admin">
-    <h1 class="h3 mb-5 font-weight-normal text-center">Authorization</h1>
+    <h1 class="h3 mb-5 font-weight-normal text-center"><fmt:message key="login.label.authorization"/></h1>
     <div class="mb-3">
         <label class="form-label text-start" for="login"><fmt:message key="login.admin.label.login"/>:</label>
         <input class="form-control" type="text" name="login" id="login"/>

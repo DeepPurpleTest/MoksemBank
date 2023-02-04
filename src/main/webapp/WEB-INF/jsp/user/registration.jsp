@@ -21,7 +21,7 @@
 
 <form class="rounded-3 p-3 border border-danger w-25 mx-auto my-5" method="post"
       action="${pageContext.request.contextPath}/controller?action=registration">
-    <h1 class="h3 mb-5 font-weight-normal text-center">Registration</h1>
+    <h1 class="h3 mb-5 font-weight-normal text-center"><fmt:message key="client.registration.label.registration"/></h1>
 
     <div class="mb-3">
         <label for="name"><fmt:message key="client.registration.label.name"/>:</label>

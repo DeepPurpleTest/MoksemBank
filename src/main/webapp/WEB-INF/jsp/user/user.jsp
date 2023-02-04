@@ -31,7 +31,8 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page"
-                       href="${pageContext.request.contextPath}/controller?action=account&sort=natural">Home</a>
+                       href="${pageContext.request.contextPath}/controller?action=account&sort=natural"><fmt:message
+                            key="client.main.home"/></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
@@ -120,7 +121,7 @@
                 <div class="d-flex justify-content-around align-items-center">
                     <div>
                         <p class="m-0">
-                            Balance:
+                            <fmt:message key="client.main.balance"/>:
                                 ${card.getWallet()}
                         </p>
                     </div>
