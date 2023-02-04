@@ -51,8 +51,8 @@ public class CreatePDFCommand implements MyCommand {
                     BaseFont.EMBEDDED);
 
 //            Font font = FontFactory.getFont(FontFactory.TIMES, 16, BaseColor.BLACK);
-            Paragraph title = new Paragraph("Receipt", new Font(arial, 16));
-            Paragraph number = new Paragraph("Number " + payment.getId(), new Font(arial, 16));
+            Paragraph title = new Paragraph("Receipt number " + payment.getId(), new Font(arial, 16));
+            Paragraph number = new Paragraph("Information about payment: " , new Font(arial, 16));
 
             Chapter chapter = new Chapter(title, 1);
             chapter.setNumberDepth(0);
@@ -85,7 +85,7 @@ public class CreatePDFCommand implements MyCommand {
 
             System.out.println(cardSenderUser);
             System.out.println(cardReceiverUser);
-            Paragraph mainInfo = new Paragraph("Information about payment: " + "\nPayment date: " + payment.getDate().getTime() +
+            Paragraph mainInfo = new Paragraph( "Payment date: " + payment.getDate().getTime() +
                     cardSenderUser +
                     cardReceiverUser +
                     "\nAmount: " + payment.getAmount() + " UAH", new Font(arial, 16));

@@ -13,7 +13,6 @@ import com.moksem.moksembank.model.service.PaymentService;
 import com.moksem.moksembank.util.PaginationUtil;
 import com.moksem.moksembank.util.SessionAttributesUtil;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.InvalidIdException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +64,7 @@ public class PaymentsCommand implements MyCommand {
                     maxPages = paymentService.findCountByUser(user);
                 }
                 response = Path.PAGE_PAYMENTS;
-            } catch (InvalidCardException | InvalidIdException | UserNotFoundException e) {
+            } catch (InvalidCardException | UserNotFoundException e) {
                 e.printStackTrace();
                 response = Path.PAGE_ERROR;
             }
