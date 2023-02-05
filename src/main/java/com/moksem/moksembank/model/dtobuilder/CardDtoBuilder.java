@@ -13,21 +13,22 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CardDtoBuilder {
     static RequestService requestService = AppContext.getInstance().getRequestService();
-    public static CardDto getCardDto(Card card){
+
+    public static CardDto getCardDto(Card card) {
         CardDto cardDto = CardDto.builder()
                 .number(card.getNumber())
-                .wallet(card.getWallet().toString())
+                .wallet(card.getWallet() == null ? "" : card.getWallet().toString())
                 .status(card.isStatus())
                 .build();
-        cardDto.setId(card.getId());
+        cardDto.setId(card.getId() == 0 ? "" : String.valueOf(card.getId()));
 
-        if(requestService.findByCard(card) != null)
+        if (requestService.findByCard(card) != null)
             cardDto.setRequest(true);
 
         return cardDto;
     }
 
-    public static List<CardDto> getCardsDto(List<Card> cards){
+    public static List<CardDto> getCardsDto(List<Card> cards) {
         List<CardDto> cardDtoList = new ArrayList<>();
         if (cards.isEmpty())
             return cardDtoList;

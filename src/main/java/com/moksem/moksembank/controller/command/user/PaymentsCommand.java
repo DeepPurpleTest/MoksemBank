@@ -6,6 +6,7 @@ import com.moksem.moksembank.controller.command.MyCommand;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.dtobuilder.PaymentDtoBuilder;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
+import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.Payment;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
@@ -32,9 +33,8 @@ public class PaymentsCommand implements MyCommand {
         HttpSession session = req.getSession();
         String response = Path.COMMAND_PAYMENTS;
 
-        if(req.getParameter("sort") != null){
+        if (req.getParameter("sort") != null) {
             SessionAttributesUtil.clearSession(session);
-            System.out.println("REQ.GETPARAMETER(CARD) " + req.getParameter("card"));
             SessionAttributesUtil.toSession(req, session);
             try {
                 resp.sendRedirect(response);
@@ -44,25 +44,24 @@ public class PaymentsCommand implements MyCommand {
                 response = Path.PAGE_ERROR;
             }
         } else {
-            System.out.println("SESSION.GETATTRIBUTE(CARD) " + session.getAttribute("card"));
             User user = (User) session.getAttribute("user");
             String sort = (String) Objects.requireNonNullElse(session.getAttribute("sort"), "natural");
             String page = (String) Objects.requireNonNullElse(session.getAttribute("page"), "");
             String card = (String) Objects.requireNonNullElse(session.getAttribute("card"), "");
-
+            Card sortCard = Card.builder().build();
             List<Payment> payments = new ArrayList<>();
             int maxPages = 0;
 
-            //todo переделать обработку эксепшенов!
             try {
                 if (!card.isEmpty()) {
-                    System.out.println("!card.isEmpty() " + card);
-                    payments.addAll(paymentService.findByUserIdAndCardId(user.getId(), card, page, sort));
+                    sortCard = cardService.findById(card, user);
+                    payments.addAll(paymentService.findByUserIdAndCardId(sortCard, page, sort));
                     maxPages = paymentService.findCountByCard(card);
                 } else {
                     payments.addAll(paymentService.findByUser(user, page, sort));
                     maxPages = paymentService.findCountByUser(user);
                 }
+
                 response = Path.PAGE_PAYMENTS;
             } catch (InvalidCardException | UserNotFoundException e) {
                 e.printStackTrace();
@@ -70,9 +69,9 @@ public class PaymentsCommand implements MyCommand {
             }
             req.setAttribute("payments", PaymentDtoBuilder.getPaymentsDto(payments));
             req.setAttribute("cards", CardDtoBuilder.getCardsDto(cardService.findAllByUserId(user.getId())));
-            req.setAttribute("sort", sort);
-            req.setAttribute("card", card);
+            req.setAttribute("card", CardDtoBuilder.getCardDto(sortCard));
             req.setAttribute("user", UserDtoBuilder.getUserDto(user));
+            req.setAttribute("sort", sort);
 
             PaginationUtil.paginate(req, maxPages);
         }

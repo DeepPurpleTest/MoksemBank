@@ -3,7 +3,10 @@ package com.moksem.moksembank.model.service;
 import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.repo.CardRepo;
-import com.moksem.moksembank.util.exceptions.*;
+import com.moksem.moksembank.util.exceptions.InvalidCardException;
+import com.moksem.moksembank.util.exceptions.TransactionException;
+import com.moksem.moksembank.util.exceptions.UserCardNotFoundException;
+import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import java.util.List;
 import java.util.Random;
@@ -102,11 +105,28 @@ public class CardService {
         return card;
     }
 
-    public Card findById(String id) throws InvalidCardException, UserNotFoundException {
-        Card card = cardRepo.getCard(Long.parseLong(id));
+
+    public Card findById(String cardId) throws InvalidCardException, UserNotFoundException {
+        if(cardId == null || !cardId.matches("^\\d+$"))
+            throw new InvalidCardException("Card is not found");
+
+        Card card = cardRepo.getCard(Long.parseLong(cardId));
         if (card == null)
             throw new InvalidCardException("Card is not found");
         toFullCard(card);
+        return card;
+    }
+
+    public Card findById(String cardId, User user) throws InvalidCardException, UserNotFoundException {
+        if(cardId == null || !cardId.matches("^\\d+$"))
+            throw new InvalidCardException("Card is not found");
+
+        Card card = cardRepo.getCard(Long.parseLong(cardId));
+        if (card == null)
+            throw new InvalidCardException("Card is not found");
+        toFullCard(card);
+        if(!card.getUser().equals(user))
+            throw new InvalidCardException("Card is not found");
         return card;
     }
 

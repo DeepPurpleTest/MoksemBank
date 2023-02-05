@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)
 public class CardDto extends Dto{
-    private long id;
+    private String id;
     private String number;
     private String wallet;
     private boolean status;

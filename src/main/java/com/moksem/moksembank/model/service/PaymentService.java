@@ -5,7 +5,6 @@ import com.moksem.moksembank.model.entity.Payment;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.repo.PaymentRepo;
 import com.moksem.moksembank.util.exceptions.*;
-import com.moksem.moksembank.util.validators.ValidatorsUtil;
 
 import java.util.List;
 
@@ -20,13 +19,8 @@ public class PaymentService {
         this.cardService = cardService;
     }
 
-    public List<Payment> findByUserIdAndCardId(long userId, String cardId, String page, String sort) throws InvalidCardException, UserNotFoundException {
+    public List<Payment> findByUserIdAndCardId(Card card, String page, String sort) throws InvalidCardException, UserNotFoundException {
         int pageValue = getPage(page);
-
-        Card card = cardService.findById(cardId);
-        if (card.getUser().getId() != userId)
-            throw new InvalidCardException();
-
         List<Payment> payments = sort.equals("asc") ? paymentRepo.getPaymentsByCardASC(card, pageValue) :
                 paymentRepo.getPaymentsByCardDESC(card, pageValue);
 
@@ -54,7 +48,9 @@ public class PaymentService {
     }
 
     public Payment find(long userId, String paymentId) throws InvalidIdException, PaymentNotFoundException {
-        ValidatorsUtil.validateId(paymentId);
+        if (paymentId == null || !paymentId.matches("^\\d+$"))
+            throw new InvalidIdException("Invalid id");
+
         Payment payment = paymentRepo.getPayment(userId, Integer.parseInt(paymentId));
         if (payment == null)
             throw new PaymentNotFoundException("Payment not found");

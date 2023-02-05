@@ -3,7 +3,6 @@ package com.moksem.moksembank.util.validators;
 import com.moksem.moksembank.model.dto.*;
 import com.moksem.moksembank.util.exceptions.InvalidAmountException;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.InvalidIdException;
 import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -13,12 +12,6 @@ import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidatorsUtil {
-
-//    public static boolean validateCardsSort(String sort) {
-//        if (sort == null)
-//            return false;
-//        return sort.equals("asc") || sort.equals("desc") || sort.equals("natural");
-//    }
 
     public static boolean checkString(String s) {
         if (s == null)
@@ -105,18 +98,6 @@ public class ValidatorsUtil {
         }
     }
 
-//    public static void validateNewUser(User user) throws InvalidStringFormat, InvalidPasswordException {
-//        validateRegexp(user.getName());
-//        validateRegexp(user.getSurname());
-//        if (user.getMiddleName() != null && !user.getMiddleName().isEmpty())
-//            validateRegexp(user.getMiddleName());
-//        validatePasswordLength(user.getPassword());
-//    }
-//
-//    public static boolean validateLogin(String login) {
-//        return login == null || login.isEmpty();
-//    }
-
     public static boolean validateName(String s) {
         return !s.matches("^[A-Z\u0400-\u042F\u0490][a-z\u0430-\u045F\u0491]+$");
     }
@@ -131,33 +112,9 @@ public class ValidatorsUtil {
             throw new InvalidCardException();
     }
 
-    public static void validateId(String id) throws InvalidIdException {
-        if (id == null || !id.matches("^\\d+$"))
-            throw new InvalidIdException("Invalid id");
-    }
-
-//    private static void validateRegexp(String s) throws InvalidStringFormat {
-//        if (s == null || !s.matches("^[A-Z\u0400-\u042F][a-z\u0430-\u044F\u0457\u0454\u0456]+$"))
-//            throw new InvalidStringFormat();
-//    }
-
-//    public static void validatePasswordLength(String s) throws InvalidPasswordException {
-//        if (s == null || s.length() > 30 || s.length() < 7)
-//            throw new InvalidPasswordException("Invalid password length");
-//    }
-
     private static boolean validateLoginLength(String s) {
         return s.length() >= 20 || s.length() <= 3;
     }
-//    public static void validateNewAdmin(AdminDto adminDto) {
-//        Set<Dto.Param> set = adminDto.getErrors();
-//        if (adminDto.getLogin() == null || validateLoginLength(adminDto.getLogin()))
-//            set.add(new Dto.Param("login", "Invalid login length"));
-//        String pass = adminDto.getPassword();
-//        if (pass.length() > 20 || pass.length() < 7)
-//            set.add(new Dto.Param("pass", "Invalid password length"));
-
-//    }
 
     public static void validateAmount(String amount) throws InvalidAmountException {
         if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$"))

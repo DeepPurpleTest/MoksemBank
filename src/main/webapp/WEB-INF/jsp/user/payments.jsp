@@ -96,11 +96,11 @@
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item"
-                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card}&sort=asc"><fmt:message
+                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card.getId()}&sort=asc"><fmt:message
                         key="client.payments.tab.sort.old"/></a>
                 </li>
                 <li><a class="dropdown-item"
-                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card}&sort=desc"><fmt:message
+                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card.getId()}&sort=desc"><fmt:message
                         key="client.payments.tab.sort.new"/></a>
                 </li>
             </ul>
@@ -126,9 +126,19 @@
     <%--        </select>--%>
     <%--        <input type="submit" value="<fmt:message key="button.sort"/>">--%>
     <%--    </form>--%>
+    <c:if test="${card.getNumber() != null}">
+        <div>
+            <div class="mt-3">
+                <p class="m-0"><fmt:message key="client.transfer.label.card"/>: ${card.getNumber()}</p>
+                <p class="m-0"><fmt:message key="client.main.balance"/>: ${card.getWallet()} UAH</p>
+            </div>
+            <div>
 
+            </div>
+        </div>
+    </c:if>
     <hr>
-    <c:if test="${card.isEmpty()}">
+    <c:if test="${card.getNumber().isEmpty()}">
         <c:forEach var="payment" items="${payments}">
             <%--            PaymentId:${payment.getId()}<br>--%>
             <%--            Sender:${payment.getSenderCardNumber()}<br>--%>
@@ -189,7 +199,7 @@
 
     </c:if>
 
-    <c:if test="${!card.isEmpty()}">
+    <c:if test="${!card.getNumber().isEmpty()}">
 
         <c:forEach var="payment" items="${payments}">
             <%--            PaymentId:${payment.getId()}<br>--%>
@@ -237,7 +247,7 @@
             <c:if test="${page.equals(pages.get(0))}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card}&page=${pages.get(0) - 1}&sort=${sort}">
+                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card.getId()}&page=${pages.get(0) - 1}&sort=${sort}">
                         <input class="btn btn-danger" type="submit" value="${pages.get(0)}">
                     </a>
                 </div>
@@ -245,7 +255,7 @@
             <c:if test="${!page.equals(pages.get(0))}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card}&page=${pages.get(0) - 1}&sort=${sort}">
+                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card.getId()}&page=${pages.get(0) - 1}&sort=${sort}">
                         <input class="btn btn-outline-danger" type="submit" value="${pages.get(0)}">
                     </a>
                 </div>
@@ -255,7 +265,7 @@
             <c:if test="${number.equals(page)}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card}&page=${number - 1}&sort=${sort}">
+                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card.getId()}&page=${number - 1}&sort=${sort}">
                         <input class="btn btn-danger" type="submit" value="${number}">
                     </a>
                 </div>
@@ -263,7 +273,7 @@
             <c:if test="${!number.equals(page)}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card}&page=${number - 1}&sort=${sort}">
+                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card.getId()}&page=${number - 1}&sort=${sort}">
                         <input class="btn btn-outline-danger" type="submit" value="${number}">
                     </a>
                 </div>
@@ -274,7 +284,7 @@
             <c:if test="${page.equals(pages.size())}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card}&page=${pages.size()-1}&sort=${sort}">
+                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card.getId()}&page=${pages.size()-1}&sort=${sort}">
                         <input class="btn btn-danger" type="submit" value="${pages.size()}">
                     </a>
                 </div>
@@ -282,7 +292,7 @@
             <c:if test="${!page.equals(pages.size())}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card}&page=${pages.size()-1}&sort=${sort}">
+                       href="${pageContext.request.contextPath}/controller?action=payments&card=${card.getId()}&page=${pages.size()-1}&sort=${sort}">
                         <input class="btn btn-outline-danger" type="submit" value="${pages.size()}">
                     </a>
                 </div>

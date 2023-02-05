@@ -2,7 +2,7 @@ package com.moksem.moksembank.util.exceptions;
 
 
 public class InvalidCardException extends Exception{
-    private final static String MESSAGE = "Invalid card number";
+    private static final String MESSAGE = "Invalid card number";
     public InvalidCardException() {
         super(MESSAGE);
     }
