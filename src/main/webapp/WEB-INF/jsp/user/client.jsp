@@ -106,6 +106,7 @@
                     <option value="blocked"><fmt:message key="admin.client.tab.sort.block"/></option>
                     <option value="unlocked"><fmt:message key="admin.client.tab.sort.unlock"/></option>
                 </select>
+
             </div>
             <div class="px-3">
                 <label class="form-label text-start" for="number"><fmt:message key="admin.client.label.input"/></label>

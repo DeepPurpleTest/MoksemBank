@@ -162,24 +162,6 @@
     </c:if>
 </div>
 
-<%--<c:if test="${pages.size() > 1}">--%>
-<%--    <c:if test="${pages.size() > currentPages.size()}">--%>
-<%--        <a href="${pageContext.request.contextPath}/controller?action=users&page=${pages.get(0) - 1}&sort=${sort}">--%>
-<%--            <input type="submit" value="${pages.get(0)}">--%>
-<%--        </a>--%>
-<%--    </c:if>--%>
-<%--    <c:forEach var="number" items="${currentPages}">--%>
-<%--        <a href="${pageContext.request.contextPath}/controller?action=users&page=${number - 1}&sort=${sort}">--%>
-<%--            <input type="submit" value="${number}">--%>
-<%--        </a>--%>
-<%--    </c:forEach>--%>
-<%--    <c:if test="${pages.size() > currentPages.size()}">--%>
-<%--        <a href="${pageContext.request.contextPath}/controller?action=users&page=${pages.size()-1}&sort=${sort}">--%>
-<%--            <input type="submit" value="${pages.size()}">--%>
-<%--        </a>--%>
-<%--    </c:if>--%>
-<%--</c:if>--%>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>

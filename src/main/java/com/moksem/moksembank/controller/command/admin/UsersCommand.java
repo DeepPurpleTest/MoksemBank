@@ -63,9 +63,9 @@ public class UsersCommand implements MyCommand {
             }   catch (InvalidCardException | UserNotFoundException e) {
                 req.setAttribute("exception", e.getMessage());
             }
-            req.setAttribute("sort", sort);
             req.setAttribute("clients", UserDtoBuilder.getUsersDto(clients));
             req.setAttribute("cardOrPhoneNumber", number);
+            req.setAttribute("sort", sort);
             PaginationUtil.paginate(req, maxPages);
 //            req.setAttribute("pages", getPages(maxPages));
             response = Path.PAGE_ADMIN;
