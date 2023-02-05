@@ -25,7 +25,9 @@ public class TransferCommand implements MyCommand {
         TransferDto dto = (TransferDto) req.getAttribute("dto");
 
         if (dto == null)
-            dto = TransferDto.builder().build();
+            dto = TransferDto.builder()
+                    .sender(cards.get(0))
+                    .build();
 
         dto.setCards(cards);
         req.setAttribute("dto", dto);

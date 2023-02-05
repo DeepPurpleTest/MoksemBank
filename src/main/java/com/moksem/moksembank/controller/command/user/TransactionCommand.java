@@ -52,7 +52,10 @@ public class TransactionCommand implements MyCommand {
         try {
 //            Card card_sender = cardService.findUserCard(1, req.getParameter("card_sender"));
             cardSender = cardService.findByUserIdAndCardNumber(user.getId(), senderNumber);
+            dto.setSender(CardDtoBuilder.getCardDto(cardSender));
+
             cardReceiver = cardService.findByNumber(receiverNumber);
+            dto.setReceiver(CardDtoBuilder.getCardDto(cardReceiver));
 
             ValidatorsUtil.validateAmount(amount);
             BigDecimal transferAmount = new BigDecimal(amount);
@@ -94,11 +97,6 @@ public class TransactionCommand implements MyCommand {
             response = Path.PAGE_ERROR;
         }
 
-        dto = dto.toBuilder()
-                .sender(CardDtoBuilder.getCardDto(cardSender))
-                .receiver(CardDtoBuilder.getCardDto(cardReceiver))
-                .amount(amount)
-                .build();
         ValidatorsUtil.validateTransaction(dto);
 
 

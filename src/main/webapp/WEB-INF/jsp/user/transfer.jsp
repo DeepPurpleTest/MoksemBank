@@ -79,11 +79,16 @@
         <label for="cards"><fmt:message key="client.transfer.label.select"/>:</label>
         <select class="form-select" aria-label="Default select example" id="cards" name="card_sender">
             <c:forEach var="card" items="${dto.getCards()}">
-                <option value="${card.getNumber()}">
-                        ${card.number}</option>
+                <c:choose>
+                    <c:when test="${card.equals(dto.getSender())}">
+                        <option selected="selected" value="${card.getNumber()}">${card.number} | ${card.getWallet()} UAH</option>
+                    </c:when>
+                    <c:otherwise>
+                        <option value="${card.getNumber()}">
+                                ${card.number} | ${card.getWallet()} UAH</option>
+                    </c:otherwise>
+                </c:choose>
             </c:forEach>
-<%--            <p><fmt:message key="client.transfer.label.card"/>: ${dto.getSender().getNumber()}</p>--%>
-<%--            <p><fmt:message key="client.main.balance"/>: ${dto.getSender().getWallet()}</p>--%>
         </select>
 
         <c:forEach var="error" items="${dto.getErrors()}">
@@ -113,13 +118,11 @@
         <label class="form-label text-start" for="amount"><fmt:message key="client.transfer.amount"/>:</label>
         <input class="form-control" id="amount" name="amount" type="text" value="${dto.getAmount()}">
         <c:forEach var="error" items="${dto.getErrors()}">
-
             <c:if test="${error.errorName().equals('amount')}">
                 <div>
                     <p class="text-danger">${error.message()}</p>
                 </div>
             </c:if>
-
         </c:forEach>
     </div>
 
