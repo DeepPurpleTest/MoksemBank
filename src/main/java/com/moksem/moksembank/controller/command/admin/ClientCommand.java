@@ -9,7 +9,7 @@ import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.UserService;
-import com.moksem.moksembank.util.PaginationUtil;
+import com.moksem.moksembank.util.Pagination;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.moksem.moksembank.util.SessionAttributesUtil.clearSession;
-import static com.moksem.moksembank.util.SessionAttributesUtil.toSession;
+import static com.moksem.moksembank.util.SessionAttributes.clearSession;
+import static com.moksem.moksembank.util.SessionAttributes.toSession;
 import static java.util.Objects.requireNonNullElse;
 
 public class ClientCommand implements MyCommand {
@@ -62,7 +62,7 @@ public class ClientCommand implements MyCommand {
                 req.setAttribute("cards", CardDtoBuilder.getCardsDto(cards));
                 req.setAttribute("sort", sort);
 //                req.setAttribute("number", number);
-                PaginationUtil.paginate(req, pages);
+                Pagination.paginate(req, pages);
 
                 response = Path.PAGE_CLIENT;
             } catch (UserNotFoundException e) {

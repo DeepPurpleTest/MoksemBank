@@ -32,18 +32,4 @@ public class DecoratorSet extends AbstractSet<Dto.Param> {
 
         return set.add(o);
     }
-
-//    public static void main(String[] args) {
-//        Set<Dto.Param> mySet = new HashSet<>();
-//        DecoratorSet decoratorSet = new DecoratorSet(mySet);
-//        decoratorSet.add(new Dto.Param("size", "10"));
-//        System.out.println(mySet);
-//        System.out.println(decoratorSet);
-//        decoratorSet.add(new Dto.Param("size", "9"));
-//        System.out.println(mySet);
-//        System.out.println(decoratorSet);
-//        mySet.add(new Dto.Param("size", "11"));
-//        System.out.println(mySet);
-//        System.out.println(decoratorSet);
-//    }
 }

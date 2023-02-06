@@ -1,13 +1,12 @@
 package com.moksem.moksembank.controller.listener;
 
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-
+@Log4j2
 public class ContextListener implements ServletContextListener {
-    private static final Logger log = Logger.getLogger(ContextListener.class);
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         log.debug("initialization starts");

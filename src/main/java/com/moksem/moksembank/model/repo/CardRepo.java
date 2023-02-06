@@ -7,7 +7,7 @@ import com.moksem.moksembank.util.exceptions.TransactionException;
 
 import java.util.List;
 
-import static com.moksem.moksembank.util.PaginationUtil.RECORDS_PER_PAGE;
+import static com.moksem.moksembank.util.Pagination.RECORDS_PER_PAGE;
 
 
 public class CardRepo {

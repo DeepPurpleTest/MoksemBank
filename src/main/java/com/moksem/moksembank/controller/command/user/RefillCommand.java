@@ -13,7 +13,7 @@ import com.moksem.moksembank.util.exceptions.InvalidAmountException;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.PaymentCreateException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
-import com.moksem.moksembank.util.validators.ValidatorsUtil;
+import com.moksem.moksembank.util.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +37,7 @@ public class RefillCommand implements MyCommand {
                 throw new InvalidCardException("This card is blocked");
 
             String amount = req.getParameter("amount");
-            ValidatorsUtil.validateAmount(amount);
+            Validator.validateAmount(amount);
             BigDecimal refillValue = new BigDecimal(amount);
             Card iBox = cardService.findById(REFILL_ID);
 

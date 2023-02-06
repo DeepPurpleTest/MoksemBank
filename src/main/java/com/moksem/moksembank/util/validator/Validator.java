@@ -1,4 +1,4 @@
-package com.moksem.moksembank.util.validators;
+package com.moksem.moksembank.util.validator;
 
 import com.moksem.moksembank.model.dto.*;
 import com.moksem.moksembank.util.exceptions.InvalidAmountException;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ValidatorsUtil {
+public class Validator {
 
     public static boolean checkString(String s) {
         if (s == null)

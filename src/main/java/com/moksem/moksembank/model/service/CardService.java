@@ -11,7 +11,7 @@ import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import java.util.List;
 import java.util.Random;
 
-import static com.moksem.moksembank.util.PaginationUtil.getPage;
+import static com.moksem.moksembank.util.Pagination.getPage;
 
 public class CardService {
     private final CardRepo cardRepo;

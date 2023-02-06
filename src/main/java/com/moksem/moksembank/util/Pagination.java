@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.IntStream;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PaginationUtil {
+public class Pagination {
     public static final int RECORDS_PER_PAGE = 5;
     public static final int PAGES = 3;
 

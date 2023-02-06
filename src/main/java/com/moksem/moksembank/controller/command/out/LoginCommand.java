@@ -10,12 +10,13 @@ import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.BlockedUserException;
 import com.moksem.moksembank.util.exceptions.InvalidLoginOrPasswordException;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
+@Log4j2
 public class LoginCommand implements MyCommand {
     private final UserService userService = AppContext.getInstance().getUserService();
 
@@ -49,6 +50,7 @@ public class LoginCommand implements MyCommand {
             e.printStackTrace();
             response = Path.PAGE_ERROR;
         }
+
         return response;
     }
 

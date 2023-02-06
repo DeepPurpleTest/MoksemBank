@@ -2,7 +2,7 @@ package com.moksem.moksembank.model.service;
 
 import com.moksem.moksembank.model.entity.Admin;
 import com.moksem.moksembank.model.repo.AdminRepo;
-import com.moksem.moksembank.util.PasswordHashUtil;
+import com.moksem.moksembank.util.PasswordHash;
 import com.moksem.moksembank.util.exceptions.InvalidLoginOrPasswordException;
 import com.moksem.moksembank.util.exceptions.LoginAlreadyTakenException;
 
@@ -18,7 +18,7 @@ public class AdminService {
         Admin admin = adminRepo.getAdmin(tempAdmin.getLogin());
         if(admin == null)
             throw new InvalidLoginOrPasswordException();
-        PasswordHashUtil.verify(tempAdmin.getPassword(), admin.getPassword());
+        PasswordHash.verify(tempAdmin.getPassword(), admin.getPassword());
 
         return admin;
     }
@@ -36,7 +36,7 @@ public class AdminService {
     public void update(Admin admin) throws LoginAlreadyTakenException {
         findSameLogin(admin);
         if(admin.getPassword().length() != 32)
-            admin.setPassword(PasswordHashUtil.encode(admin.getPassword()));
+            admin.setPassword(PasswordHash.encode(admin.getPassword()));
         adminRepo.update(admin);
     }
 }

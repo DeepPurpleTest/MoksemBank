@@ -6,8 +6,8 @@ import com.moksem.moksembank.controller.command.MyCommand;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
-import com.moksem.moksembank.util.PaginationUtil;
-import com.moksem.moksembank.util.SessionAttributesUtil;
+import com.moksem.moksembank.util.Pagination;
+import com.moksem.moksembank.util.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +25,8 @@ public class ClientAccountCommand implements MyCommand {
 
 
         if (req.getParameter("sort") != null) {
-            SessionAttributesUtil.clearSession(session);
-            SessionAttributesUtil.toSession(req, session);
+            SessionAttributes.clearSession(session);
+            SessionAttributes.toSession(req, session);
             try {
                 resp.sendRedirect(response);
                 response = Path.COMMAND_REDIRECT;
@@ -40,7 +40,7 @@ public class ClientAccountCommand implements MyCommand {
             String sort = (String) Objects.requireNonNullElse(session.getAttribute("sort"), "natural");
             String page = (String) Objects.requireNonNullElse(session.getAttribute("page"), "");
 //            System.out.println("FROM SESSION " + page);
-            PaginationUtil.paginate(req, cardService.findCount(user.getId()));
+            Pagination.paginate(req, cardService.findCount(user.getId()));
             req.setAttribute("sort", sort);
             req.setAttribute("cards", CardDtoBuilder.getCardsDto(cardService.findByBalance(user.getId(), page, sort)));
 //            System.out.println("BEFORE PAGINATE " + page);

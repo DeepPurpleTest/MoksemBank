@@ -6,8 +6,8 @@ import com.moksem.moksembank.controller.command.MyCommand;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
-import com.moksem.moksembank.util.PaginationUtil;
-import com.moksem.moksembank.util.SessionAttributesUtil;
+import com.moksem.moksembank.util.Pagination;
+import com.moksem.moksembank.util.SessionAttributes;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
@@ -28,10 +28,10 @@ public class UsersCommand implements MyCommand {
         String response = Path.COMMAND_USERS;
 
         if(req.getParameter("sort") != null){
-            SessionAttributesUtil.clearSession(session);
-            SessionAttributesUtil.toSession(req, session);
+            SessionAttributes.clearSession(session);
+            SessionAttributes.toSession(req, session);
             System.out.println("AFTER TOSESSION()");
-            SessionAttributesUtil.getSessionAttributes(session);
+            SessionAttributes.getSessionAttributes(session);
             try {
                 resp.sendRedirect(response);
                 response = Path.COMMAND_REDIRECT;
@@ -66,7 +66,7 @@ public class UsersCommand implements MyCommand {
             req.setAttribute("clients", UserDtoBuilder.getUsersDto(clients));
             req.setAttribute("cardOrPhoneNumber", number);
             req.setAttribute("sort", sort);
-            PaginationUtil.paginate(req, maxPages);
+            Pagination.paginate(req, maxPages);
 //            req.setAttribute("pages", getPages(maxPages));
             response = Path.PAGE_ADMIN;
         }

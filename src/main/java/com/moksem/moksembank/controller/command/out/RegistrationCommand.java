@@ -10,7 +10,7 @@ import com.moksem.moksembank.model.entity.Role;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.*;
-import com.moksem.moksembank.util.validators.ValidatorsUtil;
+import com.moksem.moksembank.util.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +34,7 @@ public class RegistrationCommand implements MyCommand {
                 .build();
 
         ClientDto clientDto = ClientDtoBuilder.getClientDto(user);
-        ValidatorsUtil.validateNewUser(clientDto);
+        Validator.validateNewUser(clientDto);
 
         try {
             if (clientDto.getErrors().isEmpty()) {

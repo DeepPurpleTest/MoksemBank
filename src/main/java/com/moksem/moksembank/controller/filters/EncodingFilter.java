@@ -1,12 +1,13 @@
 package com.moksem.moksembank.controller.filters;
 
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.*;
 import java.io.IOException;
 
+@Log4j2
 public class EncodingFilter implements Filter {
-    private static final Logger log = Logger.getLogger(EncodingFilter.class);
+//    private static final Logger log = Logger.getLogger(EncodingFilter.class);
     private String encoding;
 
     @Override

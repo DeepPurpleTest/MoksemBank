@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.Iterator;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class SessionAttributesUtil {
+public class SessionAttributes {
     //    public static void setAttributes(HttpServletRequest req, HttpSession session){
 //        Enumeration<String> parameters = req.getParameterNames();
 //        while(parameters.hasMoreElements()){

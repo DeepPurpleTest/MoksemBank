@@ -8,7 +8,7 @@ import com.moksem.moksembank.util.exceptions.*;
 
 import java.util.List;
 
-import static com.moksem.moksembank.util.PaginationUtil.getPage;
+import static com.moksem.moksembank.util.Pagination.getPage;
 
 public class PaymentService {
     private final PaymentRepo paymentRepo;

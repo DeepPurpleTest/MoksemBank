@@ -14,7 +14,7 @@ import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
 import com.moksem.moksembank.util.exceptions.LoginAlreadyTakenException;
 import com.moksem.moksembank.util.exceptions.PhoneNumberAlreadyTakenException;
-import com.moksem.moksembank.util.validators.ValidatorsUtil;
+import com.moksem.moksembank.util.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +35,7 @@ public class ChangeProfileCommand implements MyCommand {
         Dto dto;
         if (role.equals(Role.USER)) {
             dto = getClientDto(req);
-            ValidatorsUtil.validateChangedUser((ClientDto) dto);
+            Validator.validateChangedUser((ClientDto) dto);
             try {
                 if (dto.getErrors().isEmpty()) {
                     User client = (User) session.getAttribute("user");
@@ -49,7 +49,7 @@ public class ChangeProfileCommand implements MyCommand {
             }
         } else {
             dto = getAdminDto(req);
-            ValidatorsUtil.validateChangedAdmin((AdminDto) dto);
+            Validator.validateChangedAdmin((AdminDto) dto);
             try {
                 if (dto.getErrors().isEmpty()) {
                     Admin admin = (Admin) session.getAttribute("user");

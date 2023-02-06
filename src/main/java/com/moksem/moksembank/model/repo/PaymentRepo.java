@@ -8,7 +8,7 @@ import com.moksem.moksembank.model.entitybuilder.QueryBuilder;
 
 import java.util.List;
 
-import static com.moksem.moksembank.util.PaginationUtil.RECORDS_PER_PAGE;
+import static com.moksem.moksembank.util.Pagination.RECORDS_PER_PAGE;
 
 public class PaymentRepo {
 

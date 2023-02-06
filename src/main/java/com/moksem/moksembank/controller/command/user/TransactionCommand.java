@@ -12,7 +12,7 @@ import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.PaymentService;
 import com.moksem.moksembank.util.exceptions.*;
-import com.moksem.moksembank.util.validators.ValidatorsUtil;
+import com.moksem.moksembank.util.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +57,7 @@ public class TransactionCommand implements MyCommand {
             cardReceiver = cardService.findByNumber(receiverNumber);
             dto.setReceiver(CardDtoBuilder.getCardDto(cardReceiver));
 
-            ValidatorsUtil.validateAmount(amount);
+            Validator.validateAmount(amount);
             BigDecimal transferAmount = new BigDecimal(amount);
 
             if (cardSender.isStatus() && cardReceiver.isStatus()) {
@@ -96,7 +96,7 @@ public class TransactionCommand implements MyCommand {
             req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
         }
-        ValidatorsUtil.validateTransaction(dto);
+        Validator.validateTransaction(dto);
         req.setAttribute("dto", dto);
 //        System.out.println("END TRANSACTION " + value);
 //        System.out.println("---------------------------------------");

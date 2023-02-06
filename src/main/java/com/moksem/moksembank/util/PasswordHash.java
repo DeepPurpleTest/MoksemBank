@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PasswordHashUtil {
+public class PasswordHash {
     public static String encode(String pass){
 //        System.out.println(DigestUtils.md5Hex(pass));
         return pass != null? DigestUtils.md5Hex(pass):"";

@@ -1,16 +1,15 @@
 package com.moksem.moksembank.controller.filters;
 
 import com.moksem.moksembank.controller.Path;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+@Log4j2
 public class SecurityFilter implements Filter {
-    private static final Logger log = Logger.getLogger(SecurityFilter.class);
     private static final RoleCommandChecker roleCommandChecker = new RoleCommandChecker();
 
     @Override

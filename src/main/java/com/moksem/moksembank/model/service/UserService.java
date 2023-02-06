@@ -3,13 +3,13 @@ package com.moksem.moksembank.model.service;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.repo.UserRepo;
 import com.moksem.moksembank.util.exceptions.*;
-import com.moksem.moksembank.util.validators.ValidatorsUtil;
+import com.moksem.moksembank.util.validator.Validator;
 
 import java.util.List;
 
-import static com.moksem.moksembank.util.PaginationUtil.getPage;
-import static com.moksem.moksembank.util.PasswordHashUtil.encode;
-import static com.moksem.moksembank.util.PasswordHashUtil.verify;
+import static com.moksem.moksembank.util.Pagination.getPage;
+import static com.moksem.moksembank.util.PasswordHash.encode;
+import static com.moksem.moksembank.util.PasswordHash.verify;
 
 public class UserService {
 
@@ -63,7 +63,7 @@ public class UserService {
     }
 
     public void findSameNumber(User userToFind) throws InvalidPhoneNumberException, PhoneNumberAlreadyTakenException {
-        ValidatorsUtil.validatePhoneNumber(userToFind.getPhoneNumber());
+        Validator.validatePhoneNumber(userToFind.getPhoneNumber());
         User user;
         if (userToFind.getId() != 0)
             user = userRepo.getUserByPhoneAndId(userToFind);
@@ -87,7 +87,7 @@ public class UserService {
     }
 
     public User findByCard(String cardNumber) throws InvalidCardException {
-        ValidatorsUtil.validateCardNumber(cardNumber);
+        Validator.validateCardNumber(cardNumber);
         return userRepo.getUserByCard(cardNumber);
     }
 

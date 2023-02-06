@@ -3,12 +3,12 @@ package com.moksem.moksembank.model.repo;
 import com.moksem.moksembank.model.entitybuilder.QueryBuilder;
 import com.moksem.moksembank.model.entitybuilder.UserQueryBuilder;
 import com.moksem.moksembank.model.entity.User;
-import com.moksem.moksembank.util.PaginationUtil;
+import com.moksem.moksembank.util.Pagination;
 
 import java.util.List;
 
 public class UserRepo {
-    private static final int ROWCOUNT = PaginationUtil.RECORDS_PER_PAGE;
+    private static final int ROWCOUNT = Pagination.RECORDS_PER_PAGE;
     private static final String GET_ALL = "select * from user limit ?, ?";
     private static final String GET_BY_REQUEST = "select distinct u.user_id, u.name, u.surname, u.middle_name, u.password, u.phone_number, u.status, u.role " +
             "from request r left join user u on r.user_id = u.user_id where r.status = false limit ?, ?";

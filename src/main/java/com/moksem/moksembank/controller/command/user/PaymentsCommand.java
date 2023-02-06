@@ -11,8 +11,8 @@ import com.moksem.moksembank.model.entity.Payment;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.PaymentService;
-import com.moksem.moksembank.util.PaginationUtil;
-import com.moksem.moksembank.util.SessionAttributesUtil;
+import com.moksem.moksembank.util.Pagination;
+import com.moksem.moksembank.util.SessionAttributes;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
@@ -34,8 +34,8 @@ public class PaymentsCommand implements MyCommand {
         String response = Path.COMMAND_PAYMENTS;
 
         if (req.getParameter("sort") != null) {
-            SessionAttributesUtil.clearSession(session);
-            SessionAttributesUtil.toSession(req, session);
+            SessionAttributes.clearSession(session);
+            SessionAttributes.toSession(req, session);
             try {
                 resp.sendRedirect(response);
                 response = Path.COMMAND_REDIRECT;
@@ -73,7 +73,7 @@ public class PaymentsCommand implements MyCommand {
             req.setAttribute("user", UserDtoBuilder.getUserDto(user));
             req.setAttribute("sort", sort);
 
-            PaginationUtil.paginate(req, maxPages);
+            Pagination.paginate(req, maxPages);
         }
 
         return response;
