@@ -96,10 +96,7 @@ public class TransactionCommand implements MyCommand {
             req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
         }
-
         ValidatorsUtil.validateTransaction(dto);
-
-
         req.setAttribute("dto", dto);
 //        System.out.println("END TRANSACTION " + value);
 //        System.out.println("---------------------------------------");

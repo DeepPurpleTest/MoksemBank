@@ -82,11 +82,11 @@ public class ValidatorsUtil {
         CardDto receiver = transferDto.getReceiver();
         Set<Dto.Param> errors = transferDto.getErrors();
         String amount = transferDto.getAmount();
-        if (!sender.isStatus())
-            errors.add(new Dto.Param("sender", "Sender card is blocked"));
-        if (!receiver.isStatus())
-            errors.add(new Dto.Param("receiver", "Receiver card is blocked"));
-        if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$"))
+
+        validateCard(sender, errors, "sender");
+        validateCard(receiver, errors, "receiver");
+
+        if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$") || amount.equals("0"))
             errors.add(new Dto.Param("amount", "Invalid amount format"));
         else {
             if (sender.getWallet() != null) {
@@ -96,6 +96,16 @@ public class ValidatorsUtil {
                     errors.add(new Dto.Param("amount", "Not enough money"));
             }
         }
+    }
+
+    public static void validateCard(CardDto card, Set<Dto.Param> errors, String errorName){
+        String number = card.getNumber();
+        if(number == null || number.isEmpty())
+            errors.add(new Dto.Param(errorName, "This field must be filled"));
+        else if (!number.matches("^\\d{16}$"))
+            errors.add(new Dto.Param(errorName, "Invalid number format"));
+        else if (!card.isStatus())
+            errors.add(new Dto.Param(errorName, "Sender card is blocked"));
     }
 
     public static boolean validateName(String s) {
@@ -117,7 +127,7 @@ public class ValidatorsUtil {
     }
 
     public static void validateAmount(String amount) throws InvalidAmountException {
-        if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$"))
+        if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$") || amount.equals("0"))
             throw new InvalidAmountException("Invalid amount format");
     }
 }

@@ -82,11 +82,6 @@ public class ChangeProfileCommand implements MyCommand {
         String middleName = req.getParameter("middle_name");
         String phoneNumber = req.getParameter("phone_number");
         String password = req.getParameter("password");
-        System.out.println(name);
-        System.out.println(surname);
-        System.out.println(middleName);
-        System.out.println(phoneNumber);
-        System.out.println(password);
         return ClientDto.builder()
                 .name(name)
                 .surname(surname)
