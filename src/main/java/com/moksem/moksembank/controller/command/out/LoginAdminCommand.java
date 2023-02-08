@@ -32,7 +32,7 @@ public class LoginAdminCommand implements MyCommand {
             Admin admin = adminService.find(tempAdmin);
             Role role = Role.ADMIN;
             toSession(admin, role, session);
-            response = Path.COMMAND_USERS;
+            response = Path.COMMAND_ADMIN_MAIN;
 
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;

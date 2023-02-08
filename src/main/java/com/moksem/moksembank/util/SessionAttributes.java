@@ -30,6 +30,12 @@ public class SessionAttributes {
 //        }
 //        return response;
 //    }
+    public static void checkParameters(HttpServletRequest req, HttpSession session){
+        if (req.getParameter("sort") != null) {
+            SessionAttributes.clearSession(session);
+            SessionAttributes.toSession(req, session);
+        }
+    }
 
     public static void toSession(HttpServletRequest req, HttpSession session){
         Enumeration<String> parameters = req.getParameterNames();

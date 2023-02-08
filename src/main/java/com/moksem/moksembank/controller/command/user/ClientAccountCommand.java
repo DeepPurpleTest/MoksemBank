@@ -7,12 +7,10 @@ import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.util.Pagination;
-import com.moksem.moksembank.util.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Objects;
 
 public class ClientAccountCommand implements MyCommand {
@@ -21,31 +19,17 @@ public class ClientAccountCommand implements MyCommand {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        String response = Path.COMMAND_ACCOUNT;
+        String response = Path.PAGE_USER;
 
-
-        if (req.getParameter("sort") != null) {
-            SessionAttributes.clearSession(session);
-            SessionAttributes.toSession(req, session);
-            try {
-                resp.sendRedirect(response);
-                response = Path.COMMAND_REDIRECT;
-            } catch (IOException e) {
-                e.printStackTrace();
-                response = Path.PAGE_ERROR;
-            }
-        } else {
 //            SessionAttributesUtil.getSessionAttributes(session);
-            User user = (User) session.getAttribute("user");
-            String sort = (String) Objects.requireNonNullElse(session.getAttribute("sort"), "natural");
-            String page = (String) Objects.requireNonNullElse(session.getAttribute("page"), "");
+        User user = (User) session.getAttribute("user");
+        String sort = (String) Objects.requireNonNullElse(session.getAttribute("sort"), "natural");
+        String page = (String) Objects.requireNonNullElse(session.getAttribute("page"), "");
 //            System.out.println("FROM SESSION " + page);
-            Pagination.paginate(req, cardService.findCount(user.getId()));
-            req.setAttribute("sort", sort);
-            req.setAttribute("cards", CardDtoBuilder.getCardsDto(cardService.findByBalance(user.getId(), page, sort)));
+        Pagination.paginate(req, cardService.findCount(user.getId()));
+        req.setAttribute("sort", sort);
+        req.setAttribute("cards", CardDtoBuilder.getCardsDto(cardService.findByBalance(user.getId(), page, sort)));
 //            System.out.println("BEFORE PAGINATE " + page);
-            response = Path.PAGE_USER;
-        }
 
         return response;
     }

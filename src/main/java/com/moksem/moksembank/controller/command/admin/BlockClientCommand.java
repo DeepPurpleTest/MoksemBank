@@ -21,7 +21,7 @@ public class BlockClientCommand implements MyCommand {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         String id = (String) session.getAttribute("id");
-        String response = Path.COMMAND_CLIENT;
+        String response = Path.COMMAND_CLIENT_DATA;
 
         try {
             User user = userService.findById(id);

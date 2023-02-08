@@ -12,14 +12,12 @@ import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.PaymentService;
 import com.moksem.moksembank.util.Pagination;
-import com.moksem.moksembank.util.SessionAttributes;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,50 +29,36 @@ public class PaymentsCommand implements MyCommand {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        String response = Path.COMMAND_PAYMENTS;
+        String response = Path.PAGE_PAYMENTS;
 
-        if (req.getParameter("sort") != null) {
-            SessionAttributes.clearSession(session);
-            SessionAttributes.toSession(req, session);
-            try {
-                resp.sendRedirect(response);
-                response = Path.COMMAND_REDIRECT;
-            } catch (IOException e) {
-                e.printStackTrace();
-                response = Path.PAGE_ERROR;
+        User user = (User) session.getAttribute("user");
+        String sort = (String) Objects.requireNonNullElse(session.getAttribute("sort"), "natural");
+        String page = (String) Objects.requireNonNullElse(session.getAttribute("page"), "");
+        String card = (String) Objects.requireNonNullElse(session.getAttribute("card"), "");
+        Card sortCard = Card.builder().build();
+        List<Payment> payments = new ArrayList<>();
+        int maxPages = 0;
+
+        try {
+            if (!card.isEmpty()) {
+                sortCard = cardService.findById(card, user);
+                payments.addAll(paymentService.findByUserIdAndCardId(sortCard, page, sort));
+                maxPages = paymentService.findCountByCard(card);
+            } else {
+                payments.addAll(paymentService.findByUser(user, page, sort));
+                maxPages = paymentService.findCountByUser(user);
             }
-        } else {
-            User user = (User) session.getAttribute("user");
-            String sort = (String) Objects.requireNonNullElse(session.getAttribute("sort"), "natural");
-            String page = (String) Objects.requireNonNullElse(session.getAttribute("page"), "");
-            String card = (String) Objects.requireNonNullElse(session.getAttribute("card"), "");
-            Card sortCard = Card.builder().build();
-            List<Payment> payments = new ArrayList<>();
-            int maxPages = 0;
 
-            try {
-                if (!card.isEmpty()) {
-                    sortCard = cardService.findById(card, user);
-                    payments.addAll(paymentService.findByUserIdAndCardId(sortCard, page, sort));
-                    maxPages = paymentService.findCountByCard(card);
-                } else {
-                    payments.addAll(paymentService.findByUser(user, page, sort));
-                    maxPages = paymentService.findCountByUser(user);
-                }
-
-                response = Path.PAGE_PAYMENTS;
-            } catch (InvalidCardException | UserNotFoundException e) {
-                e.printStackTrace();
-                response = Path.PAGE_ERROR;
-            }
-            req.setAttribute("payments", PaymentDtoBuilder.getPaymentsDto(payments));
-            req.setAttribute("cards", CardDtoBuilder.getCardsDto(cardService.findAllByUserId(user.getId())));
-            req.setAttribute("card", CardDtoBuilder.getCardDto(sortCard));
-            req.setAttribute("user", UserDtoBuilder.getUserDto(user));
-            req.setAttribute("sort", sort);
-
-            Pagination.paginate(req, maxPages);
+        } catch (InvalidCardException | UserNotFoundException e) {
+            e.printStackTrace();
+            response = Path.PAGE_ERROR;
         }
+        req.setAttribute("payments", PaymentDtoBuilder.getPaymentsDto(payments));
+        req.setAttribute("cards", CardDtoBuilder.getCardsDto(cardService.findAllByUserId(user.getId())));
+        req.setAttribute("card", CardDtoBuilder.getCardDto(sortCard));
+        req.setAttribute("user", UserDtoBuilder.getUserDto(user));
+        req.setAttribute("sort", sort);
+        Pagination.paginate(req, maxPages);
 
         return response;
     }

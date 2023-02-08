@@ -24,7 +24,7 @@ public class UnlockClientCardCommand implements MyCommand {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        String response = Path.COMMAND_CLIENT;
+        String response = Path.COMMAND_CLIENT_DATA;
 
         try {
             Card card = cardService.findByNumber(req.getParameter("card"));

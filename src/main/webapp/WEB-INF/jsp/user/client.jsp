@@ -31,7 +31,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page"
-                       href="${pageContext.request.contextPath}/controller?action=users&sort=natural"><fmt:message
+                       href="${pageContext.request.contextPath}/controller?action=admin_main&sort=natural"><fmt:message
                             key="client.main.home"/></a>
                 </li>
             </ul>
@@ -96,7 +96,7 @@
 
     <div>
         <form class="d-flex align-items-end my-3" method="post"
-              action="${pageContext.request.contextPath}/controller?action=client&id=${client.getId()}">
+              action="${pageContext.request.contextPath}/controller?action=client_data&id=${client.getId()}">
             <div>
                 <label class="form-label" for="sort"><fmt:message key="label.sort"/></label>
                 <select class="form-select" name="sort" id="sort">
@@ -169,7 +169,7 @@
             <c:if test="${page.equals(pages.get(0))}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client&card=${card}&page=${pages.get(0) - 1}&sort=${sort}&id=${client.getId()}">
+                       href="${pageContext.request.contextPath}/controller?action=client_data&card=${card}&page=${pages.get(0) - 1}&sort=${sort}&id=${client.getId()}">
                         <input class="btn btn-danger" type="submit" value="${pages.get(0)}">
                     </a>
                 </div>
@@ -177,7 +177,7 @@
             <c:if test="${!page.equals(pages.get(0))}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client&card=${card}&page=${pages.get(0) - 1}&sort=${sort}&id=${client.getId()}">
+                       href="${pageContext.request.contextPath}/controller?action=client_data&card=${card}&page=${pages.get(0) - 1}&sort=${sort}&id=${client.getId()}">
                         <input class="btn btn-outline-danger" type="submit" value="${pages.get(0)}">
                     </a>
                 </div>
@@ -187,7 +187,7 @@
             <c:if test="${number.equals(page)}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client&card=${card}&page=${number - 1}&sort=${sort}&id=${client.getId()}">
+                       href="${pageContext.request.contextPath}/controller?action=client_data&card=${card}&page=${number - 1}&sort=${sort}&id=${client.getId()}">
                         <input class="btn btn-danger" type="submit" value="${number}">
                     </a>
                 </div>
@@ -195,7 +195,7 @@
             <c:if test="${!number.equals(page)}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client&card=${card}&page=${number - 1}&sort=${sort}&id=${client.getId()}">
+                       href="${pageContext.request.contextPath}/controller?action=client_data&card=${card}&page=${number - 1}&sort=${sort}&id=${client.getId()}">
                         <input class="btn btn-outline-danger" type="submit" value="${number}">
                     </a>
                 </div>
@@ -206,7 +206,7 @@
             <c:if test="${page.equals(pages.size())}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client&card=${card}&page=${pages.size()-1}&sort=${sort}&id=${client.getId()}">
+                       href="${pageContext.request.contextPath}/controller?action=client_data&card=${card}&page=${pages.size()-1}&sort=${sort}&id=${client.getId()}">
                         <input class="btn btn-danger" type="submit" value="${pages.size()}">
                     </a>
                 </div>
@@ -214,7 +214,7 @@
             <c:if test="${!page.equals(pages.size())}">
                 <div class="px-1">
                     <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client&card=${card}&page=${pages.size()-1}&sort=${sort}&id=${client.getId()}">
+                       href="${pageContext.request.contextPath}/controller?action=client_data&card=${card}&page=${pages.size()-1}&sort=${sort}&id=${client.getId()}">
                         <input class="btn btn-outline-danger" type="submit" value="${pages.size()}">
                     </a>
                 </div>

@@ -1,5 +1,9 @@
 package com.moksem.moksembank.controller;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Path {
     //pages
     public static final String PAGE_LOGIN = "/WEB-INF/jsp/login.jsp";
@@ -15,11 +19,12 @@ public final class Path {
     public static final String PAGE_PROFILE = "WEB-INF/jsp/user/profile.jsp";
 
     //commands
+    public static final String COMMAND_CLIENT_DATA = "/controller?action=client_data";
+    public static final String COMMAND_ADMIN_MAIN = "/controller?action=admin_main";
+    public static final String COMMAND_MAIN = "/controller?action=main";
     public static final String COMMAND_ACCOUNT = "/controller?action=account";
     public static final String COMMAND_PAYMENTS = "/controller?action=payments";
     public static final String COMMAND_USERS = "/controller?action=users";
-    public static final String COMMAND_CLIENT_PROFILE = "/controller?action=client_profile";
-    public static final String COMMAND_CARD_REFILL = "/controller?action=get_refill";
     public static final String COMMAND_TRANSFER = "/controller?action=transfer";
     public static final String COMMAND_CLIENT = "/controller?action=client";
     public static final String COMMAND_PROFILE = "/controller?action=profile";

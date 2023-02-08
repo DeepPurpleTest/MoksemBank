@@ -32,7 +32,7 @@ public class LoginCommand implements MyCommand {
             User user = userService.findByNumberAndPassword(phoneNumber, pass);
             Role role = Role.USER;
             toSession(user, role, session);
-            response = Path.COMMAND_ACCOUNT;
+            response = Path.COMMAND_MAIN;
 
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;

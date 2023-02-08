@@ -25,7 +25,7 @@ public class BlockClientCardCommand implements MyCommand {
             Role role = (Role) session.getAttribute("role");
             Card card = service.findByNumber(req.getParameter("card"));
             if (role.toString().equals("admin")) {
-                response = Path.COMMAND_CLIENT;
+                response = Path.COMMAND_CLIENT_DATA;
             }
 
             if (card != null) {

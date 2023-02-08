@@ -88,7 +88,10 @@ public class UserService {
 
     public User findByCard(String cardNumber) throws InvalidCardException {
         Validator.validateCardNumber(cardNumber);
-        return userRepo.getUserByCard(cardNumber);
+        User user = userRepo.getUserByCard(cardNumber);
+        if(user == null)
+            throw new InvalidCardException();
+        return user;
     }
 
     public int findUsersCount() {

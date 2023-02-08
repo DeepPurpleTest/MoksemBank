@@ -20,6 +20,8 @@ public class CommandFactory {
 
     static {
         //Client
+        commands.put("client_payments", new ClientPaymentsCommand());
+        commands.put("main", new ClientMainCommand());
         commands.put("account", new ClientAccountCommand());
         commands.put("payments", new PaymentsCommand());
         commands.put("get_refill", new CardRefillCommand());
@@ -31,6 +33,8 @@ public class CommandFactory {
         commands.put("createPDF", new CreatePDFCommand());
 
         //Admin
+        commands.put("client_data", new ClientDataCommand());
+        commands.put("admin_main", new AdminMainCommand());
         commands.put("users", new UsersCommand());
         commands.put("client", new ClientCommand());
         commands.put("unlock", new UnlockClientCardCommand());

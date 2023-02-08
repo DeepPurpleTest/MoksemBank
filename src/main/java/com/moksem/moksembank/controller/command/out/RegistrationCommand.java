@@ -45,7 +45,7 @@ public class RegistrationCommand implements MyCommand {
                 session.setAttribute("user", user);
                 session.setAttribute("role", Role.USER);
 
-                response = Path.COMMAND_ACCOUNT;
+                response = Path.COMMAND_MAIN;
                 resp.sendRedirect(response);
                 response = Path.COMMAND_REDIRECT;
             }
