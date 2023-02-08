@@ -5,8 +5,10 @@ import lombok.NoArgsConstructor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Pagination {
     public static final int RECORDS_PER_PAGE = 5;
@@ -18,6 +20,9 @@ public class Pagination {
         int pageValue = getPage(page);
         List<Integer> maxPages = getPages(maxPage);
         List<Integer> currentPages;
+        // 10
+        // 1 2 3 4 5 6 7 8 9 10
+        // 1 2 3 4 10
 
 //        System.out.println("PAGEVALUE = " + pageValue);
         if (maxPages.size() < PAGES + 2)
@@ -27,9 +32,13 @@ public class Pagination {
 //        System.out.println(start);
 //        System.out.println(end);
 //        System.out.println(currentPages);
-        System.out.println("PAGINATE CURRENT PAGE IS: " + pageValue);
+        List<Integer> pages;
+        if (maxPages.size() > 1)
+            pages = new ArrayList<>(List.of(maxPages.get(0), maxPages.get(maxPages.size() - 1)));
+        else
+            pages = maxPages;
         req.setAttribute("currentPages", currentPages);
-        req.setAttribute("pages", maxPages);
+        req.setAttribute("pages", pages);
         req.setAttribute("page", pageValue + 1);
     }
 

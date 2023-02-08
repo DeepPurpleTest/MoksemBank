@@ -9,6 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -242,63 +243,67 @@
 </div>
 
 <div class="text-center user-select-none d-flex justify-content-center">
-    <c:if test="${pages.size() > 1}">
-        <c:if test="${pages.size() > currentPages.size()}">
-            <c:if test="${page.equals(pages.get(0))}">
-                <div class="px-1">
-                    <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${pages.get(0) - 1}&sort=${sort}">
-                        <input class="btn btn-danger" type="submit" value="${pages.get(0)}">
-                    </a>
-                </div>
-            </c:if>
-            <c:if test="${!page.equals(pages.get(0))}">
-                <div class="px-1">
-                    <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${pages.get(0) - 1}&sort=${sort}">
-                        <input class="btn btn-outline-danger" type="submit" value="${pages.get(0)}">
-                    </a>
-                </div>
-            </c:if>
-        </c:if>
-        <c:forEach var="number" items="${currentPages}">
-            <c:if test="${number.equals(page)}">
-                <div class="px-1">
-                    <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${number - 1}&sort=${sort}">
-                        <input class="btn btn-danger" type="submit" value="${number}">
-                    </a>
-                </div>
-            </c:if>
-            <c:if test="${!number.equals(page)}">
-                <div class="px-1">
-                    <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${number - 1}&sort=${sort}">
-                        <input class="btn btn-outline-danger" type="submit" value="${number}">
-                    </a>
-                </div>
-            </c:if>
-        </c:forEach>
-        <c:if test="${pages.size() > currentPages.size()}">
+    <div class="text-center user-select-none d-flex justify-content-center">
+        <tags:pagination page="${page}" pages="${pages}" currentPages="${currentPages}"
+                         command="${pageContext.request.contextPath}/controller?action=client_payments&sort=${sort}&card=${card.getId()}"/>
+    </div>
+<%--    <c:if test="${pages.size() > 1}">--%>
+<%--        <c:if test="${pages.size() > currentPages.size()}">--%>
+<%--            <c:if test="${page.equals(pages.get(0))}">--%>
+<%--                <div class="px-1">--%>
+<%--                    <a class="text-white"--%>
+<%--                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${pages.get(0) - 1}&sort=${sort}">--%>
+<%--                        <input class="btn btn-danger" type="submit" value="${pages.get(0)}">--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${!page.equals(pages.get(0))}">--%>
+<%--                <div class="px-1">--%>
+<%--                    <a class="text-white"--%>
+<%--                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${pages.get(0) - 1}&sort=${sort}">--%>
+<%--                        <input class="btn btn-outline-danger" type="submit" value="${pages.get(0)}">--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </c:if>--%>
+<%--        </c:if>--%>
+<%--        <c:forEach var="number" items="${currentPages}">--%>
+<%--            <c:if test="${number.equals(page)}">--%>
+<%--                <div class="px-1">--%>
+<%--                    <a class="text-white"--%>
+<%--                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${number - 1}&sort=${sort}">--%>
+<%--                        <input class="btn btn-danger" type="submit" value="${number}">--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${!number.equals(page)}">--%>
+<%--                <div class="px-1">--%>
+<%--                    <a class="text-white"--%>
+<%--                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${number - 1}&sort=${sort}">--%>
+<%--                        <input class="btn btn-outline-danger" type="submit" value="${number}">--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </c:if>--%>
+<%--        </c:forEach>--%>
+<%--        <c:if test="${pages.size() > currentPages.size()}">--%>
 
-            <c:if test="${page.equals(pages.size())}">
-                <div class="px-1">
-                    <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${pages.size()-1}&sort=${sort}">
-                        <input class="btn btn-danger" type="submit" value="${pages.size()}">
-                    </a>
-                </div>
-            </c:if>
-            <c:if test="${!page.equals(pages.size())}">
-                <div class="px-1">
-                    <a class="text-white"
-                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${pages.size()-1}&sort=${sort}">
-                        <input class="btn btn-outline-danger" type="submit" value="${pages.size()}">
-                    </a>
-                </div>
-            </c:if>
-        </c:if>
-    </c:if>
+<%--            <c:if test="${page.equals(pages.size())}">--%>
+<%--                <div class="px-1">--%>
+<%--                    <a class="text-white"--%>
+<%--                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${pages.size()-1}&sort=${sort}">--%>
+<%--                        <input class="btn btn-danger" type="submit" value="${pages.size()}">--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${!page.equals(pages.size())}">--%>
+<%--                <div class="px-1">--%>
+<%--                    <a class="text-white"--%>
+<%--                       href="${pageContext.request.contextPath}/controller?action=client_payments&card=${card.getId()}&page=${pages.size()-1}&sort=${sort}">--%>
+<%--                        <input class="btn btn-outline-danger" type="submit" value="${pages.size()}">--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </c:if>--%>
+<%--        </c:if>--%>
+<%--    </c:if>--%>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
