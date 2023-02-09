@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 
-import static com.moksem.moksembank.util.PasswordHashUtil.encode;
+import static com.moksem.moksembank.util.PasswordHash.encode;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -43,7 +43,7 @@ class UserServiceTest {
     }
 
     @Test
-    void createShouldReturnId() throws UserCreateException, InvalidPasswordException, InvalidStringFormat {
+    void createShouldReturnId() throws UserCreateException {
         User user = User.builder()
                 .password("123")
                 .build();
@@ -55,9 +55,13 @@ class UserServiceTest {
     @Test
     void updateShouldDoesNotThrowException() {
         User user = User.builder()
+                .phoneNumber("+380960150636")
                 .password("123")
                 .build();
+        user.setId(1);
+        when(userRepo.getUserByPhoneAndId(user)).thenReturn(null);
         doNothing().when(userRepo).updateUser(user);
+
         assertDoesNotThrow(() -> userService.update(user));
     }
 

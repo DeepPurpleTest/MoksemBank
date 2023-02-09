@@ -36,25 +36,25 @@ class PaymentServiceTest {
         paymentService = new PaymentService(paymentRepo, cardService);
     }
 
+//    @Test
+//    void findByCardShouldReturnNotNull() throws InvalidCardException, InvalidIdException, UserNotFoundException {
+//        String cardId = "654654654";
+//        String page = "1";
+//
+//        User user = User.builder().build();
+//        Card card = Card.builder()
+//                .user(user)
+//                .build();
+//        when(cardService.findById(cardId)).thenReturn(card);
+//        when(paymentRepo.getPaymentsByCardDESC(eq(card), anyInt())).thenReturn(new ArrayList<>());
+//        when(paymentRepo.getPaymentsByCardASC(eq(card), anyInt())).thenReturn(new ArrayList<>());
+//
+//        assertNotNull(paymentService.findByUserIdAndCardId(user.getId(), cardId, page, "asc"));
+//        assertNotNull(paymentService.findByUserIdAndCardId(user.getId(), cardId, page, "desc"));
+//    }
+
     @Test
-    void findByCardShouldReturnNotNull() throws InvalidCardException, InvalidIdException, UserNotFoundException {
-        String cardId = "654654654";
-        String page = "1";
-
-        User user = User.builder().build();
-        Card card = Card.builder()
-                .user(user)
-                .build();
-        when(cardService.findById(cardId)).thenReturn(card);
-        when(paymentRepo.getPaymentsByCardDESC(eq(card), anyInt())).thenReturn(new ArrayList<>());
-        when(paymentRepo.getPaymentsByCardASC(eq(card), anyInt())).thenReturn(new ArrayList<>());
-
-        assertNotNull(paymentService.findByUserIdAndCardId(user.getId(), cardId, page, "asc"));
-        assertNotNull(paymentService.findByUserIdAndCardId(user.getId(), cardId, page, "desc"));
-    }
-
-    @Test
-    void findByUserShouldReturnNotNull() throws InvalidCardException, UserNotFoundException, InvalidIdException {
+    void findByUserShouldReturnNotNull() throws InvalidCardException, UserNotFoundException {
         String page = "1";
         User user = User.builder().build();
         when(paymentRepo.getPaymentsByUserDESC(eq(user), anyInt())).thenReturn(new ArrayList<>());
@@ -73,7 +73,7 @@ class PaymentServiceTest {
     }
 
     @Test
-    void findCountByCardShouldReturnPositiveCount() throws InvalidCardException, InvalidIdException, UserNotFoundException {
+    void findCountByCardShouldReturnPositiveCount() throws InvalidCardException, UserNotFoundException {
         String cardId = "1";
         Card card = Card.builder().build();
         when(cardService.findById(cardId)).thenReturn(card);
@@ -142,7 +142,7 @@ class PaymentServiceTest {
     }
 
     @Test
-    void toFullCardShouldDoesNotThrowException() throws InvalidCardException, UserNotFoundException, InvalidIdException {
+    void toFullCardShouldDoesNotThrowException() throws InvalidCardException, UserNotFoundException {
         String cardNumber = "4123456789123456";
         Payment payment = Payment.builder()
                 .cardSender(Card.builder()

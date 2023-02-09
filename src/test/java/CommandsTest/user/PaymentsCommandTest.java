@@ -5,10 +5,11 @@ import com.moksem.moksembank.controller.command.user.PaymentsCommand;
 import com.moksem.moksembank.model.dto.UserDto;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
+import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.PaymentService;
-import com.moksem.moksembank.util.SessionAttributesUtil;
+import com.moksem.moksembank.util.SessionAttributes;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.InvalidIdException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
@@ -54,37 +55,17 @@ class PaymentsCommandTest {
     }
 
     @Test
-    void executeShouldReturnRedirect() {
-        try (MockedStatic<SessionAttributesUtil> sessionAttributesUtilMockedStatic =
-                     mockStatic(SessionAttributesUtil.class)) {
-            sessionAttributesUtilMockedStatic.when(() -> SessionAttributesUtil.toSession(req, session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            sessionAttributesUtilMockedStatic.when(() -> SessionAttributesUtil.clearSession(session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            when(req.getParameter("sort")).thenReturn("natural");
-            assertEquals(Path.COMMAND_REDIRECT, paymentsCommand.execute(req, resp));
-        }
-    }
-
-    @Test
-    void executeShouldReturnErrorPageCausedByIOException() throws IOException {
-        try (MockedStatic<SessionAttributesUtil> sessionAttributesUtilMockedStatic =
-                     mockStatic(SessionAttributesUtil.class)) {
-            sessionAttributesUtilMockedStatic.when(() -> SessionAttributesUtil.toSession(req, session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            sessionAttributesUtilMockedStatic.when(() -> SessionAttributesUtil.clearSession(session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            when(req.getParameter("sort")).thenReturn("natural");
-            doThrow(IOException.class).when(resp).sendRedirect(anyString());
-            assertEquals(Path.PAGE_ERROR, paymentsCommand.execute(req, resp));
-        }
-    }
-
-    @Test
-    void PaymentsCommandShouldReturnPaymentsPageWithCardNotNull() throws InvalidCardException, InvalidIdException, UserNotFoundException {
-        User user = User.builder().build();
-        String cardNumber = "412345678912345";
+    void PaymentsCommandShouldReturnPaymentsPageWithCardNotNull() throws InvalidCardException, UserNotFoundException {
         String page = "1";
+        String cardId = "1";
+        User user = User.builder().build();
+        Card card = Card.builder()
+                .user(user)
+                .number("412345678912345")
+                .build();
+        card.setId(Long.parseLong(cardId));
+
+
         try (MockedStatic<CardDtoBuilder> cardDtoBuilderMockedStatic =
                      mockStatic(CardDtoBuilder.class);
              MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
@@ -95,12 +76,14 @@ class PaymentsCommandTest {
                     .thenReturn(UserDto.builder().build());
 
             when(req.getSession()).thenReturn(session);
-            when(req.getParameter("sort")).thenReturn(null);
             when(session.getAttribute("user")).thenReturn(user);
             when(session.getAttribute("sort")).thenReturn(null);
-            when(session.getAttribute("card")).thenReturn(cardNumber);
+            when(session.getAttribute("card")).thenReturn(cardId);
             when(session.getAttribute("page")).thenReturn(page);
-            when(paymentService.findByUserIdAndCardId(user.getId(), cardNumber, page, "natural")).thenReturn(new ArrayList<>());
+            when(paymentService.findByUserIdAndCardId(card, page, "natural"))
+                    .thenReturn(new ArrayList<>());
+            when(cardService.findById(cardId, user)).thenReturn(card);
+            when(paymentService.findCountByCard(cardId)).thenReturn(1);
 
             doNothing().when(req).setAttribute(anyString(), any());
 
@@ -109,7 +92,7 @@ class PaymentsCommandTest {
     }
 
     @Test
-    void PaymentsCommandShouldReturnPaymentsPageWithCardIsNull() throws InvalidCardException, UserNotFoundException, InvalidIdException {
+    void PaymentsCommandShouldReturnPaymentsPageWithCardIsNull() throws InvalidCardException, UserNotFoundException {
         User user = User.builder().build();
         String page = "1";
         try (MockedStatic<CardDtoBuilder> cardDtoBuilderMockedStatic =
@@ -122,7 +105,6 @@ class PaymentsCommandTest {
                     .thenReturn(UserDto.builder().build());
 
             when(req.getSession()).thenReturn(session);
-            when(req.getParameter("sort")).thenReturn(null);
             when(session.getAttribute("user")).thenReturn(user);
             when(session.getAttribute("sort")).thenReturn(null);
             when(session.getAttribute("card")).thenReturn(null);
@@ -136,7 +118,7 @@ class PaymentsCommandTest {
     }
 
     @Test
-    void PaymentsCommandShouldReturnErrorPageCausedByInvalidCardException() throws InvalidCardException, UserNotFoundException, InvalidIdException {
+    void PaymentsCommandShouldReturnErrorPageCausedByInvalidCardException() throws InvalidCardException, UserNotFoundException {
         User user = User.builder().build();
         String page = "1";
         try (MockedStatic<CardDtoBuilder> cardDtoBuilderMockedStatic =
@@ -149,7 +131,6 @@ class PaymentsCommandTest {
                     .thenAnswer((Answer<Void>) invocation -> null);
 
             when(req.getSession()).thenReturn(session);
-            when(req.getParameter("sort")).thenReturn(null);
             when(session.getAttribute("user")).thenReturn(user);
             when(session.getAttribute("sort")).thenReturn(null);
             when(session.getAttribute("card")).thenReturn(null);

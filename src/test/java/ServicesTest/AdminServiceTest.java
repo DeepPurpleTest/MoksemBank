@@ -3,7 +3,7 @@ package ServicesTest;
 import com.moksem.moksembank.model.entity.Admin;
 import com.moksem.moksembank.model.repo.AdminRepo;
 import com.moksem.moksembank.model.service.AdminService;
-import com.moksem.moksembank.util.PasswordHashUtil;
+import com.moksem.moksembank.util.PasswordHash;
 import com.moksem.moksembank.util.exceptions.InvalidLoginOrPasswordException;
 import com.moksem.moksembank.util.exceptions.LoginAlreadyTakenException;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +31,7 @@ class AdminServiceTest {
     @Test
     void getAdminShouldReturnNotNull() throws InvalidLoginOrPasswordException {
         Admin adminFromDB = Admin.builder()
-                .password(PasswordHashUtil.encode("qqweqwe"))
+                .password(PasswordHash.encode("qqweqwe"))
                 .build();
         Admin adminFromForm = Admin.builder()
                 .login(anyString())
@@ -51,7 +51,7 @@ class AdminServiceTest {
     @Test
     void findSameLoginShouldThrowLoginAlreadyTakenException(){
         Admin admin = Admin.builder().build();
-        when(adminRepo.getSameAdmin(admin)).thenReturn(admin);
+        when(adminRepo.getAdmin(admin.getLogin())).thenReturn(admin);
         assertThrows(LoginAlreadyTakenException.class, ()->adminService.findSameLogin(admin));
     }
 

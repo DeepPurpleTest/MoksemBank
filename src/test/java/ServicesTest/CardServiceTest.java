@@ -94,10 +94,20 @@ class CardServiceTest {
     }
 
     @Test
-    void findByUserIdAndCardNumberShouldReturnNotNull() throws UserNotFoundException, InvalidIdException, UserCardNotFoundException {
+    void findByUserIdAndCardNumberShouldReturnNotNull() throws UserNotFoundException, UserCardNotFoundException {
         String cardNumber = "4123456789123456";
         long id = 1;
-        when(cardRepo.getCard(id, cardNumber)).thenReturn(Card.builder().build());
+
+        User user = User.builder().build();
+        user.setId(id);
+        Card card = Card.builder()
+                .number(cardNumber)
+                .user(user)
+                .build();
+
+        card.setId(id);
+        when(cardRepo.getCard(id, cardNumber)).thenReturn(card);
+        when(userService.findById(String.valueOf(id))).thenReturn(user);
 
         assertNotNull(cardService.findByUserIdAndCardNumber(id, cardNumber));
     }
@@ -108,16 +118,20 @@ class CardServiceTest {
         long id = 1;
         when(cardRepo.getCard(id, cardNumber)).thenReturn(null);
 
-        assertThrows(InvalidCardException.class, () -> cardService.findByUserIdAndCardNumber(id, cardNumber));
+        assertThrows(UserCardNotFoundException.class, () -> cardService.findByUserIdAndCardNumber(id, cardNumber));
     }
 
     @Test
-    void findByNumberShouldReturnNotNull() throws InvalidCardException, UserNotFoundException, InvalidIdException {
+    void findByNumberShouldReturnNotNull() throws InvalidCardException, UserNotFoundException {
         String cardNumber = "4123456789123456";
+        User user = User.builder()
+                .build();
+        user.setId(1);
         Card card = Card.builder()
-                .user(User.builder().build())
+                .user(user)
                 .build();
         when(cardRepo.getCard(cardNumber)).thenReturn(card);
+        when(userService.findById(String.valueOf(user.getId()))).thenReturn(user);
 
         assertNotNull(cardService.findByNumber(cardNumber));
     }
@@ -132,7 +146,13 @@ class CardServiceTest {
 
     @Test
     void findByIdShouldReturnNotNull() throws InvalidCardException, UserNotFoundException {
-        when(cardRepo.getCard(anyLong())).thenReturn(Card.builder().build());
+        User user = User.builder().build();
+        Card card = Card.builder()
+                .user(user)
+                .build();
+
+        when(cardRepo.getCard(anyLong())).thenReturn(card);
+        when(userService.findById(String.valueOf(user.getId()))).thenReturn(user);
 
         assertNotNull(cardService.findById("1"));
     }

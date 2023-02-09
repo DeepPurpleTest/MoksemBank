@@ -5,7 +5,7 @@ import com.moksem.moksembank.controller.command.user.ClientAccountCommand;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
-import com.moksem.moksembank.util.SessionAttributesUtil;
+import com.moksem.moksembank.util.SessionAttributes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ClientAccountCommandTest {
+class ClientAccountCommandTest {
     @InjectMocks
     ClientAccountCommand clientAccountCommand;
     @Mock
@@ -41,33 +41,6 @@ public class ClientAccountCommandTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    void executeShouldReturnRedirect(){
-        try (MockedStatic<SessionAttributesUtil> sessionAttributesUtilMockedStatic =
-                     mockStatic(SessionAttributesUtil.class)){
-            sessionAttributesUtilMockedStatic.when(()->SessionAttributesUtil.toSession(req, session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            sessionAttributesUtilMockedStatic.when(()->SessionAttributesUtil.clearSession(session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            when(req.getParameter("sort")).thenReturn("natural");
-            assertEquals(Path.COMMAND_REDIRECT, clientAccountCommand.execute(req, resp));
-        }
-    }
-
-    @Test
-    void executeShouldReturnErrorPageCausedByIOException() throws IOException {
-        try (MockedStatic<SessionAttributesUtil> sessionAttributesUtilMockedStatic =
-                     mockStatic(SessionAttributesUtil.class)){
-            sessionAttributesUtilMockedStatic.when(()->SessionAttributesUtil.toSession(req, session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            sessionAttributesUtilMockedStatic.when(()->SessionAttributesUtil.clearSession(session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            when(req.getParameter("sort")).thenReturn("natural");
-            doThrow(IOException.class).when(resp).sendRedirect(anyString());
-            assertEquals(Path.PAGE_ERROR, clientAccountCommand.execute(req, resp));
-        }
     }
 
     @Test
