@@ -4,11 +4,13 @@ import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.user.PaymentsCommand;
 import com.moksem.moksembank.model.dto.UserDto;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
+import com.moksem.moksembank.model.dtobuilder.PaymentDtoBuilder;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
 import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.PaymentService;
+import com.moksem.moksembank.util.Pagination;
 import com.moksem.moksembank.util.SessionAttributes;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.InvalidIdException;
@@ -69,11 +71,24 @@ class PaymentsCommandTest {
         try (MockedStatic<CardDtoBuilder> cardDtoBuilderMockedStatic =
                      mockStatic(CardDtoBuilder.class);
              MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
-                     mockStatic(UserDtoBuilder.class)) {
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<PaymentDtoBuilder> paymentDtoBuilderMockedStatic =
+                     mockStatic(PaymentDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+
             cardDtoBuilderMockedStatic.when(() -> CardDtoBuilder.getCardsDto(anyList()))
                     .thenAnswer((Answer<Void>) invocation -> null);
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
             userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUserDto(user))
-                    .thenReturn(UserDto.builder().build());
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            cardDtoBuilderMockedStatic.when(() -> CardDtoBuilder.getCardDto(Card.builder().build()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            paymentDtoBuilderMockedStatic.when(() -> PaymentDtoBuilder.getPaymentsDto(anyList()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
+                    .thenAnswer((Answer<Void>) invocation -> null);
 
             when(req.getSession()).thenReturn(session);
             when(session.getAttribute("user")).thenReturn(user);
@@ -98,11 +113,24 @@ class PaymentsCommandTest {
         try (MockedStatic<CardDtoBuilder> cardDtoBuilderMockedStatic =
                      mockStatic(CardDtoBuilder.class);
              MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
-                     mockStatic(UserDtoBuilder.class)) {
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<PaymentDtoBuilder> paymentDtoBuilderMockedStatic =
+                     mockStatic(PaymentDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+
             cardDtoBuilderMockedStatic.when(() -> CardDtoBuilder.getCardsDto(anyList()))
                     .thenAnswer((Answer<Void>) invocation -> null);
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
             userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUserDto(user))
-                    .thenReturn(UserDto.builder().build());
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            cardDtoBuilderMockedStatic.when(() -> CardDtoBuilder.getCardDto(Card.builder().build()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            paymentDtoBuilderMockedStatic.when(() -> PaymentDtoBuilder.getPaymentsDto(anyList()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
+                    .thenAnswer((Answer<Void>) invocation -> null);
 
             when(req.getSession()).thenReturn(session);
             when(session.getAttribute("user")).thenReturn(user);
@@ -124,10 +152,23 @@ class PaymentsCommandTest {
         try (MockedStatic<CardDtoBuilder> cardDtoBuilderMockedStatic =
                      mockStatic(CardDtoBuilder.class);
              MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
-                     mockStatic(UserDtoBuilder.class)) {
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<PaymentDtoBuilder> paymentDtoBuilderMockedStatic =
+                     mockStatic(PaymentDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+
             cardDtoBuilderMockedStatic.when(() -> CardDtoBuilder.getCardsDto(anyList()))
                     .thenAnswer((Answer<Void>) invocation -> null);
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
             userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUserDto(user))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            cardDtoBuilderMockedStatic.when(() -> CardDtoBuilder.getCardDto(Card.builder().build()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            paymentDtoBuilderMockedStatic.when(() -> PaymentDtoBuilder.getPaymentsDto(anyList()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
                     .thenAnswer((Answer<Void>) invocation -> null);
 
             when(req.getSession()).thenReturn(session);

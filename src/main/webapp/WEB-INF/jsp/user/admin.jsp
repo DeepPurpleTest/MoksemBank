@@ -91,7 +91,7 @@
         <div class="rounded-3 p-3 my-2 border border-3 border-primary border-opacity-50 d-flex justify-content-between align-items-center">
             <p class="m-0">
                 <a class="btn btn-primary"
-                   href="${pageContext.request.contextPath}/controller?action=client&id=${client.getId()}">${client.getName()} ${client.getSurname()}</a>
+                   href="${pageContext.request.contextPath}/controller?action=client_data&id=${client.getId()}">${client.getName()} ${client.getSurname()}</a>
             </p>
             <c:if test="${client.isRequest()}">
                 <div class="text-danger"><fmt:message key="admin.main.user.request"/></div>

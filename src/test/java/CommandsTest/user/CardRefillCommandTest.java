@@ -62,7 +62,7 @@ class CardRefillCommandTest {
         String cardId = "1";
 
         when(req.getParameter("card")).thenReturn(cardId);
-        when(cardService.findById(cardId)).thenThrow(InvalidIdException.class);
+        when(cardService.findById(cardId)).thenThrow(UserNotFoundException.class);
 
         assertEquals(Path.PAGE_ERROR, cardRefillCommand.execute(req, resp));
     }

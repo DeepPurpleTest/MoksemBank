@@ -16,12 +16,9 @@ import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.moksem.moksembank.util.SessionAttributes.clearSession;
-import static com.moksem.moksembank.util.SessionAttributes.toSession;
 import static java.util.Objects.requireNonNullElse;
 
 public class ClientCommand implements MyCommand {
@@ -31,48 +28,33 @@ public class ClientCommand implements MyCommand {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        String response = Path.COMMAND_CLIENT;
+        String response = Path.PAGE_CLIENT;
 
-        if (req.getParameter("sort") != null || req.getParameter("id") != null) {
-            clearSession(session);
-            toSession(req, session);
-//            System.out.println("AFTER TOSESSION() " + session.getAttributeNames());
-            try {
-                resp.sendRedirect(response);
-                response = Path.COMMAND_REDIRECT;
-            } catch (IOException e) {
-                e.printStackTrace();
-                response = Path.PAGE_ERROR;
-            }
-        } else {
 //            System.out.println("ELSE " + session.getAttributeNames());
-            String id = (String) requireNonNullElse(session.getAttribute("id"), "");
-            String page = (String) requireNonNullElse(session.getAttribute("page"), "");
-            String sort = (String) requireNonNullElse(session.getAttribute("sort"), "natural");
-            String number = (String) requireNonNullElse(session.getAttribute("number"), "");
+        String id = (String) requireNonNullElse(session.getAttribute("id"), "");
+        String page = (String) requireNonNullElse(session.getAttribute("page"), "");
+        String sort = (String) requireNonNullElse(session.getAttribute("sort"), "natural");
+        String number = (String) requireNonNullElse(session.getAttribute("number"), "");
 
-            User client = User.builder().build();
-            List<Card> cards = new ArrayList<>();
-            int pages;
-            try {
-                client = userService.findById(id);
-                cards.addAll(cardService.findByParameters(client.getId(), page, sort, number));
-                pages = cardService.findCount(client.getId(), sort);
-                req.setAttribute("client", UserDtoBuilder.getUserDto(client));
-                req.setAttribute("cards", CardDtoBuilder.getCardsDto(cards));
-                req.setAttribute("sort", sort);
+        User client = User.builder().build();
+        int pages;
+        try {
+            client = userService.findById(id);
+            List<Card> cards = new ArrayList<>
+                    (cardService.findByParameters(client.getId(), page, sort, number));
+            pages = cardService.findCount(client.getId(), sort);
+            req.setAttribute("client", UserDtoBuilder.getUserDto(client));
+            req.setAttribute("cards", CardDtoBuilder.getCardsDto(cards));
+            req.setAttribute("sort", sort);
 //                req.setAttribute("number", number);
-                Pagination.paginate(req, pages);
-
-                response = Path.PAGE_CLIENT;
-            } catch (UserNotFoundException e) {
-                req.setAttribute("errorMessage", e.getMessage());
-                response = Path.PAGE_ERROR;
-            } catch (InvalidCardException e) {
-                req.setAttribute("client", UserDtoBuilder.getUserDto(client));
-                req.setAttribute("errorMessage", e.getMessage());
-                response = Path.PAGE_CLIENT;
-            }
+            Pagination.paginate(req, pages);
+        } catch (UserNotFoundException e) {
+            req.setAttribute("errorMessage", e.getMessage());
+            response = Path.PAGE_ERROR;
+        } catch (InvalidCardException e) {
+            req.setAttribute("client", UserDtoBuilder.getUserDto(client));
+            req.setAttribute("errorMessage", e.getMessage());
+            response = Path.PAGE_CLIENT;
         }
 
         return response;

@@ -7,6 +7,7 @@ import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.UserService;
+import com.moksem.moksembank.util.Pagination;
 import com.moksem.moksembank.util.SessionAttributes;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
@@ -52,33 +53,6 @@ class ClientCommandTest {
     }
 
     @Test
-    void executeShouldReturnRedirect() {
-        try (MockedStatic<SessionAttributes> sessionAttributesUtilMockedStatic =
-                     mockStatic(SessionAttributes.class)) {
-            sessionAttributesUtilMockedStatic.when(() -> SessionAttributes.toSession(req, session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            sessionAttributesUtilMockedStatic.when(() -> SessionAttributes.clearSession(session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            when(req.getParameter("sort")).thenReturn("natural");
-            assertEquals(Path.COMMAND_REDIRECT, clientCommand.execute(req, resp));
-        }
-    }
-
-    @Test
-    void executeShouldReturnErrorPageCausedByIOException() throws IOException {
-        try (MockedStatic<SessionAttributes> sessionAttributesUtilMockedStatic =
-                     mockStatic(SessionAttributes.class)) {
-            sessionAttributesUtilMockedStatic.when(() -> SessionAttributes.toSession(req, session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            sessionAttributesUtilMockedStatic.when(() -> SessionAttributes.clearSession(session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            when(req.getParameter("sort")).thenReturn("natural");
-            doThrow(IOException.class).when(resp).sendRedirect(anyString());
-            assertEquals(Path.PAGE_ERROR, clientCommand.execute(req, resp));
-        }
-    }
-
-    @Test
     void executeShouldReturnClientPage() throws UserNotFoundException, InvalidCardException {
         String id = "1";
         User user = User.builder()
@@ -86,8 +60,14 @@ class ClientCommandTest {
         user.setId(1);
 
         try (MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
-                     mockStatic(UserDtoBuilder.class)) {
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+
             userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList())).thenReturn(new ArrayList<>());
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
+                    .thenAnswer((Answer<Void>) invocate -> null);
+
             when(session.getAttribute("id")).thenReturn(id);
             when(req.getSession()).thenReturn(session);
             when(userService.findById(id)).thenReturn(user);
@@ -123,6 +103,7 @@ class ClientCommandTest {
 
         try (MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
                      mockStatic(UserDtoBuilder.class)) {
+
             userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUserDto(user)).thenReturn(userDto);
             when(session.getAttribute("id")).thenReturn(id);
             when(session.getAttribute("sort")).thenReturn(sort);

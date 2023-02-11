@@ -5,6 +5,7 @@ import com.moksem.moksembank.controller.command.user.ClientAccountCommand;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
+import com.moksem.moksembank.util.Pagination;
 import com.moksem.moksembank.util.SessionAttributes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,11 +45,15 @@ class ClientAccountCommandTest {
     }
 
     @Test
-    void ClientAccountShouldReturnClientPage(){
+    void ClientAccountShouldReturnClientPage() {
         User user = User.builder().build();
         try (MockedStatic<CardDtoBuilder> cardDtoBuilderMockedStatic =
-                mockStatic(CardDtoBuilder.class)){
-            cardDtoBuilderMockedStatic.when(()->CardDtoBuilder.getCardsDto(anyList()))
+                     mockStatic(CardDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+            cardDtoBuilderMockedStatic.when(() -> CardDtoBuilder.getCardsDto(anyList()))
+                    .thenAnswer((Answer<Void>) invocate -> null);
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
                     .thenAnswer((Answer<Void>) invocate -> null);
 
             when(req.getSession()).thenReturn(session);
@@ -58,7 +63,7 @@ class ClientAccountCommandTest {
             when(cardService.findCount(user.getId())).thenReturn(1);
 
             doNothing().when(req).setAttribute(anyString(), any());
-            doNothing().when(req).setAttribute(anyString(), anyList());
+//            doNothing().when(req).setAttribute(anyString(), anyList());
 
             assertEquals(Path.PAGE_USER, clientAccountCommand.execute(req, resp));
         }

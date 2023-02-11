@@ -5,7 +5,8 @@ import com.moksem.moksembank.controller.command.admin.UsersCommand;
 import com.moksem.moksembank.model.dtobuilder.UserDtoBuilder;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
-import com.moksem.moksembank.util.SessionAttributesUtil;
+import com.moksem.moksembank.util.Pagination;
+import com.moksem.moksembank.util.SessionAttributes;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
@@ -69,40 +70,21 @@ class UsersCommandTest {
 //        assertEquals(usersCommand.execute(req, resp), "redirect");
 //    }
 
-    @Test
-    void executeShouldReturnRedirect(){
-        try (MockedStatic<SessionAttributesUtil> sessionAttributesUtilMockedStatic =
-                     mockStatic(SessionAttributesUtil.class)){
-            sessionAttributesUtilMockedStatic.when(()->SessionAttributesUtil.toSession(req, session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            sessionAttributesUtilMockedStatic.when(()->SessionAttributesUtil.clearSession(session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            when(req.getParameter("sort")).thenReturn("natural");
-            assertEquals(Path.COMMAND_REDIRECT, usersCommand.execute(req, resp));
-        }
-    }
 
     @Test
-    void executeShouldReturnErrorPageCausedByIOException() throws IOException {
-        try (MockedStatic<SessionAttributesUtil> sessionAttributesUtilMockedStatic =
-                     mockStatic(SessionAttributesUtil.class)){
-            sessionAttributesUtilMockedStatic.when(()->SessionAttributesUtil.toSession(req, session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            sessionAttributesUtilMockedStatic.when(()->SessionAttributesUtil.clearSession(session))
-                    .thenAnswer((Answer<Void>) invocation -> null);
-            when(req.getParameter("sort")).thenReturn("natural");
-            doThrow(IOException.class).when(resp).sendRedirect(anyString());
-            assertEquals(Path.PAGE_ERROR, usersCommand.execute(req, resp));
-        }
-    }
-
-    @Test
-    void executeWithSortPhoneShouldReturnPage() throws UserNotFoundException, InvalidPhoneNumberException {
+    void executeWithSortPhoneShouldReturnPage() throws UserNotFoundException {
         String number = "+380960150636";
 
         try (MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
-                     mockStatic(UserDtoBuilder.class)) {
-            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList())).thenReturn(new ArrayList<>());
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenReturn(new ArrayList<>());
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
+                    .thenAnswer((Answer<Void>) invocate -> null);
+
             when(session.getAttribute("sort")).thenReturn("phone");
             when(session.getAttribute("page")).thenReturn(null);
             when(session.getAttribute("number")).thenReturn(number);
@@ -117,17 +99,28 @@ class UsersCommandTest {
     }
 
     @Test
-    void executeShouldCatchException() throws UserNotFoundException, InvalidPhoneNumberException {
+    void executeShouldCatchException() throws UserNotFoundException {
         String number = "+380960150636";
 
-        when(session.getAttribute("sort")).thenReturn("phone");
-        when(session.getAttribute("page")).thenReturn(null);
-        when(session.getAttribute("number")).thenReturn(number);
-        when(req.getSession()).thenReturn(session);
-        when(userService.findByNumber(number)).thenThrow(UserNotFoundException.class);
-        doNothing().when(req).setAttribute(anyString(), any());
+        try (MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
 
-        assertEquals(Path.PAGE_ADMIN, usersCommand.execute(req, resp));
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenReturn(new ArrayList<>());
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
+                    .thenAnswer((Answer<Void>) invocate -> null);
+
+            when(session.getAttribute("sort")).thenReturn("phone");
+            when(session.getAttribute("page")).thenReturn(null);
+            when(session.getAttribute("number")).thenReturn(number);
+            when(req.getSession()).thenReturn(session);
+            when(userService.findByNumber(number)).thenThrow(UserNotFoundException.class);
+            doNothing().when(req).setAttribute(anyString(), any());
+
+            assertEquals(Path.PAGE_ADMIN, usersCommand.execute(req, resp));
+        }
     }
 
     @Test
@@ -135,8 +128,15 @@ class UsersCommandTest {
         String number = "4123456789123456";
 
         try (MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
-                     mockStatic(UserDtoBuilder.class)) {
-            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList())).thenReturn(new ArrayList<>());
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenReturn(new ArrayList<>());
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
+                    .thenAnswer((Answer<Void>) invocate -> null);
+
             when(session.getAttribute("sort")).thenReturn("card");
             when(session.getAttribute("page")).thenReturn(null);
             when(session.getAttribute("number")).thenReturn(number);
@@ -150,28 +150,49 @@ class UsersCommandTest {
 
     @Test
     void executeWithSortRequestShouldReturnPage() {
-        when(session.getAttribute("sort")).thenReturn("request");
-        when(session.getAttribute("page")).thenReturn(null);
-        when(session.getAttribute("number")).thenReturn(null);
-        when(req.getSession()).thenReturn(session);
-        when(userService.findByRequest(anyString())).thenReturn(new ArrayList<>());
-        when(userService.findUsersWithRequestCount()).thenReturn(1);
-        doNothing().when(req).setAttribute(anyString(), any());
+        try (MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
 
-        assertEquals(Path.PAGE_ADMIN, usersCommand.execute(req, resp));
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenReturn(new ArrayList<>());
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
+                    .thenAnswer((Answer<Void>) invocate -> null);
+
+            when(session.getAttribute("sort")).thenReturn("request");
+            when(session.getAttribute("page")).thenReturn(null);
+            when(session.getAttribute("number")).thenReturn(null);
+            when(req.getSession()).thenReturn(session);
+            when(userService.findByRequest(anyString())).thenReturn(new ArrayList<>());
+            when(userService.findUsersWithRequestCount()).thenReturn(1);
+            doNothing().when(req).setAttribute(anyString(), any());
+
+            assertEquals(Path.PAGE_ADMIN, usersCommand.execute(req, resp));
+        }
     }
 
     @Test
     void executeWithSortEmptyShouldReturnPage() {
-        when(session.getAttribute("sort")).thenReturn(null);
-        when(session.getAttribute("page")).thenReturn(null);
-        when(session.getAttribute("number")).thenReturn(null);
-        when(req.getSession()).thenReturn(session);
-        when(userService.findAll(anyString())).thenReturn(new ArrayList<>());
-        when(userService.findUsersCount()).thenReturn(1);
-        doNothing().when(req).setAttribute(anyString(), any());
+        try (MockedStatic<UserDtoBuilder> userDtoBuilderMockedStatic =
+                     mockStatic(UserDtoBuilder.class);
+             MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
 
-        assertEquals(Path.PAGE_ADMIN, usersCommand.execute(req, resp));
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenReturn(new ArrayList<>());
+            paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
+                    .thenAnswer((Answer<Void>) invocate -> null);
+            when(session.getAttribute("sort")).thenReturn(null);
+            when(session.getAttribute("page")).thenReturn(null);
+            when(session.getAttribute("number")).thenReturn(null);
+            when(req.getSession()).thenReturn(session);
+            when(userService.findAll(anyString())).thenReturn(new ArrayList<>());
+            when(userService.findUsersCount()).thenReturn(1);
+            doNothing().when(req).setAttribute(anyString(), any());
+
+            assertEquals(Path.PAGE_ADMIN, usersCommand.execute(req, resp));
+        }
     }
 
 
