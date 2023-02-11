@@ -6,6 +6,7 @@ import com.moksem.moksembank.controller.command.MyCommand;
 import com.moksem.moksembank.model.dto.CardDto;
 import com.moksem.moksembank.model.dto.TransferDto;
 import com.moksem.moksembank.model.dtobuilder.CardDtoBuilder;
+import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 
@@ -15,21 +16,20 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class TransferCommand implements MyCommand {
-    private final CardService cardService = AppContext.getInstance().getCardService();
+    CardService cardService = AppContext.getInstance().getCardService();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
-        List<CardDto> cards = CardDtoBuilder.getCardsDto(cardService.findAllByUserId(user.getId()));
+        List<Card> cards = cardService.findAllByUserId(user.getId());
+        List<CardDto> cardsDto = CardDtoBuilder.getCardsDto(cards);
         TransferDto dto = (TransferDto) req.getAttribute("dto");
 
         if (dto == null)
-            dto = TransferDto.builder()
-                    .sender(cards.get(0))
-                    .build();
+            dto = TransferDto.builder().build();
 
-        dto.setCards(cards);
+        dto.setCards(cardsDto);
         req.setAttribute("dto", dto);
         return Path.PAGE_TRANSFER;
     }

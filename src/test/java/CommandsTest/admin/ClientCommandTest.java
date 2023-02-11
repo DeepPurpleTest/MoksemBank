@@ -8,7 +8,6 @@ import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.Pagination;
-import com.moksem.moksembank.util.SessionAttributes;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +23,6 @@ import org.mockito.stubbing.Answer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,9 +62,10 @@ class ClientCommandTest {
              MockedStatic<Pagination> paginationMockedStatic =
                      mockStatic(Pagination.class)) {
 
-            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList())).thenReturn(new ArrayList<>());
+            userDtoBuilderMockedStatic.when(() -> UserDtoBuilder.getUsersDto(anyList()))
+                    .thenReturn(new ArrayList<>());
             paginationMockedStatic.when(() -> Pagination.paginate(req, 1))
-                    .thenAnswer((Answer<Void>) invocate -> null);
+                    .thenAnswer((Answer<Void>) invocation -> null);
 
             when(session.getAttribute("id")).thenReturn(id);
             when(req.getSession()).thenReturn(session);

@@ -96,11 +96,11 @@ class TransactionCommandTest {
         try (MockedStatic<Validator> validatorMockedStatic =
                      mockStatic(Validator.class);
              MockedStatic<CardDtoBuilder> cardDtoBuilderMockedStatic =
-                mockStatic(CardDtoBuilder.class)) {
+                     mockStatic(CardDtoBuilder.class)) {
 
             validatorMockedStatic.when(() -> Validator.validateTransaction(TransferDto.builder().build()))
                     .thenAnswer((Answer<Void>) invocation -> null);
-            cardDtoBuilderMockedStatic.when(()->CardDtoBuilder.getCardDto(Card.builder().build()))
+            cardDtoBuilderMockedStatic.when(() -> CardDtoBuilder.getCardDto(Card.builder().build()))
                     .thenReturn(CardDto.builder().build());
 
             when(req.getSession()).thenReturn(session);

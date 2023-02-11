@@ -6,7 +6,6 @@ import com.moksem.moksembank.controller.command.MyCommand;
 import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
-import com.moksem.moksembank.util.exceptions.InvalidCardException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,7 @@ import java.io.IOException;
 public class CreateCardCommand implements MyCommand {
     //todo сделать колонку с visa и матеркард, где можно создать их 2-х типов
     // вторая не запрещает пересылать деньги, если их недостаточно, баланс в минус
-    private final CardService cardService = AppContext.getInstance().getCardService();
+    CardService cardService = AppContext.getInstance().getCardService();
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
@@ -31,6 +30,7 @@ public class CreateCardCommand implements MyCommand {
             response = Path.COMMAND_REDIRECT;
         } catch (IOException e) {
             e.printStackTrace();
+            response = Path.PAGE_ERROR;
         }
 
         return response;

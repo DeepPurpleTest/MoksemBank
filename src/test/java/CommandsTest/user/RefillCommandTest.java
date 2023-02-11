@@ -8,7 +8,6 @@ import com.moksem.moksembank.model.entity.Card;
 import com.moksem.moksembank.model.entity.Payment;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.PaymentService;
-import com.moksem.moksembank.util.DecoratorSet;
 import com.moksem.moksembank.util.exceptions.InvalidAmountException;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.PaymentCreateException;
@@ -26,14 +25,12 @@ import org.mockito.stubbing.Answer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+//todo DecoratorSet fix percent?
 @ExtendWith(MockitoExtension.class)
 class RefillCommandTest {
     @InjectMocks

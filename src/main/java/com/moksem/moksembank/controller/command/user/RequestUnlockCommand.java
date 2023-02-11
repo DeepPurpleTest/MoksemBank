@@ -4,6 +4,7 @@ import com.moksem.moksembank.appcontext.AppContext;
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.MyCommand;
 import com.moksem.moksembank.model.entity.Card;
+import com.moksem.moksembank.model.entity.Request;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.RequestService;
@@ -16,8 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class RequestUnlockCommand implements MyCommand {
-    private final CardService cardService = AppContext.getInstance().getCardService();
-    private final RequestService requestService = AppContext.getInstance().getRequestService();
+    CardService cardService = AppContext.getInstance().getCardService();
+    RequestService requestService = AppContext.getInstance().getRequestService();
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
@@ -27,8 +28,11 @@ public class RequestUnlockCommand implements MyCommand {
 
         try {
             Card card = cardService.findByUserIdAndCardNumber(user.getId(), number);
-            if(card != null && !card.isStatus())
-                requestService.create(card);
+            if(!card.isStatus()) {
+                Request request = requestService.findByCard(card);
+                if(request == null)
+                    requestService.create(card);
+            }
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
         } catch (IOException | UserNotFoundException | UserCardNotFoundException e) {

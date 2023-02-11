@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class RegistrationCommand implements MyCommand {
-    private final UserService service = AppContext.getInstance().getUserService();
+    UserService service = AppContext.getInstance().getUserService();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
