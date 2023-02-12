@@ -3,12 +3,17 @@ package ServicesTest;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.repo.UserRepo;
 import com.moksem.moksembank.model.service.UserService;
+import com.moksem.moksembank.util.Pagination;
+import com.moksem.moksembank.util.PasswordHash;
 import com.moksem.moksembank.util.exceptions.*;
+import com.moksem.moksembank.util.validator.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 
@@ -16,8 +21,7 @@ import static com.moksem.moksembank.util.PasswordHash.encode;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -32,14 +36,27 @@ class UserServiceTest {
 
     @Test
     void findAllShouldReturnNotNull() {
-        when(userRepo.getClients(anyInt())).thenReturn(new ArrayList<>());
-        assertNotNull(userService.findAll(anyString()));
+        try (MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+            paginationMockedStatic.when(() -> Pagination.getPage(anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(userRepo.getClients(anyInt())).thenReturn(new ArrayList<>());
+
+            assertNotNull(userService.findAll(anyString()));
+        }
+
     }
 
     @Test
     void findByRequestShouldReturnNotNull() {
-        when(userRepo.getClientsByRequest(anyInt())).thenReturn(new ArrayList<>());
-        assertNotNull(userService.findByRequest(anyString()));
+        try (MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+            paginationMockedStatic.when(() -> Pagination.getPage(anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(userRepo.getClientsByRequest(anyInt())).thenReturn(new ArrayList<>());
+
+            assertNotNull(userService.findByRequest(anyString()));
+        }
     }
 
     @Test
@@ -48,8 +65,15 @@ class UserServiceTest {
                 .password("123")
                 .build();
         long id = 1;
-        when(userRepo.newUser(user)).thenReturn(id);
-        assertEquals(userService.create(user), id);
+
+        try (MockedStatic<PasswordHash> passwordHashMockedStatic =
+                     mockStatic(PasswordHash.class)) {
+            passwordHashMockedStatic.when(() -> PasswordHash.encode(anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(userRepo.newUser(user)).thenReturn(id);
+
+            assertEquals(userService.create(user), id);
+        }
     }
 
     @Test
@@ -59,10 +83,16 @@ class UserServiceTest {
                 .password("123")
                 .build();
         user.setId(1);
-        when(userRepo.getUserByPhoneAndId(user)).thenReturn(null);
-        doNothing().when(userRepo).updateUser(user);
 
-        assertDoesNotThrow(() -> userService.update(user));
+        try (MockedStatic<PasswordHash> passwordHashMockedStatic =
+                     mockStatic(PasswordHash.class)) {
+            passwordHashMockedStatic.when(() -> PasswordHash.encode(anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(userRepo.getUserByPhoneAndId(user)).thenReturn(null);
+            doNothing().when(userRepo).updateUser(user);
+
+            assertDoesNotThrow(() -> userService.update(user));
+        }
     }
 
     @Test
@@ -113,21 +143,33 @@ class UserServiceTest {
         String number = "+380960150636";
         String password = "456123mr";
         User user = User.builder()
-                .password(encode(password))
+                .password(password)
                 .status(true)
                 .build();
-        when(userRepo.getUser(number)).thenReturn(user);
 
-        assertNotNull(userService.findByNumberAndPassword(number, password));
+        try (MockedStatic<PasswordHash> passwordHashMockedStatic =
+                     mockStatic(PasswordHash.class)) {
+            passwordHashMockedStatic.when(() -> PasswordHash.verify(anyString(), anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(userRepo.getUser(number)).thenReturn(user);
+
+            assertNotNull(userService.findByNumberAndPassword(number, password));
+        }
     }
 
     @Test
     void findByNumberAndPasswordShouldThrowInvalidLoginOrPasswordException() {
         String number = "+380960150636";
         String password = "456123mr";
-        when(userRepo.getUser(number)).thenReturn(null);
 
-        assertThrows(InvalidLoginOrPasswordException.class, () -> userService.findByNumberAndPassword(number, password));
+        try (MockedStatic<PasswordHash> passwordHashMockedStatic =
+                     mockStatic(PasswordHash.class)) {
+            passwordHashMockedStatic.when(() -> PasswordHash.verify(anyString(), anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(userRepo.getUser(number)).thenReturn(null);
+
+            assertThrows(InvalidLoginOrPasswordException.class, () -> userService.findByNumberAndPassword(number, password));
+        }
     }
 
     @Test
@@ -135,19 +177,31 @@ class UserServiceTest {
         String number = "+380960150636";
         String password = "456123mr";
         User user = User.builder()
-                .password(encode(password))
+                .password(password)
                 .build();
-        when(userRepo.getUser(number)).thenReturn(user);
 
-        assertThrows(BlockedUserException.class, () -> userService.findByNumberAndPassword(number, password));
+        try (MockedStatic<PasswordHash> passwordHashMockedStatic =
+                     mockStatic(PasswordHash.class)) {
+            passwordHashMockedStatic.when(() -> PasswordHash.verify(anyString(), anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(userRepo.getUser(number)).thenReturn(user);
+
+            assertThrows(BlockedUserException.class, () -> userService.findByNumberAndPassword(number, password));
+        }
     }
 
     @Test
     void findByCardShouldReturnNotNull() throws InvalidCardException {
         String number = "4123456789123456";
-        when(userRepo.getUserByCard(number)).thenReturn(User.builder().build());
 
-        assertNotNull(userService.findByCard(number));
+        try (MockedStatic<Validator> validatorMockedStatic =
+                     mockStatic(Validator.class)) {
+            validatorMockedStatic.when(() -> Validator.validateCardNumber(number))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(userRepo.getUserByCard(number)).thenReturn(User.builder().build());
+
+            assertNotNull(userService.findByCard(number));
+        }
     }
 
     @Test

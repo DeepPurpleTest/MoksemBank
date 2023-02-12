@@ -141,7 +141,7 @@
                     <div class="text-success px-5"><fmt:message key="status.active"/></div>
                     <div>
                         <form method="post"
-                              action="${pageContext.request.contextPath}/controller?action=block&id=${client.getId()}&card=${card.getNumber()}">
+                              action="${pageContext.request.contextPath}/controller?action=block&id=${client.getId()}&card=${card.getId()}">
                             <input class="btn btn-danger" type="submit" value="<fmt:message key="button.block"/>"/>
                         </form>
                     </div>

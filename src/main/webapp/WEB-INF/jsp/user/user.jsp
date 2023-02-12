@@ -135,7 +135,7 @@
                     </div>
 
                     <form class="text-end" method="post"
-                          action="${pageContext.request.contextPath}/controller?action=block&card=${card.getNumber()}">
+                          action="${pageContext.request.contextPath}/controller?action=block&card=${card.getId()}">
                         <input class="btn btn-danger" type="submit" value="<fmt:message key="button.block"/>">
                     </form>
                 </div>
@@ -177,7 +177,7 @@
                             ${card.getWallet()}
                     </p>
                     <form method="post"
-                          action="${pageContext.request.contextPath}/controller?action=request_unlock&card=${card.getNumber()}">
+                          action="${pageContext.request.contextPath}/controller?action=request_unlock&card=${card.getId()}">
                         <input class="btn btn-warning" type="submit" value="<fmt:message key="button.unlock"/>">
                     </form>
                 </div>

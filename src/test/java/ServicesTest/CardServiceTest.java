@@ -5,12 +5,15 @@ import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.repo.CardRepo;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.UserService;
+import com.moksem.moksembank.util.Pagination;
 import com.moksem.moksembank.util.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 
@@ -34,13 +37,22 @@ class CardServiceTest {
 
     @Test
     void findByBalanceShouldReturnNotNull() {
-        when(cardRepo.getCardsByWalletASC(anyLong(), anyInt())).thenReturn(new ArrayList<>());
-        when(cardRepo.getCardsByWalletDESC(anyLong(), anyInt())).thenReturn(new ArrayList<>());
-        when(cardRepo.getCards(anyLong(), anyInt())).thenReturn(new ArrayList<>());
+        String page = "1";
+        int pageValue = 1;
+        try (MockedStatic<Pagination> paginationMockedStatic =
+                mockStatic(Pagination.class)){
+            paginationMockedStatic.when(()->Pagination.getPage(page))
+                    .thenReturn(pageValue);
 
-        assertNotNull(cardService.findByBalance(anyLong(), anyString(), "asc"));
-        assertNotNull(cardService.findByBalance(anyLong(), anyString(), "desc"));
-        assertNotNull(cardService.findByBalance(anyLong(), anyString(), "qweqwe"));
+            when(cardRepo.getCardsByWalletASC(anyLong(), eq(pageValue))).thenReturn(new ArrayList<>());
+            when(cardRepo.getCardsByWalletDESC(anyLong(), eq(pageValue))).thenReturn(new ArrayList<>());
+            when(cardRepo.getCards(anyLong(), eq(pageValue))).thenReturn(new ArrayList<>());
+
+            assertNotNull(cardService.findByBalance(anyLong(), page, "asc"));
+            assertNotNull(cardService.findByBalance(anyLong(), page, "desc"));
+            assertNotNull(cardService.findByBalance(anyLong(), page, "qweqwe"));
+        }
+
     }
 
     @Test
@@ -49,30 +61,47 @@ class CardServiceTest {
         Card card = Card.builder()
                 .number(cardNumber)
                 .build();
+        String page = "1";
+        int pageValue = 1;
 
-        when(cardRepo.getCardsByRequest(anyLong(), anyInt())).thenReturn(new ArrayList<>());
-        when(cardRepo.getBlockedCards(anyLong(), anyInt())).thenReturn(new ArrayList<>());
-        when(cardRepo.getUnlockedCards(anyLong(), anyInt())).thenReturn(new ArrayList<>());
-        when(cardRepo.getCard(anyLong(), eq(cardNumber))).thenReturn(card);
-        when(cardRepo.getCards(anyLong(), anyInt())).thenReturn(new ArrayList<>());
+        try (MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+            paginationMockedStatic.when(() -> Pagination.getPage(page))
+                    .thenReturn(pageValue);
+            when(cardRepo.getCardsByRequest(anyLong(), eq(pageValue))).thenReturn(new ArrayList<>());
+            when(cardRepo.getBlockedCards(anyLong(), eq(pageValue))).thenReturn(new ArrayList<>());
+            when(cardRepo.getUnlockedCards(anyLong(), eq(pageValue))).thenReturn(new ArrayList<>());
+            when(cardRepo.getCards(anyLong(), eq(pageValue))).thenReturn(new ArrayList<>());
+            when(cardRepo.getCard(anyLong(), eq(cardNumber))).thenReturn(card);
 
-        assertNotNull(cardService.findByParameters(anyLong(), anyString(), "request", cardNumber));
-        assertNotNull(cardService.findByParameters(anyLong(), anyString(), "blocked", cardNumber));
-        assertNotNull(cardService.findByParameters(anyLong(), anyString(), "unlocked", cardNumber));
-        assertNotNull(cardService.findByParameters(anyLong(), anyString(), "card", cardNumber));
-        assertNotNull(cardService.findByParameters(anyLong(), anyString(), "asda", cardNumber));
+            assertNotNull(cardService.findByParameters(anyLong(), page, "request", cardNumber));
+            assertNotNull(cardService.findByParameters(anyLong(), page, "blocked", cardNumber));
+            assertNotNull(cardService.findByParameters(anyLong(), page, "unlocked", cardNumber));
+            assertNotNull(cardService.findByParameters(anyLong(), page, "card", cardNumber));
+            assertNotNull(cardService.findByParameters(anyLong(), page, "asda", cardNumber));
+        }
     }
 
     @Test
     void findByParametersShouldThrowException() {
         String cardNumber = "4123456789123456";
-        when(cardRepo.getCard(anyLong(), anyString())).thenReturn(null);
-        assertThrows(InvalidCardException.class, () -> cardService.findByParameters(anyLong(), anyString(), "card", cardNumber));
+        String page = "1";
+        int pageValue = 1;
+
+        try (MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+            paginationMockedStatic.when(() -> Pagination.getPage(page))
+                    .thenReturn(pageValue);
+            when(cardRepo.getCard(anyLong(), anyString())).thenReturn(null);
+
+            assertThrows(InvalidCardException.class, () -> cardService.findByParameters(anyLong(), page, "card", cardNumber));
+        }
     }
 
     @Test
     void findCountShouldReturnPositiveCount() {
         long value = 1;
+
         when(cardRepo.getCardsCount(anyLong())).thenReturn(1);
         when(cardRepo.getBlockedCardsCount(anyLong())).thenReturn(1);
         when(cardRepo.getUnlockedCardsCount(anyLong())).thenReturn(1);
@@ -106,6 +135,7 @@ class CardServiceTest {
                 .build();
 
         card.setId(id);
+
         when(cardRepo.getCard(id, cardNumber)).thenReturn(card);
         when(userService.findById(String.valueOf(id))).thenReturn(user);
 
@@ -116,6 +146,7 @@ class CardServiceTest {
     void findByUserIdAndCardNumberShouldThrowException() {
         String cardNumber = "4123456789123456";
         long id = 1;
+
         when(cardRepo.getCard(id, cardNumber)).thenReturn(null);
 
         assertThrows(UserCardNotFoundException.class, () -> cardService.findByUserIdAndCardNumber(id, cardNumber));
@@ -130,6 +161,7 @@ class CardServiceTest {
         Card card = Card.builder()
                 .user(user)
                 .build();
+
         when(cardRepo.getCard(cardNumber)).thenReturn(card);
         when(userService.findById(String.valueOf(user.getId()))).thenReturn(user);
 
@@ -139,6 +171,7 @@ class CardServiceTest {
     @Test
     void findByNumberShouldThrowException() {
         String cardNumber = "4123456789123456";
+
         when(cardRepo.getCard(cardNumber)).thenReturn(null);
 
         assertThrows(InvalidCardException.class, () -> cardService.findByNumber(cardNumber));
@@ -167,6 +200,7 @@ class CardServiceTest {
     @Test
     void createShouldDoesNotThrowException() {
         Card card = Card.builder().build();
+
         when(cardRepo.getCard(anyString())).thenReturn(null);
         doNothing().when(cardRepo).addCard(card);
 
@@ -176,6 +210,7 @@ class CardServiceTest {
     @Test
     void createShouldDoRecursive() {
         Card card = Card.builder().build();
+
         when(cardRepo.getCard(anyString())).thenReturn(card, (Card) null);
         doNothing().when(cardRepo).addCard(card);
 
@@ -187,6 +222,7 @@ class CardServiceTest {
     void updateCardsShouldDoesNotThrowException() throws TransactionException {
         Card first = Card.builder().build();
         Card second = Card.builder().build();
+
         doNothing().when(cardRepo).updateCards(first, second);
 
         assertDoesNotThrow(() -> cardService.update(first, second));
@@ -196,6 +232,7 @@ class CardServiceTest {
     void updateCardsShouldThrowException() throws TransactionException {
         Card first = Card.builder().build();
         Card second = Card.builder().build();
+
         doThrow(TransactionException.class).when(cardRepo).updateCards(first, second);
 
         assertThrows(TransactionException.class, () -> cardService.update(first, second));
@@ -204,6 +241,7 @@ class CardServiceTest {
     @Test
     void updateCardShouldDoesNotThrowException() {
         Card card = Card.builder().build();
+
         doNothing().when(cardRepo).updateCard(card);
 
         assertDoesNotThrow(() -> cardService.update(card));
@@ -212,6 +250,7 @@ class CardServiceTest {
     @Test
     void deleteShouldDoesNotThrowException() {
         String card = "123123123123";
+
         doNothing().when(cardRepo).deleteCard(card);
 
         assertDoesNotThrow(() -> cardService.delete(card));

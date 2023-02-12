@@ -10,12 +10,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AdminServiceTest {
@@ -31,27 +32,43 @@ class AdminServiceTest {
     @Test
     void getAdminShouldReturnNotNull() throws InvalidLoginOrPasswordException {
         Admin adminFromDB = Admin.builder()
-                .password(PasswordHash.encode("qqweqwe"))
-                .build();
-        Admin adminFromForm = Admin.builder()
-                .login(anyString())
                 .password("qqweqwe")
                 .build();
-        when(adminRepo.getAdmin(adminFromForm.getLogin())).thenReturn(adminFromDB);
-        assertNotNull(adminService.find(adminFromForm));
+        Admin adminFromForm = Admin.builder()
+                .login("ave1")
+                .password("qqweqwe")
+                .build();
+
+        try (MockedStatic<PasswordHash> passwordHashMockedStatic =
+                     mockStatic(PasswordHash.class)) {
+            passwordHashMockedStatic.when(() -> PasswordHash.verify(anyString(), anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(adminRepo.getAdmin(adminFromForm.getLogin())).thenReturn(adminFromDB);
+
+            assertNotNull(adminService.find(adminFromForm));
+        }
     }
 
     @Test
     void getAdminShouldThrowException() {
         Admin admin = Admin.builder().build();
-        when(adminRepo.getAdmin(admin.getLogin())).thenReturn(null);
-        assertThrows(InvalidLoginOrPasswordException.class, () -> adminService.find(admin));
+
+        try (MockedStatic<PasswordHash> passwordHashMockedStatic =
+                     mockStatic(PasswordHash.class)) {
+            passwordHashMockedStatic.when(() -> PasswordHash.verify(anyString(), anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            when(adminRepo.getAdmin(admin.getLogin())).thenReturn(null);
+
+            assertThrows(InvalidLoginOrPasswordException.class, () -> adminService.find(admin));
+        }
     }
 
     @Test
     void findSameLoginShouldThrowLoginAlreadyTakenException(){
         Admin admin = Admin.builder().build();
+
         when(adminRepo.getAdmin(admin.getLogin())).thenReturn(admin);
+
         assertThrows(LoginAlreadyTakenException.class, ()->adminService.findSameLogin(admin));
     }
 
@@ -60,8 +77,15 @@ class AdminServiceTest {
         Admin admin = Admin.builder()
                 .password("123123123")
                 .build();
-        doNothing().when(adminRepo).update(admin);
-        assertDoesNotThrow(() -> adminService.update(admin));
+
+        try (MockedStatic<PasswordHash> passwordHashMockedStatic =
+                     mockStatic(PasswordHash.class)) {
+            passwordHashMockedStatic.when(() -> PasswordHash.encode(anyString()))
+                    .thenAnswer((Answer<Void>) invocation -> null);
+            doNothing().when(adminRepo).update(admin);
+
+            assertDoesNotThrow(() -> adminService.update(admin));
+        }
     }
 
 }

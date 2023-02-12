@@ -1,13 +1,12 @@
-package CommandsTest.user;
+package CommandsTest.common;
 
 import com.moksem.moksembank.controller.Path;
-import com.moksem.moksembank.controller.command.user.RequestUnlockCommand;
+import com.moksem.moksembank.controller.command.common.BlockClientCardCommand;
 import com.moksem.moksembank.model.entity.Card;
+import com.moksem.moksembank.model.entity.Role;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
-import com.moksem.moksembank.model.service.RequestService;
 import com.moksem.moksembank.util.exceptions.InvalidCardException;
-import com.moksem.moksembank.util.exceptions.UserCardNotFoundException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,15 +19,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RequestUnlockCommandTest {
+class BlockClientCardCommandTest {
     @InjectMocks
-    RequestUnlockCommand requestUnlockCommand;
+    BlockClientCardCommand blockClientCardCommand;
     @Mock
     HttpServletRequest req;
     @Mock
@@ -37,8 +36,6 @@ class RequestUnlockCommandTest {
     HttpSession session;
     @Mock
     CardService cardService;
-    @Mock
-    RequestService requestService;
 
     @BeforeEach
     public void setUp() {
@@ -46,35 +43,37 @@ class RequestUnlockCommandTest {
     }
 
     @Test
-    void requestCommandShouldReturnRedirect() throws UserNotFoundException, InvalidCardException {
+    void blockClientCardCommandShouldReturnRedirectWithRoleUser() throws UserNotFoundException, InvalidCardException {
+        String cardId = "1";
         User user = User.builder().build();
+        Card card = Card.builder()
+                .user(user)
+                .build();
+        card.setId(Long.parseLong(cardId));
+
+        when(req.getSession()).thenReturn(session);
+        when(req.getParameter("card")).thenReturn(cardId);
+        when(session.getAttribute("user")).thenReturn(user);
+        when(session.getAttribute("role")).thenReturn(Role.USER);
+        when(cardService.findById(cardId, user)).thenReturn(card);
+        doNothing().when(cardService).update(card);
+
+        assertEquals(Path.COMMAND_REDIRECT, blockClientCardCommand.execute(req, resp));
+    }
+
+    @Test
+    void blockClientCardCommandShouldReturnRedirectWithRoleAdmin() throws UserNotFoundException, InvalidCardException {
         String cardId = "1";
         Card card = Card.builder()
                 .build();
         card.setId(Long.parseLong(cardId));
-        long value = 0;
 
         when(req.getSession()).thenReturn(session);
         when(req.getParameter("card")).thenReturn(cardId);
-        when(session.getAttribute("user")).thenReturn(user);
-        when(cardService.findById(cardId, user)).thenReturn(card);
-        when(requestService.findByCard(card)).thenReturn(null);
-        when(requestService.create(card)).thenReturn(value);
+        when(session.getAttribute("role")).thenReturn(Role.ADMIN);
+        when(cardService.findById(cardId)).thenReturn(card);
+        doNothing().when(cardService).update(card);
 
-        assertEquals(Path.COMMAND_REDIRECT, requestUnlockCommand.execute(req, resp));
-    }
-
-    @Test
-    void requestCommandShouldReturnErrorPage() throws UserNotFoundException, InvalidCardException {
-        User user = User.builder().build();
-        String cardId = "1";
-
-        when(req.getSession()).thenReturn(session);
-        when(req.getParameter("card")).thenReturn(cardId);
-        when(session.getAttribute("user")).thenReturn(user);
-        when(cardService.findById(cardId, user))
-                .thenThrow(InvalidCardException.class);
-
-        assertEquals(Path.PAGE_ERROR, requestUnlockCommand.execute(req, resp));
+        assertEquals(Path.COMMAND_REDIRECT, blockClientCardCommand.execute(req, resp));
     }
 }

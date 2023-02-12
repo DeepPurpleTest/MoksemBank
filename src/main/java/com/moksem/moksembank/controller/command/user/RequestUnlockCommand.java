@@ -8,7 +8,7 @@ import com.moksem.moksembank.model.entity.Request;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.RequestService;
-import com.moksem.moksembank.util.exceptions.UserCardNotFoundException;
+import com.moksem.moksembank.util.exceptions.InvalidCardException;
 import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +23,11 @@ public class RequestUnlockCommand implements MyCommand {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         String response = Path.COMMAND_ACCOUNT;
-        String number = req.getParameter("card");
+        String cardId = req.getParameter("card");
         User user = (User) session.getAttribute("user");
 
         try {
-            Card card = cardService.findByUserIdAndCardNumber(user.getId(), number);
+            Card card = cardService.findById(cardId, user);
             if(!card.isStatus()) {
                 Request request = requestService.findByCard(card);
                 if(request == null)
@@ -35,7 +35,7 @@ public class RequestUnlockCommand implements MyCommand {
             }
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
-        } catch (IOException | UserNotFoundException | UserCardNotFoundException e) {
+        } catch (IOException | UserNotFoundException | InvalidCardException e) {
             req.setAttribute("errorMessage", e.getMessage());
             response = Path.PAGE_ERROR;
         }

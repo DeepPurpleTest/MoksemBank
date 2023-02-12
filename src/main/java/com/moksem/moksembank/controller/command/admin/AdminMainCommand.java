@@ -15,6 +15,7 @@ public class AdminMainCommand implements MyCommand {
         HttpSession session = req.getSession();
         SessionAttributes.checkParameters(req, session);
         String response = Path.COMMAND_USERS;
+
         try {
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;

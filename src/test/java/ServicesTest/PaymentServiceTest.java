@@ -6,11 +6,13 @@ import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.repo.PaymentRepo;
 import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.PaymentService;
+import com.moksem.moksembank.util.Pagination;
 import com.moksem.moksembank.util.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -19,8 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PaymentServiceTest {
@@ -57,16 +58,24 @@ class PaymentServiceTest {
     void findByUserShouldReturnNotNull() throws InvalidCardException, UserNotFoundException {
         String page = "1";
         User user = User.builder().build();
-        when(paymentRepo.getPaymentsByUserDESC(eq(user), anyInt())).thenReturn(new ArrayList<>());
-        when(paymentRepo.getPaymentsByUserASC(eq(user), anyInt())).thenReturn(new ArrayList<>());
+        int pageValue = 1;
 
-        assertNotNull(paymentService.findByUser(user, page, "asc"));
-        assertNotNull(paymentService.findByUser(user, page, "desc"));
+        try (MockedStatic<Pagination> paginationMockedStatic =
+                     mockStatic(Pagination.class)) {
+            paginationMockedStatic.when(() -> Pagination.getPage(page))
+                    .thenReturn(pageValue);
+            when(paymentRepo.getPaymentsByUserDESC(user, pageValue)).thenReturn(new ArrayList<>());
+            when(paymentRepo.getPaymentsByUserASC(user, pageValue)).thenReturn(new ArrayList<>());
+
+            assertNotNull(paymentService.findByUser(user, page, "asc"));
+            assertNotNull(paymentService.findByUser(user, page, "desc"));
+        }
     }
 
     @Test
     void findCountByUserShouldReturnPositiveCount(){
         User user = User.builder().build();
+
         when(paymentRepo.getCountByUser(user)).thenReturn(1);
 
         assertTrue(paymentService.findCountByUser(user) >= 0);
@@ -76,6 +85,7 @@ class PaymentServiceTest {
     void findCountByCardShouldReturnPositiveCount() throws InvalidCardException, UserNotFoundException {
         String cardId = "1";
         Card card = Card.builder().build();
+
         when(cardService.findById(cardId)).thenReturn(card);
         when(paymentRepo.getCountByCard(card.getNumber())).thenReturn(1);
 
@@ -86,6 +96,7 @@ class PaymentServiceTest {
     void findShouldDoesNotThrowException() {
         long userId = 1;
         String paymentId = "1";
+
         when(paymentRepo.getPayment(eq(userId), anyInt())).thenReturn(Payment.builder().build());
 
         assertDoesNotThrow(()->paymentService.find(userId, paymentId));
@@ -95,6 +106,7 @@ class PaymentServiceTest {
     void findShouldThrowException() {
         long userId = 1;
         String paymentId = "1";
+
         when(paymentRepo.getPayment(eq(userId), anyInt())).thenReturn(null);
 
         assertThrows(PaymentNotFoundException.class, ()->paymentService.find(userId, paymentId));
@@ -111,6 +123,7 @@ class PaymentServiceTest {
                         .build())
                 .build();
         long id = 1;
+
         when(paymentRepo.createPayment(payment)).thenReturn(id);
 
         assertTrue(paymentService.create(payment) >= 0);
@@ -122,12 +135,14 @@ class PaymentServiceTest {
                 .cardSender(Card.builder().build())
                 .cardReceiver(Card.builder().build())
                 .build();
+
         assertThrows(PaymentCreateException.class, ()->paymentService.create(payment));
     }
 
     @Test
     void updateShouldDoesNotThrowException(){
         Payment payment = Payment.builder().build();
+
         doNothing().when(paymentRepo).update(payment);
 
         assertDoesNotThrow(()->paymentService.update(payment));
@@ -136,6 +151,7 @@ class PaymentServiceTest {
     @Test
     void deleteShouldNotThrowException(){
         Payment payment = Payment.builder().build();
+
         doNothing().when(paymentRepo).delete(payment);
 
         assertDoesNotThrow(()->paymentService.delete(payment));
@@ -154,6 +170,7 @@ class PaymentServiceTest {
                 .build();
         List<Payment> paymentList = new ArrayList<>();
         paymentList.add(payment);
+
         when(cardService.findByNumber(cardNumber)).thenReturn(Card.builder().build());
 
         assertDoesNotThrow(()->paymentService.toFullCards(paymentList));

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class LoginAdminCommand implements MyCommand {
-    private final AdminService adminService = AppContext.getInstance().getAdminService();
+    AdminService adminService = AppContext.getInstance().getAdminService();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -29,6 +29,7 @@ public class LoginAdminCommand implements MyCommand {
                     .login(login)
                     .password(pass)
                     .build();
+
             Admin admin = adminService.find(tempAdmin);
             Role role = Role.ADMIN;
             toSession(admin, role, session);

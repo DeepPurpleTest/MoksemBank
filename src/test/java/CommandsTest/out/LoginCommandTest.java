@@ -2,14 +2,10 @@ package CommandsTest.out;
 
 import com.moksem.moksembank.controller.Path;
 import com.moksem.moksembank.controller.command.out.LoginCommand;
-import com.moksem.moksembank.controller.command.user.RefillCommand;
 import com.moksem.moksembank.model.entity.User;
-import com.moksem.moksembank.model.service.CardService;
-import com.moksem.moksembank.model.service.PaymentService;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.BlockedUserException;
 import com.moksem.moksembank.util.exceptions.InvalidLoginOrPasswordException;
-import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 

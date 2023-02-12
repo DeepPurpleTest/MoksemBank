@@ -26,9 +26,9 @@ import java.io.OutputStream;
 
 
 public class CreatePDFCommand implements MyCommand {
-    private final PaymentService paymentService = AppContext.getInstance().getPaymentService();
-    private final UserService userService = AppContext.getInstance().getUserService();
-    private final CardService cardService = AppContext.getInstance().getCardService();
+    PaymentService paymentService = AppContext.getInstance().getPaymentService();
+    UserService userService = AppContext.getInstance().getUserService();
+    CardService cardService = AppContext.getInstance().getCardService();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
