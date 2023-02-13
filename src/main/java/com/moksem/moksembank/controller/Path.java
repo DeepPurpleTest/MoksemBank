@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Path {
     //pages
-    public static final String PAGE_LOGIN = "/WEB-INF/jsp/login.jsp";
+    public static final String PAGE_LOGIN = "/WEB-INF/jsp/loginClient.jsp";
     public static final String PAGE_LOGIN_ADMIN = "/WEB-INF/jsp/loginAdmin.jsp";
     public static final String PAGE_USER = "/WEB-INF/jsp/user/user.jsp";
     public static final String PAGE_PAYMENTS = "/WEB-INF/jsp/user/payments.jsp";
@@ -26,7 +26,9 @@ public final class Path {
     public static final String COMMAND_PAYMENTS = "/controller?action=payments";
     public static final String COMMAND_USERS = "/controller?action=users";
     public static final String COMMAND_TRANSFER = "/controller?action=transfer";
-    public static final String COMMAND_CLIENT = "/controller?action=client";
+    public static final String COMMAND_CLIENT = "/controller?action=client_info";
+    public static final String COMMAND_CLIENT_LOGIN_PAGE = "/controller?action=client_login_page";
+    public static final String COMMAND_ADMIN_LOGIN_PAGE = "/controller?action=admin_login_page";
     public static final String COMMAND_PROFILE = "/controller?action=profile";
     public static final String COMMAND_REDIRECT = "redirect";
 

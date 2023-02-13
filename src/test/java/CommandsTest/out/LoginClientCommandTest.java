@@ -1,7 +1,7 @@
 package CommandsTest.out;
 
 import com.moksem.moksembank.controller.Path;
-import com.moksem.moksembank.controller.command.out.LoginCommand;
+import com.moksem.moksembank.controller.command.out.LoginClientCommand;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.BlockedUserException;
@@ -25,9 +25,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class LoginCommandTest {
+class LoginClientCommandTest {
     @InjectMocks
-    LoginCommand loginCommand;
+    LoginClientCommand loginClientCommand;
     @Mock
     HttpServletRequest req;
     @Mock
@@ -57,7 +57,7 @@ class LoginCommandTest {
         when(userService.findByNumberAndPassword(number, pass)).thenReturn(user);
         doNothing().when(session).setAttribute(anyString(), any());
 
-        assertEquals(Path.COMMAND_REDIRECT, loginCommand.execute(req, resp));
+        assertEquals(Path.COMMAND_REDIRECT, loginClientCommand.execute(req, resp));
     }
 
     @Test
@@ -71,6 +71,6 @@ class LoginCommandTest {
         when(userService.findByNumberAndPassword(number, pass)).thenThrow(InvalidLoginOrPasswordException.class);
         doNothing().when(req).setAttribute(anyString(), any());
 
-        assertEquals(Path.PAGE_LOGIN, loginCommand.execute(req, resp));
+        assertEquals(Path.PAGE_LOGIN, loginClientCommand.execute(req, resp));
     }
 }

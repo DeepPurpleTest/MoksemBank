@@ -5,7 +5,7 @@
          version="4.0">
 
     <welcome-file-list>
-        <welcome-file>/WEB-INF/jsp/login.jsp</welcome-file>
+        <welcome-file>/WEB-INF/jsp/loginClient.jsp</welcome-file>
     </welcome-file-list>
 
     <context-param>
@@ -51,7 +51,7 @@
         <filter-class>com.moksem.moksembank.controller.filters.SecurityFilter</filter-class>
         <init-param>
             <param-name>admin</param-name>
-            <param-value>client unlock block_client unlock_client users admin_account client_profile admin_main client_data</param-value>
+            <param-value>client_info unlock block_client unlock_client users admin_account client_profile admin_main client_data</param-value>
         </init-param>
         <init-param>
             <param-name>client</param-name>
@@ -63,7 +63,7 @@
         </init-param>
         <init-param>
             <param-name>out</param-name>
-            <param-value>admin login login_admin registration registration_page i18n</param-value>
+            <param-value>client_login_page admin_login_page login_client login_admin registration registration_page i18n</param-value>
         </init-param>
     </filter>
 

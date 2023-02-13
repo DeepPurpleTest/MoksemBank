@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class BlockClientCardCommand implements MyCommand {
-    CardService service = AppContext.getInstance().getCardService();
+    CardService cardService = AppContext.getInstance().getCardService();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
@@ -26,14 +26,17 @@ public class BlockClientCardCommand implements MyCommand {
             Role role = (Role) session.getAttribute("role");
             Card card;
             if (role.equals(Role.ADMIN)) {
-                card = service.findById(req.getParameter("card"));
+                card = cardService.findById(req.getParameter("card"));
                 response = Path.COMMAND_CLIENT_DATA;
             } else {
                 User user = (User) session.getAttribute("user");
-                card = service.findById(req.getParameter("card"), user);
+                card = cardService.findById(req.getParameter("card"), user);
             }
-            card.setStatus(false);
-            service.update(card);
+
+            if (card.isStatus()) {
+                card.setStatus(false);
+                cardService.update(card);
+            }
 
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;

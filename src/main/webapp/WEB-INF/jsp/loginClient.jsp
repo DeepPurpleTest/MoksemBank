@@ -18,9 +18,9 @@
         <fmt:message key="language.label"/>
     </button>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=en">en</a>
+        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=en&redirect_action=client_login_page">en</a>
         </li>
-        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=ua">ua</a>
+        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&redirect_action=client_login_page">ua</a>
         </li>
     </ul>
 </div>
@@ -35,7 +35,7 @@
 <%--</form>--%>
 
 <form class="rounded-3 p-3 border border-danger w-25 mx-auto my-5" method="post"
-      action="${pageContext.request.contextPath}/controller?action=login">
+      action="${pageContext.request.contextPath}/controller?action=login_client">
     <h1 class="h3 mb-5 font-weight-normal text-center"><fmt:message key="login.label.authorization"/></h1>
     <div class="mb-3">
         <label class="form-label text-start" for="phone_number"><fmt:message
@@ -60,7 +60,7 @@
             </a>
         </div>
         <div class="text-center">
-            <a href="${pageContext.request.contextPath}/controller?action=admin">
+            <a href="${pageContext.request.contextPath}/controller?action=admin_login_page">
                 <input class="btn btn-outline-danger mt-3 text-center" type="button"
                        value="<fmt:message key="login.button.admin"/>">
             </a>

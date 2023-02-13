@@ -24,9 +24,9 @@
         <fmt:message key="language.label"/>
     </button>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=en">en</a>
+        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=en&redirect_action=admin_login_page">en</a>
         </li>
-        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=ua">ua</a>
+        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&redirect_action=admin_login_page">ua</a>
         </li>
     </ul>
 </div>

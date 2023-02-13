@@ -43,7 +43,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="${pageContext.request.contextPath}/controller?action=transfer&sort=natural"><fmt:message
+                       href="${pageContext.request.contextPath}/controller?action=transfer"><fmt:message
                             key="client.main.button.transfer"/></a>
                 </li>
             </ul>
@@ -60,10 +60,10 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?action=i18n&language=en&sort=natural">en</a>
+                               href="${pageContext.request.contextPath}/controller?action=i18n&language=en&sort=natural&redirect_action=transfer">en</a>
                         </li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&sort=natural">ua</a>
+                               href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&sort=natural&redirect_action=transfer">ua</a>
                         </li>
                     </ul>
                 </div>

@@ -19,6 +19,18 @@
 </head>
 <body>
 
+<div class="dropdown text-end mx-3 my-3">
+    <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <fmt:message key="language.label"/>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=en&redirect_action=registration_page">en</a>
+        </li>
+        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&redirect_action=registration_page">ua</a>
+        </li>
+    </ul>
+</div>
+
 <form class="rounded-3 p-3 border border-danger w-25 mx-auto my-5" method="post"
       action="${pageContext.request.contextPath}/controller?action=registration">
     <h1 class="h3 mb-5 font-weight-normal text-center"><fmt:message key="client.registration.label.registration"/></h1>

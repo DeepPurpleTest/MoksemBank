@@ -42,7 +42,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="${pageContext.request.contextPath}/controller?action=transfer&sort=natural"><fmt:message
+                           href="${pageContext.request.contextPath}/controller?action=transfer"><fmt:message
                                 key="client.main.button.transfer"/></a>
                     </li>
                 </ul>
@@ -60,10 +60,10 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/controller?action=i18n&language=en&sort=natural">en</a>
+                                   href="${pageContext.request.contextPath}/controller?action=i18n&language=en&sort=natural&redirect_action=profile">en</a>
                             </li>
                             <li><a class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&sort=natural">ua</a>
+                                   href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&sort=natural&redirect_action=profile">ua</a>
                             </li>
                         </ul>
                     </div>
@@ -163,7 +163,8 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page"
-                           href="${pageContext.request.contextPath}/controller?action=users&sort=natural">Home</a>
+                           href="${pageContext.request.contextPath}/controller?action=users&sort=natural">
+                            <fmt:message key="client.main.home"/></a>
                     </li>
                 </ul>
                 <div class="d-inline-flex">
@@ -180,10 +181,10 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/controller?action=i18n&language=en&sort=natural">en</a>
+                                   href="${pageContext.request.contextPath}/controller?action=i18n&language=en&sort=natural&redirect_action=profile">en</a>
                             </li>
                             <li><a class="dropdown-item"
-                                   href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&sort=natural">ua</a>
+                                   href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&sort=natural&redirect_action=profile">ua</a>
                             </li>
                         </ul>
                     </div>

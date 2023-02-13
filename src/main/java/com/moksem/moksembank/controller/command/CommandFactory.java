@@ -36,7 +36,7 @@ public class CommandFactory {
         commands.put("client_data", new ClientDataCommand());
         commands.put("admin_main", new AdminMainCommand());
         commands.put("users", new UsersCommand());
-        commands.put("client", new ClientCommand());
+        commands.put("client_info", new ClientCommand());
         commands.put("unlock", new UnlockClientCardCommand());
         commands.put("block_client", new BlockClientCommand());
         commands.put("unlock_client", new UnlockClientCommand());
@@ -48,10 +48,11 @@ public class CommandFactory {
         commands.put("change_user", new ChangeProfileCommand());
 
         //Out
-        commands.put("admin", new AdminLoginPageCommand());
+        commands.put("client_login_page", new ClientLoginPageCommand());
+        commands.put("admin_login_page", new AdminLoginPageCommand());
+        commands.put("login_client", new LoginClientCommand());
         commands.put("login_admin", new LoginAdminCommand());
         commands.put("i18n", new I18NCommand());
-        commands.put("login", new LoginCommand());
         commands.put("registration_page", new RegisterCommand());
         commands.put("registration", new RegistrationCommand());
         //todo Сделать класс под эррор пейджу?

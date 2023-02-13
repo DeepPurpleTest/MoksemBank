@@ -49,10 +49,10 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?action=i18n&language=en&sort=natural">en</a>
+                               href="${pageContext.request.contextPath}/controller?action=i18n&language=en&sort=natural&redirect_action=admin_main">en</a>
                         </li>
                         <li><a class="dropdown-item"
-                               href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&sort=natural">ua</a>
+                               href="${pageContext.request.contextPath}/controller?action=i18n&language=ua&sort=natural&redirect_action=admin_main">ua</a>
                         </li>
                     </ul>
                 </div>
@@ -108,63 +108,63 @@
         <tags:pagination page="${page}" pages="${pages}" currentPages="${currentPages}"
                          command="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&sort=${sort}"/>
     </div>
-<%--    <c:if test="${pages.size() > 1}">--%>
-<%--        <c:if test="${pages.size() > currentPages.size()}">--%>
-<%--            <c:if test="${page.equals(pages.get(0))}">--%>
-<%--                <div class="px-1">--%>
-<%--                    <a class="text-white"--%>
-<%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${pages.get(0) - 1}&sort=${sort}">--%>
-<%--                        <input class="btn btn-danger" type="submit" value="${pages.get(0)}">--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${!page.equals(pages.get(0))}">--%>
-<%--                <div class="px-1">--%>
-<%--                    <a class="text-white"--%>
-<%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${pages.get(0) - 1}&sort=${sort}">--%>
-<%--                        <input class="btn btn-outline-danger" type="submit" value="${pages.get(0)}">--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-<%--        </c:if>--%>
-<%--        <c:forEach var="number" items="${currentPages}">--%>
-<%--            <c:if test="${number.equals(page)}">--%>
-<%--                <div class="px-1">--%>
-<%--                    <a class="text-white"--%>
-<%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${number - 1}&sort=${sort}">--%>
-<%--                        <input class="btn btn-danger" type="submit" value="${number}">--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${!number.equals(page)}">--%>
-<%--                <div class="px-1">--%>
-<%--                    <a class="text-white"--%>
-<%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${number - 1}&sort=${sort}">--%>
-<%--                        <input class="btn btn-outline-danger" type="submit" value="${number}">--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-<%--        </c:forEach>--%>
-<%--        <c:if test="${pages.size() > currentPages.size()}">--%>
+    <%--    <c:if test="${pages.size() > 1}">--%>
+    <%--        <c:if test="${pages.size() > currentPages.size()}">--%>
+    <%--            <c:if test="${page.equals(pages.get(0))}">--%>
+    <%--                <div class="px-1">--%>
+    <%--                    <a class="text-white"--%>
+    <%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${pages.get(0) - 1}&sort=${sort}">--%>
+    <%--                        <input class="btn btn-danger" type="submit" value="${pages.get(0)}">--%>
+    <%--                    </a>--%>
+    <%--                </div>--%>
+    <%--            </c:if>--%>
+    <%--            <c:if test="${!page.equals(pages.get(0))}">--%>
+    <%--                <div class="px-1">--%>
+    <%--                    <a class="text-white"--%>
+    <%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${pages.get(0) - 1}&sort=${sort}">--%>
+    <%--                        <input class="btn btn-outline-danger" type="submit" value="${pages.get(0)}">--%>
+    <%--                    </a>--%>
+    <%--                </div>--%>
+    <%--            </c:if>--%>
+    <%--        </c:if>--%>
+    <%--        <c:forEach var="number" items="${currentPages}">--%>
+    <%--            <c:if test="${number.equals(page)}">--%>
+    <%--                <div class="px-1">--%>
+    <%--                    <a class="text-white"--%>
+    <%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${number - 1}&sort=${sort}">--%>
+    <%--                        <input class="btn btn-danger" type="submit" value="${number}">--%>
+    <%--                    </a>--%>
+    <%--                </div>--%>
+    <%--            </c:if>--%>
+    <%--            <c:if test="${!number.equals(page)}">--%>
+    <%--                <div class="px-1">--%>
+    <%--                    <a class="text-white"--%>
+    <%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${number - 1}&sort=${sort}">--%>
+    <%--                        <input class="btn btn-outline-danger" type="submit" value="${number}">--%>
+    <%--                    </a>--%>
+    <%--                </div>--%>
+    <%--            </c:if>--%>
+    <%--        </c:forEach>--%>
+    <%--        <c:if test="${pages.size() > currentPages.size()}">--%>
 
-<%--            <c:if test="${page.equals(pages.size())}">--%>
-<%--                <div class="px-1">--%>
-<%--                    <a class="text-white"--%>
-<%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${pages.size()-1}&sort=${sort}">--%>
-<%--                        <input class="btn btn-danger" type="submit" value="${pages.size()}">--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${!page.equals(pages.size())}">--%>
-<%--                <div class="px-1">--%>
-<%--                    <a class="text-white"--%>
-<%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${pages.size()-1}&sort=${sort}">--%>
-<%--                        <input class="btn btn-outline-danger" type="submit" value="${pages.size()}">--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-<%--        </c:if>--%>
-<%--    </c:if>--%>
+    <%--            <c:if test="${page.equals(pages.size())}">--%>
+    <%--                <div class="px-1">--%>
+    <%--                    <a class="text-white"--%>
+    <%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${pages.size()-1}&sort=${sort}">--%>
+    <%--                        <input class="btn btn-danger" type="submit" value="${pages.size()}">--%>
+    <%--                    </a>--%>
+    <%--                </div>--%>
+    <%--            </c:if>--%>
+    <%--            <c:if test="${!page.equals(pages.size())}">--%>
+    <%--                <div class="px-1">--%>
+    <%--                    <a class="text-white"--%>
+    <%--                       href="${pageContext.request.contextPath}/controller?action=admin_main&card=${card}&page=${pages.size()-1}&sort=${sort}">--%>
+    <%--                        <input class="btn btn-outline-danger" type="submit" value="${pages.size()}">--%>
+    <%--                    </a>--%>
+    <%--                </div>--%>
+    <%--            </c:if>--%>
+    <%--        </c:if>--%>
+    <%--    </c:if>--%>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

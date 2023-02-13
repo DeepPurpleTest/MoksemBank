@@ -47,6 +47,7 @@ class BlockClientCardCommandTest {
         String cardId = "1";
         User user = User.builder().build();
         Card card = Card.builder()
+                .status(true)
                 .user(user)
                 .build();
         card.setId(Long.parseLong(cardId));
@@ -65,6 +66,7 @@ class BlockClientCardCommandTest {
     void blockClientCardCommandShouldReturnRedirectWithRoleAdmin() throws UserNotFoundException, InvalidCardException {
         String cardId = "1";
         Card card = Card.builder()
+                .status(true)
                 .build();
         card.setId(Long.parseLong(cardId));
 

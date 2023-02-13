@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 @Log4j2
-public class LoginCommand implements MyCommand {
+public class LoginClientCommand implements MyCommand {
     UserService userService = AppContext.getInstance().getUserService();
 
     @Override
