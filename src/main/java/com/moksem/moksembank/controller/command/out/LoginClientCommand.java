@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+/**
+ * Command for login client
+ */
 @Log4j2
 public class LoginClientCommand implements MyCommand {
     UserService userService = AppContext.getInstance().getUserService();

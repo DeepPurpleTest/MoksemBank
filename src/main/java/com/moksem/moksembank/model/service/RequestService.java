@@ -8,16 +8,15 @@ import com.moksem.moksembank.util.exceptions.TransactionException;
 
 import java.util.List;
 
+/**
+ * Request service
+ */
 public class RequestService {
     private final RequestRepo requestRepo;
 
     public RequestService(RequestRepo requestRepo) {
         this.requestRepo = requestRepo;
     }
-
-//    public List<Request> findAll(){
-//        return requestRepo.getRequests();
-//    }
 
     public Request findByCard(Card card){
         return requestRepo.getRequest(card);

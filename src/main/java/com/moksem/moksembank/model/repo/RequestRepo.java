@@ -9,10 +9,12 @@ import com.moksem.moksembank.util.exceptions.TransactionException;
 
 import java.util.List;
 
+/**
+ * Request repository
+ */
 public class RequestRepo {
 
     private static final String CREATE = "insert into request(card_number, user_id) values(?, ?)";
-//    private static final String GET_ALL = "select * from request where status = ?";
     private static final String GET_BY_CARD = "select * from request where card_number = ? and status = ?";
     private static final String GET_BY_USER_ID = "select * from request where user_id = ? and status = ?";
     private static final String GET_BY_ID = "select * from request where request_id = ?";
@@ -32,10 +34,6 @@ public class RequestRepo {
     public Request getRequest(long id) {
         return queryBuilder.executeAndReturnValue(GET_BY_ID, id);
     }
-
-//    public List<Request> getRequests(){
-//        return queryBuilder.executeAndReturnValues(GET_ALL, false);
-//    }
 
     public List<Request> getRequests(User user){
         return queryBuilder.executeAndReturnValues(GET_BY_USER_ID, user.getId(), false);

@@ -4,12 +4,16 @@ import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.*;
 import java.io.IOException;
-
+/**
+ * Encoding filter.
+ */
 @Log4j2
 public class EncodingFilter implements Filter {
-//    private static final Logger log = Logger.getLogger(EncodingFilter.class);
     private String encoding;
 
+    /**
+     * Init method
+     */
     @Override
     public void init(FilterConfig filterConfig) {
         log.debug("Initialization starts");
@@ -18,6 +22,9 @@ public class EncodingFilter implements Filter {
         log.debug("Initialization finished");
     }
 
+    /**
+     * Main method
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         log.debug("Filter starts");
@@ -30,10 +37,13 @@ public class EncodingFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
+    /**
+     * Destroy method
+     */
     @Override
     public void destroy() {
         log.debug("Destruction starts");
-
+        // do nothing
         log.debug("Destruction finished");
     }
 }

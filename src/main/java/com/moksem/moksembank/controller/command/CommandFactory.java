@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Main Command factory for Controller
+ */
 public class CommandFactory {
     private static CommandFactory factory;
     private static final Map<String, MyCommand> commands = new HashMap<>();
@@ -55,7 +58,6 @@ public class CommandFactory {
         commands.put("i18n", new I18NCommand());
         commands.put("registration_page", new RegisterCommand());
         commands.put("registration", new RegistrationCommand());
-        //todo Сделать класс под эррор пейджу?
     }
 
     public static CommandFactory getFactory(){

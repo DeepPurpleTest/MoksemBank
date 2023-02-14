@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for block client card
+ */
 public class BlockClientCardCommand implements MyCommand {
     CardService cardService = AppContext.getInstance().getCardService();
 

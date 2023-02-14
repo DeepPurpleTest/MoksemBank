@@ -5,6 +5,9 @@ import com.moksem.moksembank.model.entity.Admin;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Admin entity dto builder
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdminDtoBuilder {
     public static AdminDto getAdminDto(Admin admin){

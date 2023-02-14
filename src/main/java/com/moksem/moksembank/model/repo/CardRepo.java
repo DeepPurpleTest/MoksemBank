@@ -9,7 +9,9 @@ import java.util.List;
 
 import static com.moksem.moksembank.util.Pagination.RECORDS_PER_PAGE;
 
-
+/**
+ * Card repository
+ */
 public class CardRepo {
     private static final String GET_ALL_BY_USER = "select * from card where user_id = ?";
     private static final String GET_BY_WALLET = "select * from card where user_id = ? limit ?, ?";
@@ -120,26 +122,4 @@ public class CardRepo {
     public int getUnlockedCardsCount(long id) {
         return queryBuilder.executeAndReturnCount(GET_UNLOCKED_COUNT, id);
     }
-
-//    public List<Card> find(int id, String page, String sort, String card) throws InvalidIdException {
-//        ValidatorsUtil.validateId(id);
-//        int pageValue = PaginationUtil.getPage(page);
-//
-//        if(sort == null || sort.isEmpty())
-//            return getCards(id, pageValue);
-//
-//        if (sort.equals("card"))
-//            return getCards(id, card);
-//
-//        if(sort.equals("request"))
-//            return getCardsByRequest(id, pageValue);
-//
-//        if(sort.equals("blocked"))
-//            return getBlockedCards(id, pageValue);
-//
-//        if(sort.equals("unlocked"))
-//            return getUnlockedCards(id,pageValue);
-//
-//        return getCards(id, pageValue);
-//    }
 }

@@ -7,20 +7,26 @@ import com.moksem.moksembank.util.Pagination;
 
 import java.util.List;
 
+/**
+ * User repository
+ */
 public class UserRepo {
     private static final int ROWCOUNT = Pagination.RECORDS_PER_PAGE;
     private static final String GET_ALL = "select * from user limit ?, ?";
     private static final String GET_BY_REQUEST = "select distinct u.user_id, u.name, u.surname, u.middle_name, u.password, u.phone_number, u.status, u.role " +
             "from request r left join user u on r.user_id = u.user_id where r.status = false limit ?, ?";
-    private static final String GET_BY_CARD = "select u.user_id, name, surname, middle_name, password, phone_number, u.status, u.role from user u left join card c on c.user_id = u.user_id where c.card_number = ?";
-    private static final String CREATE = "insert into user(name, surname, middle_name, password, phone_number) values (?, ?, ?, ?, ?)";
+    private static final String GET_BY_CARD = "select u.user_id, name, surname, middle_name, password, phone_number, u.status, u.role " +
+            "from user u left join card c on c.user_id = u.user_id where c.card_number = ?";
+    private static final String CREATE = "insert into user(name, surname, middle_name, password, phone_number) " +
+            "values (?, ?, ?, ?, ?)";
     private static final String GET_BY_PHONE = "select * from user where phone_number = ?";
     private static final String GET_BY_PHONE_AND_ID = "select * from user where phone_number = ? and user_id != ?";
     private static final String GET_BY_ID = "select * from user where user_id = ?";
     private static final String UPDATE = "update user set name = ?, surname = ?, middle_name = ?, password = ?, " +
             "phone_number = ?, status = ? where user_id = ?";
     private static final String GET_USERS_COUNT = "select count(*) from user";
-    private static final String GET_USERS_REQUEST_COUNT = "select count(*) from (select distinct u.user_id, u.name, u.surname, u.middle_name, u.password, u.phone_number, u.status, u.role " +
+    private static final String GET_USERS_REQUEST_COUNT = "select count(*) " +
+            "from (select distinct u.user_id, u.name, u.surname, u.middle_name, u.password, u.phone_number, u.status, u.role " +
             "from request r left join user u on r.user_id = u.user_id where r.status = false) as req";
 
     QueryBuilder<User> queryBuilder = new UserQueryBuilder();

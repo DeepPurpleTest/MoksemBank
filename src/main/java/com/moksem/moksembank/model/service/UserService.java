@@ -11,6 +11,9 @@ import static com.moksem.moksembank.util.Pagination.getPage;
 import static com.moksem.moksembank.util.PasswordHash.encode;
 import static com.moksem.moksembank.util.PasswordHash.verify;
 
+/**
+ * User service
+ */
 public class UserService {
 
     private final UserRepo userRepo;
@@ -21,7 +24,6 @@ public class UserService {
 
     public List<User> findAll(String page) {
         int pageValue = getPage(page);
-        //todo сделать вытягивание по юзеру и сортировку привязать
         return userRepo.getClients(pageValue);
     }
 
@@ -101,9 +103,4 @@ public class UserService {
     public int findUsersWithRequestCount() {
         return userRepo.getUsersRequestCount();
     }
-
-//    public void toFullUser(HttpSession session, User user) throws InvalidPhoneNumberException, UserNotFoundException {
-//        User updatedUser = findByNumber(user.getPhone_number());
-//        session.setAttribute("user", updatedUser);
-//    }
 }

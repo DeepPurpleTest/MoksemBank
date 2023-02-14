@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Admin entity query builder
+ */
 public class AdminQueryBuilder extends QueryBuilder<Admin>{
     @Override
     public List<Admin> getListOfResult(ResultSet rs) throws SQLException {

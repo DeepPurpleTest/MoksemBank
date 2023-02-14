@@ -11,6 +11,9 @@ import java.io.IOException;
 import static com.moksem.moksembank.util.SessionAttributes.clearSession;
 import static com.moksem.moksembank.util.SessionAttributes.toSession;
 
+/**
+ * Command for relocate parameters to session
+ */
 public class ClientDataCommand implements MyCommand {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {

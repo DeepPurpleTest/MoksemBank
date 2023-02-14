@@ -85,9 +85,13 @@ class UserServiceTest {
         user.setId(1);
 
         try (MockedStatic<PasswordHash> passwordHashMockedStatic =
-                     mockStatic(PasswordHash.class)) {
+                     mockStatic(PasswordHash.class);
+        MockedStatic<Validator> validatorMockedStatic =
+                mockStatic(Validator.class)) {
             passwordHashMockedStatic.when(() -> PasswordHash.encode(anyString()))
                     .thenAnswer((Answer<Void>) invocation -> null);
+            validatorMockedStatic.when(()->Validator.validatePhoneNumber(user.getPhoneNumber()))
+                            .thenAnswer((Answer<Void>) invocation -> null);
             when(userRepo.getUserByPhoneAndId(user)).thenReturn(null);
             doNothing().when(userRepo).updateUser(user);
 

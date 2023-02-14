@@ -7,29 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.Iterator;
+
+/**
+ * Class for transfer parameters from request to sessin
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SessionAttributes {
-    //    public static void setAttributes(HttpServletRequest req, HttpSession session){
-//        Enumeration<String> parameters = req.getParameterNames();
-//        while(parameters.hasMoreElements()){
-//            String parameter = parameters.nextElement();
-//            session.setAttribute(parameter, req.getParameter(parameter));
-//        }
-//    }
-//
 
-//    public static String checkRequestParameters(HttpServletRequest req, HttpServletResponse resp, String response, String command){
-//        if(req.getParameterMap().size() > 1) {
-//            setAttributes(req, req.getSession());
-//            try {
-//                resp.sendRedirect(command);
-//                response = Path.COMMAND_REDIRECT;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return response;
-//    }
     public static void checkParameters(HttpServletRequest req, HttpSession session){
         if (req.getParameter("sort") != null) {
             SessionAttributes.clearSession(session);
@@ -59,12 +43,12 @@ public class SessionAttributes {
         }
     }
 
-    public static void getSessionAttributes(HttpSession session){
-        Enumeration<String> attributes = session.getAttributeNames();
-        Iterator<String> iterator = attributes.asIterator();
-        while(iterator.hasNext()){
-            String attribute = iterator.next();
-            System.out.println("ATTRIBUTE " + attribute);
-        }
-    }
+//    public static void getSessionAttributes(HttpSession session){
+//        Enumeration<String> attributes = session.getAttributeNames();
+//        Iterator<String> iterator = attributes.asIterator();
+//        while(iterator.hasNext()){
+//            String attribute = iterator.next();
+//            System.out.println("ATTRIBUTE " + attribute);
+//        }
+//    }
 }

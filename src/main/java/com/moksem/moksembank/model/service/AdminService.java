@@ -6,6 +6,9 @@ import com.moksem.moksembank.util.PasswordHash;
 import com.moksem.moksembank.util.exceptions.InvalidLoginOrPasswordException;
 import com.moksem.moksembank.util.exceptions.LoginAlreadyTakenException;
 
+/**
+ * Admin service
+ */
 public class AdminService {
     private final AdminRepo adminRepo;
 

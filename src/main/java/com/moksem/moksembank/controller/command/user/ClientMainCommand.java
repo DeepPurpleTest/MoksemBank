@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for relocate parameters to session
+ */
 public class ClientMainCommand implements MyCommand {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {

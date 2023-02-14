@@ -10,6 +10,9 @@ import java.util.List;
 
 import static com.moksem.moksembank.util.Pagination.getPage;
 
+/**
+ * Payment service
+ */
 public class PaymentService {
     private final PaymentRepo paymentRepo;
     private final CardService cardService;
@@ -80,8 +83,6 @@ public class PaymentService {
             Card cardReceiver = payment.getCardReceiver();
             payment.setCardSender(cardService.findByNumber(cardSender.getNumber()));
             payment.setCardReceiver(cardService.findByNumber(cardReceiver.getNumber()));
-//            cardSender.setUser(userService.findByCard(cardSender.getNumber()));
-//            cardReceiver.setUser(userService.findByCard(cardReceiver.getNumber()));
         }
     }
 }

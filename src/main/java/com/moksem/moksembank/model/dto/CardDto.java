@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Card entity dto class
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)

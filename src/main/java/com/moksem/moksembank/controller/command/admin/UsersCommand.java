@@ -18,6 +18,9 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNullElse;
 
+/**
+ * Main admin page command
+ */
 public class UsersCommand implements MyCommand {
     UserService userService = AppContext.getInstance().getUserService();
 

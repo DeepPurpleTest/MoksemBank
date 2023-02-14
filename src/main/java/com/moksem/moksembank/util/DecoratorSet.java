@@ -7,6 +7,9 @@ import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * Decorator on {@link java.util.HashSet}
+ */
 @EqualsAndHashCode(callSuper = true)
 public class DecoratorSet extends AbstractSet<Dto.Param> {
     private final Set<Dto.Param> set;

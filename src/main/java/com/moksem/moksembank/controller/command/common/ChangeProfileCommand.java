@@ -21,13 +21,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for change client and admin account information
+ */
 public class ChangeProfileCommand implements MyCommand {
     UserService userService = AppContext.getInstance().getUserService();
     AdminService adminService = AppContext.getInstance().getAdminService();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
-        //todo сделать профиль изменение
         HttpSession session = req.getSession();
         String response = Path.COMMAND_PROFILE;
 
@@ -35,7 +37,7 @@ public class ChangeProfileCommand implements MyCommand {
         Dto dto;
         if (role.equals(Role.USER)) {
             dto = getClientDto(req);
-            Validator.validateChangedUser((ClientDto) dto);
+            Validator.validateChangedClient((ClientDto) dto);
             try {
                 if (dto.getErrors().isEmpty()) {
                     User client = (User) session.getAttribute("user");

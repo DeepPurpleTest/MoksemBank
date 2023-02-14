@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Payment entity dto builder
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PaymentDtoBuilder {
     public static PaymentDto getPaymentDto(Payment payment){

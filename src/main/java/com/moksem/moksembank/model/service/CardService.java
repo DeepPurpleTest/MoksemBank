@@ -13,6 +13,9 @@ import java.util.Random;
 
 import static com.moksem.moksembank.util.Pagination.getPage;
 
+/**
+ * Card service
+ */
 public class CardService {
     private final CardRepo cardRepo;
     private final UserService userService;
@@ -56,12 +59,6 @@ public class CardService {
 
         return cardRepo.getCards(id, pageValue);
     }
-
-//    public List<Card> find(long id, String page) {
-//        int pageValue = getPage(page);
-//
-//        return cardRepo.getCards(id, pageValue);
-//    }
 
     public int findCount(long id) {
         return cardRepo.getCardsCount(id);

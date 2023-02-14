@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * User entity query builder
+ */
 public class UserQueryBuilder extends QueryBuilder<User> {
     public List<User> getListOfResult(ResultSet rs) throws SQLException {
         List<User> users = new ArrayList<>();

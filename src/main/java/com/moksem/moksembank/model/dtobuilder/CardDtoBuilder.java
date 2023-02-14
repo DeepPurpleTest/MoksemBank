@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Card entity dto builder
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CardDtoBuilder {
     static RequestService requestService = AppContext.getInstance().getRequestService();

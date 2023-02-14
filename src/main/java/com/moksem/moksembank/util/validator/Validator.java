@@ -10,15 +10,29 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.Set;
 
+/**
+ * Validator util class
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Validator {
 
+    /**
+     * Check is empty or not String param
+     *
+     * @param   s string
+     * @return  boolean value
+     */
     public static boolean checkString(String s) {
         if (s == null)
             return true;
         return s.isEmpty();
     }
 
+    /**
+     * Validate all fields of new client
+     *
+     * @param clientDto created dto from command
+     */
     public static void validateNewUser(ClientDto clientDto) {
         Set<Dto.Param> set = clientDto.getErrors();
         if (checkString(clientDto.getName()))
@@ -48,7 +62,12 @@ public class Validator {
             set.add(new Dto.Param("phone", "Invalid phone number"));
     }
 
-    public static void validateChangedUser(ClientDto clientDto) {
+    /**
+     * Validate changes in client profile
+     *
+     * @param clientDto created dto from command
+     */
+    public static void validateChangedClient(ClientDto clientDto) {
         Set<Dto.Param> set = clientDto.getErrors();
         String name = clientDto.getName();
         String surname = clientDto.getSurname();
@@ -68,6 +87,11 @@ public class Validator {
             set.add(new Dto.Param("phone", "Invalid phone number"));
     }
 
+    /**
+     * Validate changes in admin profile
+     *
+     * @param adminDto created dto from command
+     */
     public static void validateChangedAdmin(AdminDto adminDto) {
         Set<Dto.Param> set = adminDto.getErrors();
         if (adminDto.getLogin() != null && validateLoginLength(adminDto.getLogin()))
@@ -77,6 +101,11 @@ public class Validator {
             set.add(new Dto.Param("pass", "Invalid password length"));
     }
 
+    /**
+     * Validate transaction between cards
+     *
+     * @param transferDto created dto from command
+     */
     public static void validateTransaction(TransferDto transferDto) {
         CardDto sender = transferDto.getSender();
         CardDto receiver = transferDto.getReceiver();
@@ -98,34 +127,73 @@ public class Validator {
         }
     }
 
-    public static void validateCard(CardDto card, Set<Dto.Param> errors, String errorName){
+    /**
+     * Validate the card involved in the transaction
+     *
+     * @param card      the card involved in the transaction
+     * @param errors    container of validation errors
+     * @param errorName error name in container
+     */
+    public static void validateCard(CardDto card, Set<Dto.Param> errors, String errorName) {
         String number = card.getNumber();
-        if(number == null || number.isEmpty())
+        String cardRole = errorName.replaceFirst("\\w", errorName.substring(0, 1).toUpperCase());
+        if (number == null || number.isEmpty())
             errors.add(new Dto.Param(errorName, "This field must be filled"));
         else if (!number.matches("^\\d{16}$"))
             errors.add(new Dto.Param(errorName, "Invalid number format"));
         else if (!card.isStatus())
-            errors.add(new Dto.Param(errorName, "Sender card is blocked"));
+            errors.add(new Dto.Param(errorName,
+                    cardRole + " card is blocked"));
     }
 
-    public static boolean validateName(String s) {
-        return !s.matches("^[A-Z\u0400-\u042F\u0490][a-z\u0430-\u045F\u0491]+$");
+    /**
+     * Validate name for client
+     *
+     * @param name  new name for client
+     * @return      boolean
+     */
+    public static boolean validateName(String name) {
+        return !name.matches("^[A-Z\u0400-\u042F\u0490][a-z\u0430-\u045F\u0491]+$");
     }
 
+    /**
+     * Validate client phone number
+     *
+     * @param number                        client number
+     * @throws InvalidPhoneNumberException  Invalid phone number format exception
+     */
     public static void validatePhoneNumber(String number) throws InvalidPhoneNumberException {
         if (number == null || !number.matches("^\\+380[(67)(96)(97)(98)]{2}\\d{7}$"))
             throw new InvalidPhoneNumberException("Invalid phone number format");
     }
 
-    public static void validateCardNumber(String number) throws InvalidCardException {
-        if (number == null || !number.matches("^\\d{16}$"))
+    /**
+     * Validate card number
+     *
+     * @param cardNumber             card number
+     * @throws InvalidCardException  Invalid phone number format exception
+     */
+    public static void validateCardNumber(String cardNumber) throws InvalidCardException {
+        if (cardNumber == null || !cardNumber.matches("^\\d{16}$"))
             throw new InvalidCardException();
     }
 
-    private static boolean validateLoginLength(String s) {
-        return s.length() >= 20 || s.length() <= 3;
+    /**
+     * Validate login length for admin
+     *
+     * @param login admin login
+     * @return      boolean value
+     */
+    private static boolean validateLoginLength(String login) {
+        return login.length() >= 20 || login.length() <= 3;
     }
 
+    /**
+     * Validate amount for transaction
+     *
+     * @param amount                    refill or transaction amount
+     * @throws InvalidAmountException   Invalid amount exception
+     */
     public static void validateAmount(String amount) throws InvalidAmountException {
         if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$") || amount.equals("0"))
             throw new InvalidAmountException("Invalid amount format");

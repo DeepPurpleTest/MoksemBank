@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
+/**
+ * Client account command
+ */
 public class ClientAccountCommand implements MyCommand {
     CardService cardService = AppContext.getInstance().getCardService();
 

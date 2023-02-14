@@ -12,6 +12,9 @@ import com.moksem.moksembank.util.exceptions.UserNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Refill page command
+ */
 public class CardRefillCommand implements MyCommand {
     CardService cardService = AppContext.getInstance().getCardService();
     @Override

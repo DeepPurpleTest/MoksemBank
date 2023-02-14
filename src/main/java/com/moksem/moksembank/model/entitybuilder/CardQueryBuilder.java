@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Card entity query builder
+ */
 public class CardQueryBuilder extends QueryBuilder<Card> {
 
     @Override

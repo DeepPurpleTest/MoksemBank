@@ -24,7 +24,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-
+/**
+ * Print receipt to PDF command
+ */
 public class CreatePDFCommand implements MyCommand {
     PaymentService paymentService = AppContext.getInstance().getPaymentService();
     UserService userService = AppContext.getInstance().getUserService();
@@ -125,7 +127,6 @@ public class CreatePDFCommand implements MyCommand {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     //todo Перенести в сервис

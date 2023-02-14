@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * Payment entity query builder
+ */
 public class PaymentQueryBuilder extends QueryBuilder<Payment> {
     public List<Payment> getListOfResult(ResultSet rs) throws SQLException {
         List<Payment> payments = new ArrayList<>();

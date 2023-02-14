@@ -6,6 +6,9 @@ import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 
+/**
+ * Card entity class
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)

@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Client entity dto builder
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClientDtoBuilder {
     public static ClientDto getClientDto(User user) {

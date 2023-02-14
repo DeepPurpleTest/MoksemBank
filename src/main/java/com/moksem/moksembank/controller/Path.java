@@ -3,6 +3,9 @@ package com.moksem.moksembank.controller;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+/**
+ * Class represents all jsp-pages and commands in app
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Path {
     //pages
@@ -32,7 +35,7 @@ public final class Path {
     public static final String COMMAND_PROFILE = "/controller?action=profile";
     public static final String COMMAND_REDIRECT = "redirect";
 
-
+    //i18n
     public static final String LOCALE_NAME_UA = "ua";
     public static final String LOCALE_NAME_EN = "en";
 }

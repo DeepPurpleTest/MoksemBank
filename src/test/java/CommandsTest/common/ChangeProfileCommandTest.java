@@ -1,7 +1,6 @@
 package CommandsTest.common;
 
 import com.moksem.moksembank.controller.Path;
-import com.moksem.moksembank.controller.command.common.BlockClientCardCommand;
 import com.moksem.moksembank.controller.command.common.ChangeProfileCommand;
 import com.moksem.moksembank.model.dto.AdminDto;
 import com.moksem.moksembank.model.dto.ClientDto;
@@ -9,7 +8,6 @@ import com.moksem.moksembank.model.entity.Admin;
 import com.moksem.moksembank.model.entity.Role;
 import com.moksem.moksembank.model.entity.User;
 import com.moksem.moksembank.model.service.AdminService;
-import com.moksem.moksembank.model.service.CardService;
 import com.moksem.moksembank.model.service.UserService;
 import com.moksem.moksembank.util.exceptions.InvalidPhoneNumberException;
 import com.moksem.moksembank.util.exceptions.LoginAlreadyTakenException;
@@ -79,7 +77,7 @@ class ChangeProfileCommandTest {
 
         try (MockedStatic<Validator> validatorMockedStatic =
                      mockStatic(Validator.class)) {
-            validatorMockedStatic.when(() -> Validator.validateChangedUser(dto))
+            validatorMockedStatic.when(() -> Validator.validateChangedClient(dto))
                     .thenAnswer((Answer<Void>) invocation -> null);
             when(req.getSession()).thenReturn(session);
             when(session.getAttribute("role")).thenReturn(Role.USER);

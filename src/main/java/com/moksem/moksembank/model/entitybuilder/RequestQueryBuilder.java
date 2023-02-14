@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Request entity query builder
+ */
 public class RequestQueryBuilder extends QueryBuilder<Request>{
     @Override
     public List<Request> getListOfResult(ResultSet rs) throws SQLException {

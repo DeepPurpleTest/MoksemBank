@@ -5,6 +5,9 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+/**
+ * Payment entity class
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)

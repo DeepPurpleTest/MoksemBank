@@ -7,6 +7,9 @@ import lombok.NonNull;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Abstract dto class
+ */
 @Data
 public abstract class Dto {
     private Set<Param> set = new HashSet<>();

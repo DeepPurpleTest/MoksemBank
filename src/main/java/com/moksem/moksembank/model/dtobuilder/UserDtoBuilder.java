@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * User entity dto builder
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDtoBuilder {
     static RequestService requestService = AppContext.getInstance().getRequestService();

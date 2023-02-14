@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Command for refill card
+ */
 public class RefillCommand implements MyCommand {
     private static final String REFILL_ID = "1";
     CardService cardService = AppContext.getInstance().getCardService();

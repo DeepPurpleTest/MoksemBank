@@ -21,6 +21,9 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNullElse;
 
+/**
+ * Client page command
+ */
 public class ClientCommand implements MyCommand {
     UserService userService = AppContext.getInstance().getUserService();
     CardService cardService = AppContext.getInstance().getCardService();

@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for send request to unlock card
+ */
 public class RequestUnlockCommand implements MyCommand {
     CardService cardService = AppContext.getInstance().getCardService();
     RequestService requestService = AppContext.getInstance().getRequestService();

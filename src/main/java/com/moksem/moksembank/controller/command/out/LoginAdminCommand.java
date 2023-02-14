@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for login admin
+ */
 public class LoginAdminCommand implements MyCommand {
     AdminService adminService = AppContext.getInstance().getAdminService();
 
@@ -46,7 +49,6 @@ public class LoginAdminCommand implements MyCommand {
         return response;
     }
 
-    //todo ВЫнести мб в общий?
     public void toSession(Entity entity, Role role, HttpSession session) {
         session.setAttribute("user", entity);
         session.setAttribute("role", role);

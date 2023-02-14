@@ -4,7 +4,9 @@ import com.moksem.moksembank.model.repo.*;
 import com.moksem.moksembank.model.service.*;
 import lombok.Getter;
 
-
+/**
+ * Class creates all repositories and services on app starts.
+ */
 public class AppContext {
     private static final AppContext appContext = new AppContext();
     //repos

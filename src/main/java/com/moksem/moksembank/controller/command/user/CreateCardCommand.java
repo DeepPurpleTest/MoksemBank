@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for create new client card
+ */
 public class CreateCardCommand implements MyCommand {
-    //todo сделать колонку с visa и матеркард, где можно создать их 2-х типов
-    // вторая не запрещает пересылать деньги, если их недостаточно, баланс в минус
     CardService cardService = AppContext.getInstance().getCardService();
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {

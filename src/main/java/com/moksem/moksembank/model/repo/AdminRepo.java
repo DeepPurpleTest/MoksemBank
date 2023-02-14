@@ -4,6 +4,9 @@ import com.moksem.moksembank.model.entitybuilder.AdminQueryBuilder;
 import com.moksem.moksembank.model.entitybuilder.QueryBuilder;
 import com.moksem.moksembank.model.entity.Admin;
 
+/**
+ * Admin repository
+ */
 public class AdminRepo {
     private static final String GET = "select * from admin where login = ?";
     private static final String GET_BY_LOGIN_AND_ID = "select * from admin where login = ? and admin_id != ?";

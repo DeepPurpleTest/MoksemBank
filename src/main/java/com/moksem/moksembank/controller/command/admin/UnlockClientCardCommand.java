@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for unlock client card
+ */
 public class UnlockClientCardCommand implements MyCommand {
     CardService cardService = AppContext.getInstance().getCardService();
     RequestService requestService = AppContext.getInstance().getRequestService();

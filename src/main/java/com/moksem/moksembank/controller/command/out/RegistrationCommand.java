@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for register new client
+ */
 public class RegistrationCommand implements MyCommand {
     UserService service = AppContext.getInstance().getUserService();
 

@@ -8,9 +8,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Connection pool for DB
+ */
 public class DataSource {
     private static final HikariConfig config = new HikariConfig();
     private static final HikariDataSource ds;
+
+    //Create a pool
     static {
         Properties properties = getProperties();
         config.setJdbcUrl(properties.getProperty("JDBC_URL"));
@@ -23,20 +28,26 @@ public class DataSource {
         ds = new HikariDataSource(config);
     }
 
-    private DataSource(){}
+    private DataSource() {
+    }
 
+    /**
+     * Establishes a connection to the database
+     */
     public static synchronized Connection getConnection() {
         try {
             return ds.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-//        return null;
     }
 
-    public static Properties getProperties(){
+    /**
+     * Gets utils properties
+     */
+    public static Properties getProperties() {
         Properties properties = new Properties();
-        try (InputStream resource = DataSource.class.getClassLoader().getResourceAsStream("db.properties")){
+        try (InputStream resource = DataSource.class.getClassLoader().getResourceAsStream("db.properties")) {
             properties.load(resource);
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,8 +55,11 @@ public class DataSource {
         return properties;
     }
 
-    public static void closeConnection(Connection connection){
-        if(connection != null) {
+    /**
+     * Close connection
+     */
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {

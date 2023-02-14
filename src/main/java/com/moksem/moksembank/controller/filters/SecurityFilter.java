@@ -1,17 +1,28 @@
 package com.moksem.moksembank.controller.filters;
 
 import com.moksem.moksembank.controller.Path;
+import com.moksem.moksembank.model.entity.Role;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * Security filter
+ */
 @Log4j2
 public class SecurityFilter implements Filter {
     private static final RoleCommandChecker roleCommandChecker = new RoleCommandChecker();
 
+    /**
+     * Init method
+     */
     @Override
     public void init(FilterConfig filterConfig) {
         log.debug("initialization starts");
@@ -22,6 +33,9 @@ public class SecurityFilter implements Filter {
         log.debug("initialization finished");
     }
 
+    /**
+     * Main method
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         log.debug("starts");
@@ -39,13 +53,60 @@ public class SecurityFilter implements Filter {
         }
     }
 
+    /**
+     * Destroy method
+     */
     @Override
     public void destroy() {
         log.debug("destroy starts");
+        // do nothing
         log.debug("destroy finished");
     }
+}
 
-    //todo занести сюда RoleCommandChecker?
+/**
+ * Support class for Security filter
+ */
+class RoleCommandChecker {
+    private static final Map<String, List<String>> commands = new HashMap<>();
 
+    public void addToMap(String role, String s) {
+        commands.put(role, asList(s));
+    }
 
+    public List<String> asList(String s) {
+        return new ArrayList<>(List.of(s.split(" ")));
+    }
+
+    /**
+     * Main check access method
+     */
+    public boolean getAccess(HttpServletRequest req) {
+        String action = req.getParameter("action");
+
+        if (action == null)
+            return false;
+
+        if (action.isEmpty())
+            return false;
+
+        System.out.println("before out");
+        if (commands.get("out").contains(action))
+            return true;
+
+        Role role = (Role) req.getSession().getAttribute("role");
+
+        if (role == null)
+            return false;
+
+        if (role.toString().equals("admin") && commands.get("admin").contains(action))
+            return true;
+
+        if (role.toString().equals("user") && commands.get("client").contains(action)) {
+            System.out.println("role.equals(user)");
+            return true;
+        }
+
+        return commands.get("common").contains(action);
+    }
 }

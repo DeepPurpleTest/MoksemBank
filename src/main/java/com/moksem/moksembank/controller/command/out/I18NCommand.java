@@ -9,6 +9,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 
+/**
+ * Internationalization command
+ */
 public class I18NCommand implements MyCommand {
     //todo доделать интернационализацию
     @Override

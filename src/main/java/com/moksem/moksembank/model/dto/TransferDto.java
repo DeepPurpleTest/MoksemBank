@@ -6,6 +6,9 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+/**
+ * Transfer page dto class
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)

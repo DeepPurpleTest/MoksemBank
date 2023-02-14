@@ -20,6 +20,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Command for transfer between cards
+ */
 public class TransactionCommand implements MyCommand {
     CardService cardService = AppContext.getInstance().getCardService();
     PaymentService paymentService = AppContext.getInstance().getPaymentService();
@@ -30,11 +33,6 @@ public class TransactionCommand implements MyCommand {
         String response = Path.COMMAND_TRANSFER;
         User user = (User) session.getAttribute("user");
 
-//        Random random = new Random();
-//        int value = random.nextInt(100);
-//        System.out.println("---------------------------------------");
-//        System.out.println("START TRANSACTION " + value);
-        //todo Кринж....
         Payment payment = Payment.builder().build();
         String amount = req.getParameter("amount");
         String senderNumber = req.getParameter("card_sender");
@@ -50,7 +48,6 @@ public class TransactionCommand implements MyCommand {
                 .build();
 
         try {
-//            Card card_sender = cardService.findUserCard(1, req.getParameter("card_sender"));
             cardSender = cardService.findByUserIdAndCardNumber(user.getId(), senderNumber);
             dto.setSender(CardDtoBuilder.getCardDto(cardSender));
 
@@ -98,8 +95,7 @@ public class TransactionCommand implements MyCommand {
         }
         Validator.validateTransaction(dto);
         req.setAttribute("dto", dto);
-//        System.out.println("END TRANSACTION " + value);
-//        System.out.println("---------------------------------------");
+
         return response;
     }
 
