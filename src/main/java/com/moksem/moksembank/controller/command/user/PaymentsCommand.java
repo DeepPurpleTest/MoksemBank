@@ -56,6 +56,7 @@ public class PaymentsCommand implements MyCommand {
             e.printStackTrace();
             response = Path.PAGE_ERROR;
         }
+
         req.setAttribute("payments", PaymentDtoBuilder.getPaymentsDto(payments));
         req.setAttribute("cards", CardDtoBuilder.getCardsDto(cardService.findAllByUserId(user.getId())));
         req.setAttribute("card", CardDtoBuilder.getCardDto(sortCard));

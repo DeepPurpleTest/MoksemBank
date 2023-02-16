@@ -36,6 +36,7 @@ public class RequestUnlockCommand implements MyCommand {
                 if(request == null)
                     requestService.create(card);
             }
+
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;
         } catch (IOException | UserNotFoundException | InvalidCardException e) {

@@ -24,15 +24,13 @@ public class ClientAccountCommand implements MyCommand {
         HttpSession session = req.getSession();
         String response = Path.PAGE_USER;
 
-//            SessionAttributesUtil.getSessionAttributes(session);
         User user = (User) session.getAttribute("user");
         String sort = (String) Objects.requireNonNullElse(session.getAttribute("sort"), "natural");
         String page = (String) Objects.requireNonNullElse(session.getAttribute("page"), "");
-//            System.out.println("FROM SESSION " + page);
+
         req.setAttribute("sort", sort);
         req.setAttribute("cards", CardDtoBuilder.getCardsDto(cardService.findByBalance(user.getId(), page, sort)));
         Pagination.paginate(req, cardService.findCount(user.getId()));
-//            System.out.println("BEFORE PAGINATE " + page);
 
         return response;
     }

@@ -21,6 +21,7 @@ public class CardRefillCommand implements MyCommand {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String response = Path.PAGE_REFILL;
         String cardId = req.getParameter("card");
+
         try {
             Card card = cardService.findById(cardId);
             req.setAttribute("dto", getRefillDto(card));

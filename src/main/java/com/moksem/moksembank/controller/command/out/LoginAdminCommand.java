@@ -25,8 +25,8 @@ public class LoginAdminCommand implements MyCommand {
         HttpSession session = req.getSession();
         String login = req.getParameter("login");
         String pass = req.getParameter("password");
-
         String response = Path.PAGE_LOGIN_ADMIN;
+
         try {
             Admin tempAdmin = Admin.builder()
                     .login(login)

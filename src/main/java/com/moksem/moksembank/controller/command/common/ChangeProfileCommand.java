@@ -35,6 +35,7 @@ public class ChangeProfileCommand implements MyCommand {
 
         Role role = (Role) session.getAttribute("role");
         Dto dto;
+
         if (role.equals(Role.USER)) {
             dto = getClientDto(req);
             Validator.validateChangedClient((ClientDto) dto);

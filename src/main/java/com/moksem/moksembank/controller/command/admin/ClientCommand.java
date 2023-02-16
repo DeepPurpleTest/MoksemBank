@@ -33,7 +33,6 @@ public class ClientCommand implements MyCommand {
         HttpSession session = req.getSession();
         String response = Path.PAGE_CLIENT;
 
-//            System.out.println("ELSE " + session.getAttributeNames());
         String id = (String) requireNonNullElse(session.getAttribute("id"), "");
         String page = (String) requireNonNullElse(session.getAttribute("page"), "");
         String sort = (String) requireNonNullElse(session.getAttribute("sort"), "natural");
@@ -49,7 +48,6 @@ public class ClientCommand implements MyCommand {
             req.setAttribute("client", UserDtoBuilder.getUserDto(client));
             req.setAttribute("cards", CardDtoBuilder.getCardsDto(cards));
             req.setAttribute("sort", sort);
-//                req.setAttribute("number", number);
             Pagination.paginate(req, pages);
         } catch (UserNotFoundException e) {
             req.setAttribute("errorMessage", e.getMessage());

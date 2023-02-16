@@ -60,6 +60,7 @@ public class RegistrationCommand implements MyCommand {
             clientDto.getErrors()
                     .add(new Dto.Param("phone", e.getMessage()));
         }
+
         req.setAttribute("dto",clientDto);
 
         return response;

@@ -21,11 +21,13 @@ public class CreateCardCommand implements MyCommand {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
+        String response = Path.COMMAND_ACCOUNT;
+
         Card card = Card.builder()
                 .user(user)
                 .build();
         cardService.create(card);
-        String response = Path.COMMAND_ACCOUNT;
+
         try {
             resp.sendRedirect(response);
             response = Path.COMMAND_REDIRECT;

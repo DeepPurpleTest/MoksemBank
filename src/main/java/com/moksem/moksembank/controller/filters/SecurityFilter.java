@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Log4j2
 public class SecurityFilter implements Filter {
-    private static final RoleCommandChecker roleCommandChecker = new RoleCommandChecker();
+    private static final CheckRoleAccess CHECK_ROLE_ACCESS = new CheckRoleAccess();
 
     /**
      * Init method
@@ -26,10 +26,10 @@ public class SecurityFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         log.debug("initialization starts");
-        roleCommandChecker.addToMap("admin", filterConfig.getInitParameter("admin"));
-        roleCommandChecker.addToMap("client", filterConfig.getInitParameter("client"));
-        roleCommandChecker.addToMap("common", filterConfig.getInitParameter("common"));
-        roleCommandChecker.addToMap("out", filterConfig.getInitParameter("out"));
+        CHECK_ROLE_ACCESS.addToMap("admin", filterConfig.getInitParameter("admin"));
+        CHECK_ROLE_ACCESS.addToMap("client", filterConfig.getInitParameter("client"));
+        CHECK_ROLE_ACCESS.addToMap("common", filterConfig.getInitParameter("common"));
+        CHECK_ROLE_ACCESS.addToMap("out", filterConfig.getInitParameter("out"));
         log.debug("initialization finished");
     }
 
@@ -41,7 +41,7 @@ public class SecurityFilter implements Filter {
         log.debug("starts");
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
-        if (roleCommandChecker.getAccess(req)) {
+        if (CHECK_ROLE_ACCESS.getAccess(req)) {
             log.debug("finished");
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
@@ -67,7 +67,7 @@ public class SecurityFilter implements Filter {
 /**
  * Support class for Security filter
  */
-class RoleCommandChecker {
+class CheckRoleAccess {
     private static final Map<String, List<String>> commands = new HashMap<>();
 
     public void addToMap(String role, String s) {

@@ -33,6 +33,7 @@ public class RefillCommand implements MyCommand {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String response = Path.COMMAND_ACCOUNT;
         Card card = Card.builder().build();
+
         try {
             String cardId = req.getParameter("card");
             card = cardService.findById(cardId);

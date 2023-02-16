@@ -76,7 +76,7 @@ public class TransactionCommand implements MyCommand {
                 resp.sendRedirect(response);
                 response = Path.COMMAND_REDIRECT;
             }
-//                System.out.println("DO TRANSACTION " + value);
+
         } catch (UserCardNotFoundException e) {
             dto.getErrors().add(new Dto.Param("sender", e.getMessage()));
         } catch (InvalidCardException e) {

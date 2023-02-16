@@ -37,6 +37,7 @@ public class UnlockClientCardCommand implements MyCommand {
                 long id = requestService.create(card);
                 request = requestService.findByUserId(id);
             }
+
             request.setAdminId(admin.getId());
             request.setStatus(true);
             card.setStatus(true);

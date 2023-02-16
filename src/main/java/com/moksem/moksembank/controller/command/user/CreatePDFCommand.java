@@ -42,8 +42,6 @@ public class CreatePDFCommand implements MyCommand {
             Payment payment = paymentService.find(user.getId(), id);
             payment = toFullPayment(payment);
             Document document = new Document();
-//            boolean check = document.;
-//            System.out.println("CHECK " + check);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PdfWriter.getInstance(document, baos);
@@ -52,7 +50,6 @@ public class CreatePDFCommand implements MyCommand {
             BaseFont arial = BaseFont.createFont("C:\\Users\\maksv\\Desktop\\Fonts\\arial.ttf", "cp1251",
                     BaseFont.EMBEDDED);
 
-//            Font font = FontFactory.getFont(FontFactory.TIMES, 16, BaseColor.BLACK);
             Paragraph title = new Paragraph("Receipt number " + payment.getId(), new Font(arial, 16));
             Paragraph number = new Paragraph("Information about payment: " , new Font(arial, 16));
 

@@ -29,12 +29,12 @@ public class UsersCommand implements MyCommand {
         HttpSession session = req.getSession();
         String response = Path.PAGE_ADMIN;
 
-//            getSessionAttributes(session);
         String sort = (String) requireNonNullElse(session.getAttribute("sort"), "natural");
         String number = (String) requireNonNullElse(session.getAttribute("number"), "");
         String page = (String) requireNonNullElse(session.getAttribute("page"), "");
         List<User> clients = new ArrayList<>();
         int maxPages = 0;
+
         try {
             switch (sort) {
                 case "phone" -> clients.add(userService.findByNumber(number));
@@ -51,11 +51,11 @@ public class UsersCommand implements MyCommand {
         } catch (InvalidCardException | UserNotFoundException e) {
             req.setAttribute("exception", e.getMessage());
         }
+
         req.setAttribute("clients", UserDtoBuilder.getUsersDto(clients));
         req.setAttribute("cardOrPhoneNumber", number);
         req.setAttribute("sort", sort);
         Pagination.paginate(req, maxPages);
-//            req.setAttribute("pages", getPages(maxPages));
 
         return response;
     }

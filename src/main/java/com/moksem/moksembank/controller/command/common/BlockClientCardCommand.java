@@ -25,6 +25,7 @@ public class BlockClientCardCommand implements MyCommand {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
         String response = Path.COMMAND_ACCOUNT;
+
         try {
             Role role = (Role) session.getAttribute("role");
             Card card;
