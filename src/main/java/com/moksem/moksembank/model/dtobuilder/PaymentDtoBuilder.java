@@ -27,7 +27,7 @@ public class PaymentDtoBuilder {
                 .senderSurname(payment.getCardSender().getUser().getSurname())
                 .receiverSurname(payment.getCardReceiver().getUser().getSurname())
                 .amount(payment.getAmount().toString())
-                .time(payment.getDate().getTime().toString())
+                .dateTime(payment.getDate())
                 .build();
     }
 

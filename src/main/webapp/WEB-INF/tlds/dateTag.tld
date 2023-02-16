@@ -1,0 +1,17 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>dateTag</short-name>
+    <uri>/WEB-INF/personTags.tld</uri>
+
+    <tag>
+        <name>Date</name>
+        <tag-class>com.moksem.moksembank.util.tag.Tag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>dateTime</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

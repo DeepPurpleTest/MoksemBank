@@ -6,7 +6,10 @@ import com.moksem.moksembank.model.entity.Payment;
 import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Payment entity query builder
@@ -14,7 +17,7 @@ import java.util.*;
 public class PaymentQueryBuilder extends QueryBuilder<Payment> {
     public List<Payment> getListOfResult(ResultSet rs) throws SQLException {
         List<Payment> payments = new ArrayList<>();
-        while (rs.next()){
+        while (rs.next()) {
             Card cardSender = Card.builder().number(rs.getString(1)).build();
             Card cardReceiver = Card.builder().number(rs.getString(2)).build();
 
@@ -23,7 +26,7 @@ public class PaymentQueryBuilder extends QueryBuilder<Payment> {
                     .cardReceiver(cardReceiver)
                     .amount(rs.getBigDecimal(3).setScale(2, RoundingMode.DOWN))
                     .status(rs.getString(4))
-                    .date(createDate(rs.getString(5)))
+                    .date(getTimeStamp(rs.getTimestamp(5)))
                     .build();
 
             payment.setId(rs.getInt(6));
@@ -43,21 +46,18 @@ public class PaymentQueryBuilder extends QueryBuilder<Payment> {
                     .cardReceiver(cardReceiver)
                     .amount(rs.getBigDecimal(3).setScale(2, RoundingMode.DOWN))
                     .status(rs.getString(4))
-                    .date(createDate(rs.getString(5)))
+                    .date(getTimeStamp(rs.getTimestamp(5)))
                     .build();
+
             payment.setId(rs.getInt(6));
         }
         return payment;
     }
 
-    private Calendar createDate(String currentDate){
-        List<Integer> values = Arrays.stream(currentDate.split("\\D+")).map(Integer::valueOf).toList();
-        int year = values.get(0);
-        int month = values.get(1) - 1;
-        int dayOfMonth = values.get(2);
-        int hour = values.get(3);
-        int minute = values.get(4);
-        int seconds = values.get(5);
-        return new GregorianCalendar(year, month, dayOfMonth, hour, minute, seconds);
+    public LocalDateTime getTimeStamp(Timestamp timestamp) {
+        LocalDateTime localDateTime = LocalDateTime.of(timestamp.toLocalDateTime().toLocalDate(),
+                timestamp.toLocalDateTime().toLocalTime());
+        System.out.println(localDateTime);
+        return localDateTime;
     }
 }

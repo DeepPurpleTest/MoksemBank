@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 
 /**
  * Print receipt to PDF command
@@ -51,7 +52,7 @@ public class CreatePDFCommand implements MyCommand {
                     BaseFont.EMBEDDED);
 
             Paragraph title = new Paragraph("Receipt number " + payment.getId(), new Font(arial, 16));
-            Paragraph number = new Paragraph("Information about payment: " , new Font(arial, 16));
+            Paragraph number = new Paragraph("Information about payment: ", new Font(arial, 16));
 
             Chapter chapter = new Chapter(title, 1);
             chapter.setNumberDepth(0);
@@ -84,10 +85,12 @@ public class CreatePDFCommand implements MyCommand {
 
             System.out.println(cardSenderUser);
             System.out.println(cardReceiverUser);
-            Paragraph mainInfo = new Paragraph( "Payment date: " + payment.getDate().getTime() +
+            LocalDateTime localDateTime = payment.getDate();
+            Paragraph mainInfo = new Paragraph("Payment date: " + localDateTime.toLocalDate() + " "
+                    + localDateTime.toLocalTime() +
                     cardSenderUser +
-                    cardReceiverUser +
-                    "\nAmount: " + payment.getAmount() + " UAH", new Font(arial, 16));
+                            cardReceiverUser +
+                            "\nAmount: " + payment.getAmount() + " UAH", new Font(arial, 16));
             section.add(mainInfo);
 
             document.add(chapter);

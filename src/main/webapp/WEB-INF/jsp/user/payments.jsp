@@ -10,6 +10,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix = "dateTag" uri="/WEB-INF/personTags.tld"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -148,7 +149,9 @@
 <%--            Receiver:${payment.getReceiverCardNumber()}<br>--%>
 <%--            Receiver_id:${payment.getReceiverId()}--%>
             <div class="rounded-3 p-3 my-2 border border-3 border-primary border-opacity-50 d-flex justify-content-between align-items-center">
-                <c:out value="${payment.getTime()}"/>
+<%--                <c:out value="${payment.getTime()}"/>--%>
+                <dateTag:Date dateTime="${payment.getDateTime()}"/>
+                <c:out value="${pageContext.getAttribute('date')}"/>
                 <c:if test="${payment.getSenderId().equals(user.getId()) &&
           payment.getReceiverId().equals(user.getId())}">
                     <div class="d-flex align-items-center">

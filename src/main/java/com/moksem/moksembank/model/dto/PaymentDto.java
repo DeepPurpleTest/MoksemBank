@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+
 /**
  * Payment entity dto class
  */
@@ -23,5 +25,6 @@ public class PaymentDto extends Dto{
     private String senderSurname;
     private String receiverSurname;
     private String amount;
-    private String time;
+    private LocalDateTime dateTime;
+
 }

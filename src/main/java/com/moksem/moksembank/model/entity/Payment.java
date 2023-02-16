@@ -1,9 +1,11 @@
 package com.moksem.moksembank.model.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 /**
  * Payment entity class
@@ -16,6 +18,6 @@ public class Payment extends Entity {
     private Card cardReceiver;
     private BigDecimal amount;
     private String status;
-    private Calendar date;
+    private LocalDateTime date;
 }
 
