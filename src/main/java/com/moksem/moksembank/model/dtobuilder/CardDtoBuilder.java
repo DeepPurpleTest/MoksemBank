@@ -19,7 +19,7 @@ public class CardDtoBuilder {
 
     public static CardDto getCardDto(Card card) {
         CardDto cardDto = CardDto.builder()
-                .number(card.getNumber())
+                .number(card.getNumber() == null ? "" : card.getNumber())
                 .wallet(card.getWallet() == null ? "" : card.getWallet().toString())
                 .status(card.isStatus())
                 .build();
