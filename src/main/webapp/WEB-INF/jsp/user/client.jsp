@@ -8,7 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
@@ -113,7 +113,7 @@
                 <label class="form-label text-start" for="number"><fmt:message key="admin.client.label.input"/></label>
                 <input class="form-control" type="text" id="number" name="number" value="${cardNumber}">
                 <c:if test="${!errorMessage.isEmpty()}">
-                    <div class="text-danger">${errorMessage}</div>
+                    <div class="text-danger"><fmt:message key="${errorMessage}"/></div>
                 </c:if>
             </div>
 

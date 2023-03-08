@@ -38,7 +38,7 @@ public class RefillCommand implements MyCommand {
             String cardId = req.getParameter("card");
             card = cardService.findById(cardId);
             if (!card.isStatus())
-                throw new InvalidCardException("This card is blocked");
+                throw new InvalidCardException("client.error.card.blocked");
 
             String amount = req.getParameter("amount");
             Validator.validateAmount(amount);

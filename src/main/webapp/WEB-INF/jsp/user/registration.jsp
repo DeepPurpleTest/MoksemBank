@@ -8,7 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +41,7 @@
 
         <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('name')}">
-                <p class="text-danger">${error.message()}</p>
+                <p class="text-danger"><fmt:message key="${error.message()}"/></p>
             </c:if>
         </c:forEach>
     </div>
@@ -52,7 +52,7 @@
         <input class="form-control" type="text" name="surname" id="surname" value="${dto.getSurname()}">
         <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('surname')}">
-                <p class="text-danger">${error.message()}</p>
+                <p class="text-danger"><fmt:message key="${error.message()}"/></p>
             </c:if>
         </c:forEach>
     </div>
@@ -63,7 +63,7 @@
                value="${dto.getMiddleName()}">
         <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('middleName')}">
-                <p class="text-danger">${error.message()}</p>
+                <p class="text-danger"><fmt:message key="${error.message()}"/></p>
             </c:if>
         </c:forEach>
     </div>
@@ -73,7 +73,7 @@
         <input class="form-control" type="password" name="password" id="password">
         <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('pass')}">
-                <p class="text-danger">${error.message()}</p>
+                <p class="text-danger"><fmt:message key="${error.message()}"/></p>
             </c:if>
         </c:forEach>
     </div>
@@ -84,7 +84,7 @@
                value="${dto.getPhoneNumber()}">
         <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('phone')}">
-                <p class="text-danger">${error.message()}</p>
+                <p class="text-danger"><fmt:message key="${error.message()}"/></p>
             </c:if>
         </c:forEach>
     </div>

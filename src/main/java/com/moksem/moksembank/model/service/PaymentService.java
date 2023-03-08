@@ -52,20 +52,20 @@ public class PaymentService {
 
     public Payment find(long userId, String paymentId) throws InvalidIdException, PaymentNotFoundException {
         if (paymentId == null || !paymentId.matches("^\\d+$"))
-            throw new InvalidIdException("Invalid id");
+            throw new InvalidIdException("error.id");
 
         Payment payment = paymentRepo.getPayment(userId, Integer.parseInt(paymentId));
         if (payment == null)
-            throw new PaymentNotFoundException("Payment not found");
+            throw new PaymentNotFoundException("error.payment.not_found");
         return payment;
     }
 
     public long create(Payment payment) throws PaymentCreateException {
         if (payment.getCardSender().equals(payment.getCardReceiver()))
-            throw new PaymentCreateException("Cards is equals");
+            throw new PaymentCreateException("client.error.cards_equals");
         long id = paymentRepo.createPayment(payment);
         if (id < 0)
-            throw new PaymentCreateException("Payment create is failed");
+            throw new PaymentCreateException("client.error.payment.create_failed");
         return id;
     }
 

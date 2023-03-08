@@ -20,7 +20,7 @@ public class AdminService {
 //        ValidatorsUtil.validateLogin(tempAdmin.getLogin());
         Admin admin = adminRepo.getAdmin(tempAdmin.getLogin());
         if(admin == null)
-            throw new InvalidLoginOrPasswordException();
+            throw new InvalidLoginOrPasswordException("login.error");
         PasswordHash.verify(tempAdmin.getPassword(), admin.getPassword());
 
         return admin;
@@ -33,7 +33,7 @@ public class AdminService {
         else
             admin = adminRepo.getAdmin(adminToChange.getLogin());
         if(admin != null)
-            throw new LoginAlreadyTakenException("Login already taken");
+            throw new LoginAlreadyTakenException("admin.error.login.already_taken");
     }
 
     public void update(Admin admin) throws LoginAlreadyTakenException {

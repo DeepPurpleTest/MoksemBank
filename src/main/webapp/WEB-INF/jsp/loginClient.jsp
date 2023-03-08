@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <!DOCTYPE html>
@@ -47,7 +47,7 @@
         <label class="form-label text-start" for="password"><fmt:message key="login.placeholder.password"/></label>
         <input class="form-control" type="password" name="password" id="password">
         <c:if test="${errorMessage != null}">
-            <div class="text-danger"><fmt:message key="login.error"/></div>
+            <div class="text-danger"><fmt:message key="${errorMessage}"/></div>
         </c:if>
     </div>
 

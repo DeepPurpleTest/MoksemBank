@@ -36,30 +36,30 @@ public class Validator {
     public static void validateNewUser(ClientDto clientDto) {
         Set<Dto.Param> set = clientDto.getErrors();
         if (checkString(clientDto.getName()))
-            set.add(new Dto.Param("name", "This field must be filled"));
+            set.add(new Dto.Param("name", "error.field.must_be_filled"));
         else if (validateName(clientDto.getName()))
-            set.add(new Dto.Param("name", "Invalid name format"));
+            set.add(new Dto.Param("name", "client.error.name"));
 
         if (checkString(clientDto.getSurname()))
-            set.add(new Dto.Param("surname", "This field must be filled"));
+            set.add(new Dto.Param("surname", "error.field.must_be_filled"));
         else if (validateName(clientDto.getSurname()))
-            set.add(new Dto.Param("surname", "Invalid surname format"));
+            set.add(new Dto.Param("surname", "client.error.surname"));
 
         String middle = clientDto.getMiddleName();
         if (middle != null && !middle.isEmpty() && validateName(middle))
-            set.add(new Dto.Param("middleName", "Invalid middle name"));
+            set.add(new Dto.Param("middleName", "client.error.middle"));
 
         String pass = clientDto.getPassword();
         if (checkString(pass))
-            set.add(new Dto.Param("pass", "This field must be filled"));
+            set.add(new Dto.Param("pass", "error.field.must_be_filled"));
         else if (pass.length() > 30 || pass.length() < 7)
-            set.add(new Dto.Param("pass", "Invalid password length"));
+            set.add(new Dto.Param("pass", "error.password.length"));
 
         String phone = clientDto.getPhoneNumber();
         if (checkString(phone))
-            set.add(new Dto.Param("phone", "This field must be filled"));
+            set.add(new Dto.Param("phone", "error.field.must_be_filled"));
         else if (!phone.matches("^\\+380[(67)(96)(97)(98)]{2}\\d{7}$"))
-            set.add(new Dto.Param("phone", "Invalid phone number"));
+            set.add(new Dto.Param("phone", "client.error.phone"));
     }
 
     /**
@@ -73,18 +73,18 @@ public class Validator {
         String surname = clientDto.getSurname();
         String middle = clientDto.getMiddleName();
         if (name != null && !name.isEmpty() && validateName(name))
-            set.add(new Dto.Param("name", "Invalid name"));
+            set.add(new Dto.Param("name", "client.error.name"));
         if (surname != null && !surname.isEmpty() && validateName(surname))
-            set.add(new Dto.Param("surname", "Invalid surname"));
+            set.add(new Dto.Param("surname", "client.error.surname"));
         if (middle != null && !middle.isEmpty() && validateName(middle))
-            set.add(new Dto.Param("middleName", "Invalid middle name"));
+            set.add(new Dto.Param("middleName", "client.error.middle"));
 
         String pass = clientDto.getPassword();
         if (pass != null && !pass.isEmpty() && (pass.length() > 30 || pass.length() < 7))
-            set.add(new Dto.Param("pass", "Invalid password length"));
+            set.add(new Dto.Param("pass", "error.password.length"));
         String phone = clientDto.getPhoneNumber();
         if (phone != null && !phone.isEmpty() && !phone.matches("^\\+380[(67)(96)(97)(98)]{2}\\d{7}$"))
-            set.add(new Dto.Param("phone", "Invalid phone number"));
+            set.add(new Dto.Param("phone", "client.error.phone"));
     }
 
     /**
@@ -95,10 +95,10 @@ public class Validator {
     public static void validateChangedAdmin(AdminDto adminDto) {
         Set<Dto.Param> set = adminDto.getErrors();
         if (adminDto.getLogin() != null && validateLoginLength(adminDto.getLogin()))
-            set.add(new Dto.Param("login", "Invalid login length"));
+            set.add(new Dto.Param("login", "error.login.length"));
         String pass = adminDto.getPassword();
         if (pass != null && (pass.length() >= 30 || pass.length() <= 7))
-            set.add(new Dto.Param("pass", "Invalid password length"));
+            set.add(new Dto.Param("pass", "error.password.length"));
     }
 
     /**
@@ -116,13 +116,13 @@ public class Validator {
         validateCard(receiver, errors, "receiver");
 
         if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$") || amount.equals("0"))
-            errors.add(new Dto.Param("amount", "Invalid amount format"));
+            errors.add(new Dto.Param("amount", "client.error.payment.amount.format"));
         else {
             if (sender.getWallet() != null) {
                 BigDecimal senderWallet = new BigDecimal(sender.getWallet());
                 BigDecimal amountValue = new BigDecimal(amount);
                 if (senderWallet.compareTo(amountValue) < 0)
-                    errors.add(new Dto.Param("amount", "Not enough money"));
+                    errors.add(new Dto.Param("amount", "client.error.payment.amount.not_enough_money"));
             }
         }
     }
@@ -136,14 +136,13 @@ public class Validator {
      */
     public static void validateCard(CardDto card, Set<Dto.Param> errors, String errorName) {
         String number = card.getNumber();
-        String cardRole = errorName.replaceFirst("\\w", errorName.substring(0, 1).toUpperCase());
         if (number == null || number.isEmpty())
-            errors.add(new Dto.Param(errorName, "This field must be filled"));
+            errors.add(new Dto.Param(errorName, "error.field.must_be_filled"));
         else if (!number.matches("^\\d{16}$"))
-            errors.add(new Dto.Param(errorName, "Invalid number format"));
+            errors.add(new Dto.Param(errorName, "client.error.card.number_format"));
         else if (!card.isStatus())
             errors.add(new Dto.Param(errorName,
-                    cardRole + " card is blocked"));
+                    "client.error.card.blocked"));
     }
 
     /**
@@ -164,7 +163,7 @@ public class Validator {
      */
     public static void validatePhoneNumber(String number) throws InvalidPhoneNumberException {
         if (number == null || !number.matches("^\\+380[(67)(96)(97)(98)]{2}\\d{7}$"))
-            throw new InvalidPhoneNumberException("Invalid phone number format");
+            throw new InvalidPhoneNumberException("client.error.phone");
     }
 
     /**
@@ -175,7 +174,7 @@ public class Validator {
      */
     public static void validateCardNumber(String cardNumber) throws InvalidCardException {
         if (cardNumber == null || !cardNumber.matches("^\\d{16}$"))
-            throw new InvalidCardException();
+            throw new InvalidCardException("client.error.card.number_format");
     }
 
     /**
@@ -196,6 +195,6 @@ public class Validator {
      */
     public static void validateAmount(String amount) throws InvalidAmountException {
         if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$") || amount.equals("0"))
-            throw new InvalidAmountException("Invalid amount format");
+            throw new InvalidAmountException("client.error.payment.amount.format");
     }
 }

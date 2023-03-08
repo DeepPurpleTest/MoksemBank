@@ -73,13 +73,13 @@ public class UserService {
             user = userRepo.getUser(userToFind.getPhoneNumber());
 
         if (user != null)
-            throw new PhoneNumberAlreadyTakenException("Phone number is already taken");
+            throw new PhoneNumberAlreadyTakenException("client.error.phone.already_taken");
     }
 
     public User findByNumberAndPassword(String number, String pass) throws InvalidLoginOrPasswordException, BlockedUserException {
         User user = userRepo.getUser(number);
         if (user == null)
-            throw new InvalidLoginOrPasswordException();
+            throw new InvalidLoginOrPasswordException("login.error");
         verify(pass, user.getPassword());
 
         if (!user.isStatus())
@@ -92,7 +92,7 @@ public class UserService {
         Validator.validateCardNumber(cardNumber);
         User user = userRepo.getUserByCard(cardNumber);
         if(user == null)
-            throw new InvalidCardException();
+            throw new InvalidCardException("admin.error.card_not_found");
         return user;
     }
 

@@ -8,7 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +88,7 @@
             <input class="form-control" type="text" name="amount" id="refill" value="${dto.getAmount()}"/>
             <c:forEach var="error" items="${dto.getErrors()}">
                 <c:if test="${error.errorName().equals('amount')}">
-                    <p class="text-danger">${error.message()}</p>
+                    <p class="text-danger"><fmt:message key="${error.message()}"/></p>
                 </c:if>
             </c:forEach>
         </div>

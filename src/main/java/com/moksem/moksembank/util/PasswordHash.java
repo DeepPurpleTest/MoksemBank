@@ -29,6 +29,6 @@ public class PasswordHash {
      */
     public static void verify(String pass, String hash) throws InvalidLoginOrPasswordException {
         if(!encode(pass).equals(hash))
-            throw new InvalidLoginOrPasswordException();
+            throw new InvalidLoginOrPasswordException("login.error");
     }
 }

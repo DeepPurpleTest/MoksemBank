@@ -44,7 +44,7 @@ public class CardService {
         if (sort.equals("card")) {
             Card card = cardRepo.getCard(id, number);
             if (card == null)
-                throw new InvalidCardException("User does not have such card");
+                throw new InvalidCardException("client.error.card_not_found");
             return List.of(card);
         }
 
@@ -87,7 +87,7 @@ public class CardService {
     public Card findByUserIdAndCardNumber(long id, String number) throws UserNotFoundException, UserCardNotFoundException {
         Card card = cardRepo.getCard(id, number);
         if (card == null)
-            throw new UserCardNotFoundException("Card is not found");
+            throw new UserCardNotFoundException("client.error.card.not_found");
 
         toFullCard(card);
         return card;
@@ -96,7 +96,7 @@ public class CardService {
     public Card findByNumber(String number) throws InvalidCardException, UserNotFoundException {
         Card card = cardRepo.getCard(number);
         if (card == null)
-            throw new InvalidCardException("Card is not found");
+            throw new InvalidCardException("client.error.card.not_found");
 
         toFullCard(card);
         return card;
@@ -105,25 +105,25 @@ public class CardService {
 
     public Card findById(String cardId) throws InvalidCardException, UserNotFoundException {
         if(cardId == null || !cardId.matches("^\\d+$"))
-            throw new InvalidCardException("Card is not found");
+            throw new InvalidCardException("client.error.card.not_found");
 
         Card card = cardRepo.getCard(Long.parseLong(cardId));
         if (card == null)
-            throw new InvalidCardException("Card is not found");
+            throw new InvalidCardException("client.error.card.not_found");
         toFullCard(card);
         return card;
     }
 
     public Card findById(String cardId, User user) throws InvalidCardException, UserNotFoundException {
         if(cardId == null || !cardId.matches("^\\d+$"))
-            throw new InvalidCardException("Card is not found");
+            throw new InvalidCardException("client.error.card.not_found");
 
         Card card = cardRepo.getCard(Long.parseLong(cardId));
         if (card == null)
-            throw new InvalidCardException("Card is not found");
+            throw new InvalidCardException("client.error.card.not_found");
         toFullCard(card);
         if(!card.getUser().equals(user))
-            throw new InvalidCardException("Card is not found");
+            throw new InvalidCardException("client.error.card.not_found");
         return card;
     }
 

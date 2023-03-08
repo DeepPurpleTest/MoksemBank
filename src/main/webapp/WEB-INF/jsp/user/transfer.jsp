@@ -8,7 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%--<jsp:useBean id="TransferDto.Param"/>--%>
 
@@ -94,7 +94,7 @@
         <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('sender')}">
                 <div>
-                    <p class="text-danger">${error.message()}</p>
+                    <p class="text-danger"><fmt:message key="${error.message()}"/></p>
                 </div>
             </c:if>
         </c:forEach>
@@ -108,7 +108,7 @@
         <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('receiver')}">
                 <div>
-                    <p class="text-danger">${error.message()}</p>
+                    <p class="text-danger"><fmt:message key="${error.message()}"/></p>
                 </div>
             </c:if>
         </c:forEach>
@@ -120,7 +120,7 @@
         <c:forEach var="error" items="${dto.getErrors()}">
             <c:if test="${error.errorName().equals('amount')}">
                 <div>
-                    <p class="text-danger">${error.message()}</p>
+                    <p class="text-danger"><fmt:message key="${error.message()}"/></p>
                 </div>
             </c:if>
         </c:forEach>
@@ -129,7 +129,7 @@
     <c:forEach var="error" items="${dto.getErrors()}">
         <c:if test="${error.errorName().equals('payment') || error.errorName().equals('transaction')}">
             <div class="m-3">
-                <p class="text-danger">${error.message()}</p>
+                <p class="text-danger"><fmt:message key="${error.message()}"/></p>
             </div>
         </c:if>
     </c:forEach>
