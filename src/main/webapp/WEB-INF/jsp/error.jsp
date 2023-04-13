@@ -21,7 +21,7 @@
 
 <div class="rounded-3 p-3 border border-danger w-50 mx-auto my-2">
 <h1><fmt:message key="error.something_go_wrong"/></h1>
-<c:if test="${!errorMessage.isEmpty()}">
+<c:if test="${errorMessage != null}">
     <div class="text-danger"><fmt:message key="${errorMessage}"/></div>
 </c:if>
 </div>
