@@ -112,7 +112,7 @@
             <div class="px-3">
                 <label class="form-label text-start" for="number"><fmt:message key="admin.client.label.input"/></label>
                 <input class="form-control" type="text" id="number" name="number" value="${cardNumber}">
-                <c:if test="${!errorMessage.isEmpty()}">
+                <c:if test="${errorMessage != null}">
                     <div class="text-danger"><fmt:message key="${errorMessage}"/></div>
                 </c:if>
             </div>

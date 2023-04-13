@@ -46,7 +46,7 @@ public class SecurityFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             log.trace("failed");
-            String errorMessage = "You do not have permission to access the requested resource";
+            String errorMessage = "error.permission";
             req.setAttribute("errorMessage", errorMessage);
             log.trace(errorMessage);
             req.getRequestDispatcher(Path.PAGE_ERROR).forward(req, resp);
@@ -90,7 +90,6 @@ class CheckRoleAccess {
         if (action.isEmpty())
             return false;
 
-        System.out.println("before out");
         if (commands.get("out").contains(action))
             return true;
 

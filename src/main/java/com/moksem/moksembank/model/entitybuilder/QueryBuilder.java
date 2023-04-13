@@ -90,7 +90,7 @@ public abstract class QueryBuilder<T> {
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new TransactionException("Transaction is failed");
+            throw new TransactionException("error.transaction");
         } finally {
             DataSource.closeConnection(connection);
         }

@@ -10,7 +10,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix = "dateTag" uri="/WEB-INF/personTags.tld"%>
+<%@ taglib prefix="dateTag" uri="/WEB-INF/customDateTag.tld" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -142,14 +142,14 @@
     <hr>
     <c:if test="${card.getNumber().isEmpty()}">
         <c:forEach var="payment" items="${payments}">
-<%--            User_id:${user.getId()}--%>
-<%--            PaymentId:${payment.getId()}<br>--%>
-<%--            Sender:${payment.getSenderCardNumber()}<br>--%>
-<%--            Sender_id: ${payment.getSenderId()}--%>
-<%--            Receiver:${payment.getReceiverCardNumber()}<br>--%>
-<%--            Receiver_id:${payment.getReceiverId()}--%>
+            <%--            User_id:${user.getId()}--%>
+            <%--            PaymentId:${payment.getId()}<br>--%>
+            <%--            Sender:${payment.getSenderCardNumber()}<br>--%>
+            <%--            Sender_id: ${payment.getSenderId()}--%>
+            <%--            Receiver:${payment.getReceiverCardNumber()}<br>--%>
+            <%--            Receiver_id:${payment.getReceiverId()}--%>
             <div class="rounded-3 p-3 my-2 border border-3 border-primary border-opacity-50 d-flex justify-content-between align-items-center">
-<%--                <c:out value="${payment.getTime()}"/>--%>
+                    <%--                <c:out value="${payment.getTime()}"/>--%>
                 <dateTag:Date dateTime="${payment.getDateTime()}"/>
                 <c:out value="${pageContext.getAttribute('date')}"/>
                 <c:if test="${payment.getSenderId().equals(user.getId()) &&
@@ -209,14 +209,16 @@
     <c:if test="${!card.getNumber().isEmpty()}">
 
         <c:forEach var="payment" items="${payments}">
-<%--            PaymentId:${payment.getId()}<br>--%>
-<%--            Card:${card}<br>--%>
-<%--            Sender:${payment.getSenderCardNumber()}<br>--%>
-<%--            Receiver:${payment.getReceiverCardNumber()}<br>--%>
-<%--            SenderCardId:${payment.getSenderCardId()}<br>--%>
-<%--            ReceiverCardId:${payment.getReceiverCardId()}<br>--%>
+            <%--            PaymentId:${payment.getId()}<br>--%>
+            <%--            Card:${card}<br>--%>
+            <%--            Sender:${payment.getSenderCardNumber()}<br>--%>
+            <%--            Receiver:${payment.getReceiverCardNumber()}<br>--%>
+            <%--            SenderCardId:${payment.getSenderCardId()}<br>--%>
+            <%--            ReceiverCardId:${payment.getReceiverCardId()}<br>--%>
             <div class="rounded-3 p-3 my-2 border border-3 border-primary border-opacity-50 d-flex justify-content-between align-items-center">
-                <c:out value="${payment.getTime()}"/>
+                    <%--                <c:out value="${payment.getDateTime()}"/>--%>
+                <dateTag:Date dateTime="${payment.getDateTime()}"/>
+                <c:out value="${pageContext.getAttribute('date')}"/>
                 <c:if test="${(payment.getSenderCardId()).equals(card.getId())}">
                     <div class="d-flex align-items-center">
                         <p class="m-0"><fmt:message key="client.payments.recipient"/>:&nbsp;

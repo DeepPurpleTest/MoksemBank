@@ -87,7 +87,7 @@ public class Pagination {
      * @return          list of {@link Integer}
      */
     public static List<Integer> getPages(int maxPage) {
-        System.out.println((int) Math.ceil(RECORDS_PER_PAGE * 1.0 / maxPage));
+//        System.out.println((int) Math.ceil(RECORDS_PER_PAGE * 1.0 / maxPage));
         return IntStream.range(1, (int) Math.ceil(maxPage * 1.0 / RECORDS_PER_PAGE) + 1)
                 .boxed()
                 .toList();

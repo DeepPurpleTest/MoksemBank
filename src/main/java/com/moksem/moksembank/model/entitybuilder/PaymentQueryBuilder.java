@@ -55,9 +55,7 @@ public class PaymentQueryBuilder extends QueryBuilder<Payment> {
     }
 
     public LocalDateTime getTimeStamp(Timestamp timestamp) {
-        LocalDateTime localDateTime = LocalDateTime.of(timestamp.toLocalDateTime().toLocalDate(),
+        return LocalDateTime.of(timestamp.toLocalDateTime().toLocalDate(),
                 timestamp.toLocalDateTime().toLocalTime());
-        System.out.println(localDateTime);
-        return localDateTime;
     }
 }
