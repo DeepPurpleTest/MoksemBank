@@ -115,8 +115,9 @@ public class ChangeProfileCommand implements MyCommand {
                 .middleName(middleName.isEmpty() ? client.getMiddleName() : middleName)
                 .phoneNumber(phoneNumber.isEmpty() ? client.getPhoneNumber() : phoneNumber)
                 .password(password.isEmpty() ? client.getPassword() : password)
+                .status(client.isStatus())
+                .role(client.getRole())
                 .build();
-        clientToChange.setStatus(client.isStatus());
         clientToChange.setId(client.getId());
         return clientToChange;
     }
@@ -127,6 +128,7 @@ public class ChangeProfileCommand implements MyCommand {
         Admin adminToChange = Admin.builder()
                 .login(login.isEmpty() ? admin.getLogin() : login)
                 .password(password.isEmpty() ? admin.getPassword() : password)
+                .role(admin.getRole())
                 .build();
         adminToChange.setId(admin.getId());
         return adminToChange;

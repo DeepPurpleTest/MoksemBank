@@ -19,8 +19,8 @@ public class Validator {
     /**
      * Check is empty or not String param
      *
-     * @param   s string
-     * @return  boolean value
+     * @param s string
+     * @return boolean value
      */
     public static boolean checkString(String s) {
         if (s == null)
@@ -94,10 +94,13 @@ public class Validator {
      */
     public static void validateChangedAdmin(AdminDto adminDto) {
         Set<Dto.Param> set = adminDto.getErrors();
-        if (adminDto.getLogin() != null && validateLoginLength(adminDto.getLogin()))
+
+        String login = adminDto.getLogin();
+        if (login != null && !login.isEmpty() && validateLoginLength(adminDto.getLogin()))
             set.add(new Dto.Param("login", "error.login.length"));
+
         String pass = adminDto.getPassword();
-        if (pass != null && (pass.length() >= 30 || pass.length() <= 7))
+        if (pass != null && !pass.isEmpty() && (pass.length() >= 30 || pass.length() <= 7))
             set.add(new Dto.Param("pass", "error.password.length"));
     }
 
@@ -148,8 +151,8 @@ public class Validator {
     /**
      * Validate name for client
      *
-     * @param name  new name for client
-     * @return      boolean
+     * @param name new name for client
+     * @return boolean
      */
     public static boolean validateName(String name) {
         return !name.matches("^[A-Z\u0400-\u042F\u0490][a-z\u0430-\u045F\u0491]+$");
@@ -158,8 +161,8 @@ public class Validator {
     /**
      * Validate client phone number
      *
-     * @param number                        client number
-     * @throws InvalidPhoneNumberException  Invalid phone number format exception
+     * @param number client number
+     * @throws InvalidPhoneNumberException Invalid phone number format exception
      */
     public static void validatePhoneNumber(String number) throws InvalidPhoneNumberException {
         if (number == null || !number.matches("^\\+380[(67)(96)(97)(98)]{2}\\d{7}$"))
@@ -169,8 +172,8 @@ public class Validator {
     /**
      * Validate card number
      *
-     * @param cardNumber             card number
-     * @throws InvalidCardException  Invalid phone number format exception
+     * @param cardNumber card number
+     * @throws InvalidCardException Invalid phone number format exception
      */
     public static void validateCardNumber(String cardNumber) throws InvalidCardException {
         if (cardNumber == null || !cardNumber.matches("^\\d{16}$"))
@@ -181,7 +184,7 @@ public class Validator {
      * Validate login length for admin
      *
      * @param login admin login
-     * @return      boolean value
+     * @return boolean value
      */
     private static boolean validateLoginLength(String login) {
         return login.length() >= 20 || login.length() <= 3;
@@ -190,8 +193,8 @@ public class Validator {
     /**
      * Validate amount for transaction
      *
-     * @param amount                    refill or transaction amount
-     * @throws InvalidAmountException   Invalid amount exception
+     * @param amount refill or transaction amount
+     * @throws InvalidAmountException Invalid amount exception
      */
     public static void validateAmount(String amount) throws InvalidAmountException {
         if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$") || amount.equals("0"))

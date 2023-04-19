@@ -122,8 +122,9 @@ public class CardService {
         if (card == null)
             throw new InvalidCardException("client.error.card.not_found");
         toFullCard(card);
-        if(!card.getUser().equals(user))
+        if(!card.getUser().equals(user)) {
             throw new InvalidCardException("client.error.card.not_found");
+        }
         return card;
     }
 
