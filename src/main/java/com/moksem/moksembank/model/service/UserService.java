@@ -33,7 +33,6 @@ public class UserService {
     }
 
     public long create(User user) throws UserCreateException {
-//        ValidatorsUtil.validateNewUser(user);
         String pass = user.getPassword();
         user.setPassword(encode(pass));
         long id = userRepo.newUser(user);

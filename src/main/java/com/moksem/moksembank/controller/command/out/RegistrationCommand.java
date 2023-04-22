@@ -42,9 +42,8 @@ public class RegistrationCommand implements MyCommand {
         try {
             if (clientDto.getErrors().isEmpty()) {
                 service.findSameNumber(user);
-                long id = service.create(user);
-                user.setId(id);
-                user.setStatus(true);
+                service.create(user);
+                user = service.findByNumber(user.getPhoneNumber());
                 session.setAttribute("user", user);
                 session.setAttribute("role", Role.USER);
 
@@ -52,7 +51,7 @@ public class RegistrationCommand implements MyCommand {
                 resp.sendRedirect(response);
                 response = Path.COMMAND_REDIRECT;
             }
-        } catch (UserCreateException | IOException e) {
+        } catch (UserCreateException | IOException | UserNotFoundException e) {
             e.printStackTrace();
             response = Path.PAGE_ERROR;
         } catch (InvalidPhoneNumberException | PhoneNumberAlreadyTakenException e) {

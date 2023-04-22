@@ -13,7 +13,6 @@ import java.io.IOException;
  * Internationalization command
  */
 public class I18NCommand implements MyCommand {
-    //todo доделать интернационализацию
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
