@@ -60,6 +60,11 @@ public abstract class QueryBuilder<T> {
             }
             connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                e.printStackTrace();
+            }
             e.printStackTrace();
         } finally {
             DataSource.closeConnection(connection);
@@ -90,6 +95,11 @@ public abstract class QueryBuilder<T> {
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                e.printStackTrace();
+            }
             throw new TransactionException("error.transaction");
         } finally {
             DataSource.closeConnection(connection);

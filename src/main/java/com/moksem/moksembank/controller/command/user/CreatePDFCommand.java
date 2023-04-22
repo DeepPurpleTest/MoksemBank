@@ -51,6 +51,7 @@ public class CreatePDFCommand implements MyCommand {
             BaseFont arial = BaseFont.createFont("C:\\Users\\maksv\\Desktop\\Fonts\\arial.ttf", "cp1251",
                     BaseFont.EMBEDDED);
 
+            // узнать про пдф
             Paragraph title = new Paragraph("Receipt number " + payment.getId(), new Font(arial, 16));
             Paragraph number = new Paragraph("Information about payment: ", new Font(arial, 16));
 
@@ -83,8 +84,6 @@ public class CreatePDFCommand implements MyCommand {
                     .append(cardReceiver.getUser().getName()).append(" ")
                     .append(cardReceiver.getUser().getSurname());
 
-            System.out.println(cardSenderUser);
-            System.out.println(cardReceiverUser);
             LocalDateTime localDateTime = payment.getDate();
             Paragraph mainInfo = new Paragraph("Payment date: " + localDateTime.toLocalDate() + " "
                     + localDateTime.toLocalTime() +
