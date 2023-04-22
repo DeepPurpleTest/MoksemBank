@@ -42,6 +42,7 @@ public class RefillCommand implements MyCommand {
 
             String amount = req.getParameter("amount");
             Validator.validateAmount(amount);
+            amount = amount.replace(",", ".");
             BigDecimal refillValue = new BigDecimal(amount);
             Card iBox = cardService.findById(REFILL_ID);
 
