@@ -15,11 +15,11 @@ public final class Path {
     public static final String PAGE_PAYMENTS = "/WEB-INF/jsp/user/payments.jsp";
     public static final String PAGE_REFILL = "/WEB-INF/jsp/user/refill.jsp";
     public static final String PAGE_TRANSFER = "/WEB-INF/jsp/user/transfer.jsp";
-    public static final String PAGE_REGISTRATION = "/WEB-INF/jsp/user/registration.jsp";
-    public static final String PAGE_ADMIN = "/WEB-INF/jsp/user/admin.jsp";
-    public static final String PAGE_CLIENT = "/WEB-INF/jsp/user/client.jsp";
+    public static final String PAGE_REGISTRATION = "/WEB-INF/jsp/registration.jsp";
+    public static final String PAGE_ADMIN = "/WEB-INF/jsp/admin/admin.jsp";
+    public static final String PAGE_CLIENT = "/WEB-INF/jsp/admin/client.jsp";
     public static final String PAGE_ERROR = "/WEB-INF/jsp/error.jsp";
-    public static final String PAGE_PROFILE = "WEB-INF/jsp/user/profile.jsp";
+    public static final String PAGE_PROFILE = "WEB-INF/jsp/common/profile.jsp";
 
     //commands
     public static final String COMMAND_CLIENT_DATA = "/controller?action=client_data";

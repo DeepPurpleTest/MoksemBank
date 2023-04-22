@@ -102,7 +102,6 @@ class CheckRoleAccess {
             return true;
 
         if (role.toString().equals("user") && commands.get("client").contains(action)) {
-            System.out.println("role.equals(user)");
             return true;
         }
 
