@@ -20,18 +20,20 @@ public class Pagination {
     /**
      * Set to session attributes for pagination
      *
-     * @param req       object of {@link HttpServletRequest} from command
-     * @param maxPage   max pages from database
+     * @param req               object of {@link HttpServletRequest} from command
+     * @param countOfElements   max stings from database
      */
-    public static void paginate(HttpServletRequest req, int maxPage) {
+    public static void paginate(HttpServletRequest req, int countOfElements) {
         HttpSession session = req.getSession();
         String page = (String) session.getAttribute("page");
         int pageValue = getPage(page);
-        List<Integer> maxPages = getPages(maxPage);
+        List<Integer> maxPages = getPages(countOfElements);
         List<Integer> currentPages;
-        // 10
-        // 1 2 3 4 5 6 7 8 9 10
-        // 1 2 3 4 10
+        // maxPages = 6
+        // pageValue = 0;
+        // [1 2 3 4 5 6]
+        // result pagination 1 2 3 4 6 for pageValue = 0 || 1 || 2
+        //
 
 //        System.out.println("PAGEVALUE = " + pageValue);
         if (maxPages.size() < PAGES + 2)
@@ -60,16 +62,18 @@ public class Pagination {
      */
     private static List<Integer> createCurrentPages(int pageValue, List<Integer> maxPages) {
         List<Integer> currentPages;
+        // pageValue = 3
+        // maxPages.size = 6 [1, 2, 3, 4, 5, 6]
         int start;
         int end;
         if (pageValue < PAGES) {
             start = 1;
             end = start + PAGES;
             currentPages = maxPages.subList(start, end);
-        } else if (pageValue > maxPages.size() - 1 - PAGES) {
-            start = maxPages.size() - 1;
-            end = start - PAGES;
-            currentPages = maxPages.subList(end, start);
+        } else if (pageValue >= maxPages.size() - PAGES) {
+            end = maxPages.size() - 1;
+            start = end - PAGES;
+            currentPages = maxPages.subList(start, end);
 //            System.out.println("PAGEVALUE > maxPages.size() - 2");
         } else {
             start = pageValue - PAGES / 2;
