@@ -35,6 +35,7 @@ public class TransactionCommand implements MyCommand {
 
         Payment payment = Payment.builder().build();
         String amount = req.getParameter("amount");
+        amount = amount.replace(",", ".");
         String senderNumber = req.getParameter("card_sender");
         String receiverNumber = req.getParameter("card_receiver");
 

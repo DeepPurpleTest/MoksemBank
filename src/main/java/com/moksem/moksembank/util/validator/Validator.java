@@ -118,7 +118,7 @@ public class Validator {
         validateCard(sender, errors, "sender");
         validateCard(receiver, errors, "receiver");
 
-        if (amount == null || !amount.matches("^\\d+([.,]\\d{1,2})?$") || amount.equals("0"))
+        if (amount == null || !amount.matches("^\\d+([.]\\d{1,2})?$") || amount.equals("0"))
             errors.add(new Dto.Param("amount", "client.error.payment.amount.format"));
         else {
             if (sender.getWallet() != null) {
@@ -155,7 +155,7 @@ public class Validator {
      * @return boolean
      */
     public static boolean validateName(String name) {
-        return !name.matches("^[A-Z\u0400-\u042F\u0490][a-z\u0430-\u045F\u0491]+$");
+        return !name.matches("^[A-ZЀ-ЯҐ][a-zа-џґ]+$");
     }
 
     /**
