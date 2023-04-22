@@ -9,6 +9,10 @@ import lombok.Getter;
  */
 public class AppContext {
     private static final AppContext appContext = new AppContext();
+
+    private AppContext() {
+    }
+
     //repos
     private final AdminRepo adminRepo = new AdminRepo();
     private final UserRepo userRepo = new UserRepo();
@@ -30,9 +34,7 @@ public class AppContext {
     private final RequestService requestService = new RequestService(requestRepo);
 
 
-
     public static AppContext getInstance() {
         return appContext;
     }
-
 }
