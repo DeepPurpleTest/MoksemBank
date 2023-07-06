@@ -1,8 +1,8 @@
 PAYMENTS
 
 The customer registers in the system and has one or more Credit Cards, each of which corresponds to a specific Account in the system. The Client may make a Payment using the Account.
-The payment has one of two statuses: 'prepared' or 'sent'. (Optional: implement the ability to generate a pdf-report on payment).
-The client has a personal account where he can view information about his payments and accounts. It is necessary to implement the possibility of sorting:
+The payment has one of two statuses: 'prepared' or 'sent'. Implement the ability to generate a pdf-report on payment.
+The client has a personal account where he can view information about his payments and accounts. Implement the possibility of sorting:
 - payments:
 1) by number;
 2) by date (old to new, new to old);
