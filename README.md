@@ -14,3 +14,10 @@ The client has a personal account where he can view information about his paymen
    The system administrator has the rights:
 - blocking / unblocking the user;
 - blocking / unblocking one of the user's accounts.
+
+Current stack of used technologies:
+- MySQL
+- Apache Tomcat
+- Java 8
+- JDBC API
+- Jsp/jstl
